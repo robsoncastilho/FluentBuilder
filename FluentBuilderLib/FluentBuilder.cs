@@ -8,11 +8,11 @@ namespace FluentBuilderLib
 {
     public class FluentBuilder<T> where T : class
     {
-        private readonly Dictionary<string, object> _propertiesToSet;
+        private readonly Dictionary<string, object> _membersToSet;
 
         private FluentBuilder()
         {
-            _propertiesToSet = new Dictionary<string, object>();
+            _membersToSet = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace FluentBuilderLib
         {
             var newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
 
-            foreach (var keyValuePair in _propertiesToSet)
+            foreach (var keyValuePair in _membersToSet)
             {
                 if (TryToSetProperty(newObject, keyValuePair.Key, keyValuePair.Value) ||
                     TryToSetField(newObject, keyValuePair.Key, keyValuePair.Value))
@@ -58,8 +58,21 @@ namespace FluentBuilderLib
             if (memberExpression == null)
                 throw new ArgumentException("Argument should be a MemberExpression", "property");
 
-            var propertyName = memberExpression.Member.Name;
-            _propertiesToSet[propertyName] = newValue;
+            var memberName = memberExpression.Member.Name;
+            _membersToSet[memberName] = newValue;
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the builder to set the field with the concrete service informed.
+        /// This method makes possible to set a test double object as the service for testing purposes.
+        /// </summary>
+        public FluentBuilder<T> With<TService, TConcreteService>(TConcreteService service)
+            where TConcreteService : TService
+            where TService : class
+        {
+            var memberName = typeof(TService).Name;
+            _membersToSet[memberName] = service;
             return this;
         }
 

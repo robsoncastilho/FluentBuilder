@@ -37,6 +37,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SampleClasses\IAnyService.cs" />
     <Compile Include="SampleClasses\ClassWithoutParameterlessCtor.cs" />
     <Compile Include="SampleClasses\ClassWithReadOnlyProperty.cs" />
     <Compile Include="SampleClasses\ClassWithWritableProperties.cs" />
