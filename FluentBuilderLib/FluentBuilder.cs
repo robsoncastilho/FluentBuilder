@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace FluentBuilderLib
 {
-    public class FluentBuilder<T> where T : class
+    public sealed class FluentBuilder<T> where T : class
     {
         private readonly Dictionary<string, object> _membersToSet;
 
@@ -60,6 +60,15 @@ namespace FluentBuilderLib
 
             var memberName = memberExpression.Member.Name;
             _membersToSet[memberName] = newValue;
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the builder to add an element to a collection
+        /// </summary>
+        public FluentBuilder<T> Adding<TPropertyCollection, TElement>(Expression<Func<T, TPropertyCollection>> property, TElement newElement)
+            where TPropertyCollection : ICollection<TElement>
+        {
             return this;
         }
 
@@ -119,5 +128,18 @@ namespace FluentBuilderLib
         }
 
         #endregion
+    }
+
+    public static class FluentBuilder
+    {
+        public static FluentBuilder<T> A<T>() where T : class
+        {
+            return FluentBuilder<T>.New();
+        }
+
+        public static FluentBuilder<T> Um<T>() where T : class
+        {
+            return A<T>();
+        }
     }
 }

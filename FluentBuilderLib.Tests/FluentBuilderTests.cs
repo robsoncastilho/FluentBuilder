@@ -69,6 +69,19 @@ namespace FluentBuilderLib.Tests
             Assert.AreEqual(newName, createdObject.Name);
         }
 
+        [Test, Ignore]
+        public void Should_build_object_setting_an_element_from_a_collection()
+        {
+            var createdObject = FluentBuilder<ClassWithReadOnlyProperty>
+                .New()
+                .Adding(newObject => newObject.Addresses, "20th Street")
+                .Adding(newObject => newObject.Addresses, "1st Avenue")
+                .Build();
+
+            var expectedAddresses = new List<string> { "20th Street", "1st Avenue" };
+            CollectionAssert.AreEqual(expectedAddresses, createdObject.Addresses);
+        }
+
         [Test]
         public void Should_build_object_setting_services()
         {
@@ -76,13 +89,13 @@ namespace FluentBuilderLib.Tests
         }
 
         [Test]
-        public void Should_build_object_setting_default_values_to_properties_not_specified()
+        public void Should_build_object_setting_dummies_for_all_service_interfaces_not_specified()
         {
             Assert.Ignore();
         }
 
         [Test]
-        public void Should_build_object_setting_dummies_for_all_service_interfaces_not_specified()
+        public void Should_build_object_setting_default_values_to_properties_not_specified()
         {
             Assert.Ignore();
         }
