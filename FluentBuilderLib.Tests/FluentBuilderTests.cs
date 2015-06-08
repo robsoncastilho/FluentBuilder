@@ -82,10 +82,15 @@ namespace FluentBuilderLib.Tests
             CollectionAssert.AreEqual(expectedAddresses, createdObject.Addresses);
         }
 
-        [Test]
+        [Test, Ignore]
         public void Should_build_object_setting_services()
         {
-            Assert.Ignore();
+            var concreteService = new ConcreteService();
+
+            var createdObject = FluentBuilder<ClassWithoutParameterlessCtor>
+                .New()
+                .With<IAnyService, ConcreteService>(concreteService)
+                .Build();
         }
 
         [Test]

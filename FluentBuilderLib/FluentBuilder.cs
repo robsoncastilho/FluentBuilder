@@ -44,7 +44,7 @@ namespace FluentBuilderLib
                     TryToSetField(newObject, keyValuePair.Key, keyValuePair.Value))
                     continue;
 
-                throw new Exception(string.Format("Property/field {0} not found", keyValuePair.Key));
+                throw new Exception(string.Format("Member {0} not found", keyValuePair.Key));
             }
             return newObject;
         }
@@ -64,24 +64,21 @@ namespace FluentBuilderLib
         }
 
         /// <summary>
-        /// Configures the builder to add an element to a collection
+        /// Configures the builder to set the field with the concrete service informed.
+        /// This method makes possible to set a test double object as the service for testing purposes.
         /// </summary>
-        public FluentBuilder<T> Adding<TPropertyCollection, TElement>(Expression<Func<T, TPropertyCollection>> property, TElement newElement)
-            where TPropertyCollection : ICollection<TElement>
+        public FluentBuilder<T> With<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
+            where TServiceImplementation : TServiceInterface
         {
             return this;
         }
 
         /// <summary>
-        /// Configures the builder to set the field with the concrete service informed.
-        /// This method makes possible to set a test double object as the service for testing purposes.
+        /// Configures the builder to add an element to a collection
         /// </summary>
-        public FluentBuilder<T> With<TService, TConcreteService>(TConcreteService service)
-            where TConcreteService : TService
-            where TService : class
+        public FluentBuilder<T> Adding<TPropertyCollection, TElement>(Expression<Func<T, TPropertyCollection>> property, TElement newElement)
+            where TPropertyCollection : ICollection<TElement>
         {
-            var memberName = typeof(TService).Name;
-            _membersToSet[memberName] = service;
             return this;
         }
 
@@ -108,38 +105,6 @@ namespace FluentBuilderLib
 
             field.SetValue(newObject, newValue);
             return true;
-        }
-
-        #region PtBr
-
-        public static FluentBuilder<T> Novo()
-        {
-            return New();
-        }
-
-        public T Criar()
-        {
-            return Build();
-        }
-
-        public FluentBuilder<T> Com<TPropriedade>(Expression<Func<T, TPropriedade>> propriedade, object novoValor)
-        {
-            return With(propriedade, novoValor);
-        }
-
-        #endregion
-    }
-
-    public static class FluentBuilder
-    {
-        public static FluentBuilder<T> A<T>() where T : class
-        {
-            return FluentBuilder<T>.New();
-        }
-
-        public static FluentBuilder<T> Um<T>() where T : class
-        {
-            return A<T>();
         }
     }
 }
