@@ -52,7 +52,7 @@ namespace FluentBuilderLib
         /// <summary>
         /// Configures the builder to set the property with the informed value.
         /// </summary>
-        public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> property, object newValue)
+        public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> property, TProperty newValue)
         {
             var memberExpression = property.Body as MemberExpression;
             if (memberExpression == null)
@@ -76,8 +76,8 @@ namespace FluentBuilderLib
         /// <summary>
         /// Configures the builder to add an element to a collection
         /// </summary>
-        public FluentBuilder<T> Adding<TPropertyCollection, TElement>(Expression<Func<T, TPropertyCollection>> property, TElement newElement)
-            where TPropertyCollection : ICollection<TElement>
+        public FluentBuilder<T> Adding<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> property, TElement newElement)
+            where TCollectionProperty : ICollection<TElement>
         {
             return this;
         }
