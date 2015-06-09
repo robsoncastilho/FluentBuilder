@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder.Tests", "FluentBuilderLib.Tests\Nosbor.FluentBuilder.Tests.csproj", "{FC1706D0-BFAC-43BD-AA51-B5591B1D6909}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder.Tests", "Nosbor.FluentBuilder.Tests\Nosbor.FluentBuilder.Tests.csproj", "{FC1706D0-BFAC-43BD-AA51-B5591B1D6909}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder", "FluentBuilderLib\Nosbor.FluentBuilder.csproj", "{71A31637-E074-4137-885F-C944642A9265}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder", "Nosbor.FluentBuilder\Nosbor.FluentBuilder.csproj", "{71A31637-E074-4137-885F-C944642A9265}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

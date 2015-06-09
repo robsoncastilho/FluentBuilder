@@ -48,7 +48,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FluentBuilderLib\Nosbor.FluentBuilder.csproj">
+    <ProjectReference Include="..\Nosbor.FluentBuilder\Nosbor.FluentBuilder.csproj">
       <Project>{71a31637-e074-4137-885f-c944642a9265}</Project>
       <Name>Nosbor.FluentBuilder</Name>
     </ProjectReference>
