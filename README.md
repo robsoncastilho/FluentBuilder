@@ -1,3 +1,6 @@
 # FluentBuilder
 
-Uma biblioteca para criação dinâmica de objetos, implementada com foco na escrita de testes de unidade mais legíveis e menos frágeis.
+Library for dynamic creation of objects, implemented with a focus on writing more readable and less fragile unit tests.
+
+**** BETA VERSION / Some features not working as expected yet (see ignored tests) ****
+
