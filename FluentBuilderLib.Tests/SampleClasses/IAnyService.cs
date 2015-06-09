@@ -1,5 +1,4 @@
-﻿
-namespace FluentBuilderLib.Tests.SampleClasses
+﻿namespace Nosbor.FluentBuilder.Tests.SampleClasses
 {
     public interface IAnyService
     {

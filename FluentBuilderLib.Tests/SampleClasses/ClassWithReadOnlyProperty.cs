@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FluentBuilderLib.Tests.SampleClasses
+namespace Nosbor.FluentBuilder.Tests.SampleClasses
 {
     internal class ClassWithReadOnlyProperty
     {

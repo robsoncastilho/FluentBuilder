@@ -1,9 +1,9 @@
-﻿using FluentBuilderLib.Tests.SampleClasses;
+﻿using Nosbor.FluentBuilder.Tests.SampleClasses;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace FluentBuilderLib.Tests
+namespace Nosbor.FluentBuilder.Tests
 {
     [TestFixture]
     public class FluentBuilderTests

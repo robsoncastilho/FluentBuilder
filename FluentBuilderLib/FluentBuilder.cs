@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace FluentBuilderLib
+namespace Nosbor.FluentBuilder
 {
     public sealed class FluentBuilder<T> where T : class
     {
