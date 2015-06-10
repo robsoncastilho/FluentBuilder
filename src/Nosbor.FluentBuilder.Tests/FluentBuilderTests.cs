@@ -1,6 +1,6 @@
-﻿using Nosbor.FluentBuilder.Tests.SampleClasses;
+﻿using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Tests.SampleClasses;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace Nosbor.FluentBuilder.Tests
@@ -25,19 +25,6 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
-        public void Should_build_object_setting_underlying_fields()
-        {
-            var newAddresses = new List<string> { "20th Street", "1st Avenue" };
-
-            var createdObject = FluentBuilder<ClassWithReadOnlyProperty>
-                .New()
-                .With(newObject => newObject.Addresses, newAddresses)
-                .Build();
-
-            Assert.AreEqual(newAddresses, createdObject.Addresses);
-        }
-
-        [Test]
         public void Should_build_object_using_implicit_conversion_when_not_calling_build_method()
         {
             const string newName = "Robson";
@@ -45,15 +32,6 @@ namespace Nosbor.FluentBuilder.Tests
             ClassWithWritableProperties createdObject = FluentBuilder<ClassWithWritableProperties>.New().With(newObject => newObject.Name, newName);
 
             Assert.AreEqual(newName, createdObject.Name);
-        }
-
-        [Test]
-        public void Should_throw_exception_when_underlying_field_not_found()
-        {
-            Assert.Throws<Exception>(() => FluentBuilder<ClassWithReadOnlyProperty>
-                .New()
-                .With(newObject => newObject.BadAddresses, new List<string> { "20th Street", "1st Avenue" })
-                .Build());
         }
 
         [Test]
@@ -69,6 +47,39 @@ namespace Nosbor.FluentBuilder.Tests
             Assert.AreEqual(newName, createdObject.Name);
         }
 
+        [Test]
+        public void Should_build_object_setting_services()
+        {
+            var concreteService = new ConcreteService();
+
+            var createdObject = FluentBuilder<ClassWithDependency>
+                .New()
+                .WithDependency<IAnyService, ConcreteService>(concreteService)
+                .Build();
+        }
+
+        [Test]
+        public void Throws_exception_when_property_is_read_only()
+        {
+            var dummy = new List<string> { "20th Street", "1st Avenue" };
+
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ClassWithReadOnlyProperty>
+                .New()
+                .With(newObject => newObject.Addresses, dummy)
+                .Build());
+        }
+
+        [Test]
+        public void Throws_exception_when_property_is_not_informed()
+        {
+            var dummy = new ClassWithReadOnlyProperty();
+
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ClassWithReadOnlyProperty>
+                .New()
+                .With(justAnObjectWithNoPropInformed => justAnObjectWithNoPropInformed, dummy)
+                .Build());
+        }
+
         [Test, Ignore]
         public void Should_build_object_setting_an_element_from_a_collection()
         {
@@ -80,17 +91,6 @@ namespace Nosbor.FluentBuilder.Tests
 
             var expectedAddresses = new List<string> { "20th Street", "1st Avenue" };
             CollectionAssert.AreEqual(expectedAddresses, createdObject.Addresses);
-        }
-
-        [Test, Ignore]
-        public void Should_build_object_setting_services()
-        {
-            var concreteService = new ConcreteService();
-
-            var createdObject = FluentBuilder<ClassWithoutParameterlessCtor>
-                .New()
-                .With<IAnyService, ConcreteService>(concreteService)
-                .Build();
         }
 
         [Test]

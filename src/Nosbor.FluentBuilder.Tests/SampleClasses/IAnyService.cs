@@ -8,4 +8,14 @@
     {
 
     }
+
+    public class ClassWithDependency
+    {
+        private readonly IAnyService _anyService;
+
+        public ClassWithDependency(IAnyService anyService)
+        {
+            _anyService = anyService;
+        }
+    }
 }

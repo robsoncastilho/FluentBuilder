@@ -1,18 +1,22 @@
+using Nosbor.FluentBuilder.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 namespace Nosbor.FluentBuilder
 {
     public sealed class FluentBuilder<T> where T : class
     {
-        private readonly Dictionary<string, object> _membersToSet;
+        private readonly Dictionary<string, object> _members;
+        private readonly Dictionary<string, object> _dependencies;
 
         private FluentBuilder()
         {
-            _membersToSet = new Dictionary<string, object>();
+            _members = new Dictionary<string, object>();
+            _dependencies = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -38,15 +42,23 @@ namespace Nosbor.FluentBuilder
         {
             var newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
 
-            foreach (var keyValuePair in _membersToSet)
+            try
             {
-                if (TryToSetProperty(newObject, keyValuePair.Key, keyValuePair.Value) ||
-                    TryToSetField(newObject, keyValuePair.Key, keyValuePair.Value))
-                    continue;
+                foreach (var member in _members)
+                {
+                    SetProperty(newObject, member.Key, member.Value);
+                }
 
-                throw new Exception(string.Format("Member {0} not found", keyValuePair.Key));
+                foreach (var dependency in _dependencies)
+                {
+                    SetField(newObject, dependency.Key, dependency.Value);
+                }
+                return newObject;
             }
-            return newObject;
+            catch (Exception exception)
+            {
+                throw new FluentBuilderException(exception.Message, exception);
+            }
         }
 
         /// <summary>
@@ -56,10 +68,10 @@ namespace Nosbor.FluentBuilder
         {
             var memberExpression = property.Body as MemberExpression;
             if (memberExpression == null)
-                throw new ArgumentException("Argument should be a MemberExpression", "property");
+                throw new FluentBuilderException("A property is required in the expression", new ArgumentException("Argument should be a MemberExpression", "property"));
 
             var memberName = memberExpression.Member.Name;
-            _membersToSet[memberName] = newValue;
+            _members[memberName] = newValue;
             return this;
         }
 
@@ -67,44 +79,34 @@ namespace Nosbor.FluentBuilder
         /// Configures the builder to set the field with the concrete service informed.
         /// This method makes possible to set a test double object as the service for testing purposes.
         /// </summary>
-        public FluentBuilder<T> With<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
+        public FluentBuilder<T> WithDependency<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
             where TServiceImplementation : TServiceInterface
         {
+            var dependencyName = typeof(TServiceInterface).Name;
+            _dependencies[dependencyName] = serviceImplementation;
             return this;
         }
 
         /// <summary>
-        /// Configures the builder to add an element to a collection
+        /// Configures the builder to add an element to a collection.
         /// </summary>
         public FluentBuilder<T> Adding<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> property, TElement newElement)
             where TCollectionProperty : ICollection<TElement>
         {
-            return this;
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Sets the value for the property if the property is writable.
-        /// </summary>
-        private static bool TryToSetProperty(T newObject, string propertyName, object newValue)
+        private static void SetProperty(T newObject, string propertyName, object newValue)
         {
-            var propertyInfo = typeof(T).GetProperty(propertyName);
-            if (propertyInfo == null || !propertyInfo.CanWrite) return false;
-
-            propertyInfo.SetValue(newObject, newValue, null);
-            return true;
+            typeof(T).GetProperty(propertyName).SetValue(newObject, newValue, null);
         }
 
-        /// <summary>
-        /// Sets the value for the field if the field corresponding to the property exists.
-        /// </summary>
-        private static bool TryToSetField(T newObject, string propertyName, object newValue)
+        private static void SetField(T newObject, string baseName, object newValue)
         {
-            var fieldName = "_" + propertyName.ToLower();
-            var field = typeof(T).GetField(fieldName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-            if (field == null) return false;
+            // TODO: allow other conventions?
+            var fieldName = "_" + Regex.Replace(baseName, "^[I]", "");
 
-            field.SetValue(newObject, newValue);
-            return true;
+            typeof(T).GetField(fieldName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic).SetValue(newObject, newValue);
         }
     }
 }
