@@ -10,13 +10,15 @@ namespace Nosbor.FluentBuilder
 {
     public sealed class FluentBuilder<T> where T : class
     {
-        private readonly Dictionary<string, object> _members;
+        private readonly Dictionary<string, object> _properties;
         private readonly Dictionary<string, object> _dependencies;
+        private readonly Dictionary<string, IList<object>> _collections;
 
         private FluentBuilder()
         {
-            _members = new Dictionary<string, object>();
+            _properties = new Dictionary<string, object>();
             _dependencies = new Dictionary<string, object>();
+            _collections = new Dictionary<string, IList<object>>();
         }
 
         /// <summary>
@@ -41,37 +43,17 @@ namespace Nosbor.FluentBuilder
         public T Build()
         {
             var newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
-
-            try
-            {
-                foreach (var member in _members)
-                {
-                    SetProperty(newObject, member.Key, member.Value);
-                }
-
-                foreach (var dependency in _dependencies)
-                {
-                    SetField(newObject, dependency.Key, dependency.Value);
-                }
-                return newObject;
-            }
-            catch (Exception exception)
-            {
-                throw new FluentBuilderException(exception.Message, exception);
-            }
+            SetAllMembersFor(newObject);
+            return newObject;
         }
 
         /// <summary>
         /// Configures the builder to set the property with the informed value.
         /// </summary>
-        public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> property, TProperty newValue)
+        public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> expression, TProperty newValue)
         {
-            var memberExpression = property.Body as MemberExpression;
-            if (memberExpression == null)
-                throw new FluentBuilderException("A property is required in the expression", new ArgumentException("Argument should be a MemberExpression", "property"));
-
-            var memberName = memberExpression.Member.Name;
-            _members[memberName] = newValue;
+            var propertyName = GetMemberNameFor(expression);
+            _properties[propertyName] = newValue;
             return this;
         }
 
@@ -90,23 +72,102 @@ namespace Nosbor.FluentBuilder
         /// <summary>
         /// Configures the builder to add an element to a collection.
         /// </summary>
-        public FluentBuilder<T> Adding<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> property, TElement newElement)
-            where TCollectionProperty : ICollection<TElement>
+        public FluentBuilder<T> AddingTo<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, TElement newElement)
+            where TCollectionProperty : IEnumerable<TElement>
         {
-            throw new NotImplementedException();
+            var propertyName = GetMemberNameFor(expression);
+
+            if (!_collections.ContainsKey(propertyName))
+            {
+                _collections[propertyName] = new List<object>();
+            }
+
+            _collections[propertyName].Add(newElement);
+            return this;
         }
 
-        private static void SetProperty(T newObject, string propertyName, object newValue)
+        private void SetAllMembersFor(T newObject)
         {
-            typeof(T).GetProperty(propertyName).SetValue(newObject, newValue, null);
+            foreach (var property in _properties)
+            {
+                SetWritableProperty(newObject, property.Key, property.Value);
+            }
+
+            foreach (var dependency in _dependencies)
+            {
+                SetField(newObject, dependency.Key, dependency.Value);
+            }
+
+            foreach (var collection in _collections)
+            {
+                SetCollection(newObject, collection.Key, collection.Value);
+            }
+        }
+
+        private string GetMemberNameFor<TProperty>(Expression<Func<T, TProperty>> expression)
+        {
+            var memberExpression = expression.Body as MemberExpression;
+            if (memberExpression == null)
+                throw new FluentBuilderException(string.Format("Property missing in '{0}'", expression), new ArgumentException("Argument should be a MemberExpression", "expression"));
+
+            return memberExpression.Member.Name;
+        }
+
+        private static void SetWritableProperty(T newObject, string propertyName, object newValue)
+        {
+            try
+            {
+                typeof(T).GetProperty(propertyName).SetValue(newObject, newValue, null);
+            }
+            catch (Exception exception)
+            {
+                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", propertyName), exception);
+            }
         }
 
         private static void SetField(T newObject, string baseName, object newValue)
         {
-            // TODO: allow other conventions?
-            var fieldName = "_" + Regex.Replace(baseName, "^[I]", "");
+            var fieldName = "_" + Regex.Replace(baseName, "^[I]", ""); // TODO: allow other conventions?
 
-            typeof(T).GetField(fieldName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic).SetValue(newObject, newValue);
+            try
+            {
+                typeof(T).GetField(fieldName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic).SetValue(newObject, newValue);
+            }
+            catch (Exception exception)
+            {
+                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", fieldName), exception);
+            }
+        }
+
+        private void SetCollection(T newObject, string collectionName, IList<object> collectionValues)
+        {
+            try
+            {
+                var propertyInfo = typeof(T).GetProperty(collectionName);
+                var methodInfo = propertyInfo.PropertyType.GetMethod("Add");
+
+                // TODO: must set underlying field with new List<> before adding elements
+                //propertyInfo.SetValue(newObject, new List<string>(), null);
+                //foreach (var fieldInfo in typeof(T).GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+                //{
+                //    if (fieldInfo.FieldType.GetInterface("IEnumerable") != null)
+                //    {
+                //        var genericTypes = fieldInfo.FieldType.GenericTypeArguments;
+                //        // list = create instance of List<T> where T in genericTypes
+                //        //fieldInfo.SetValue(newObject, list);
+                //    }
+                //}
+
+                var property = propertyInfo.GetValue(newObject, null);
+
+                foreach (var value in collectionValues)
+                    methodInfo.Invoke(property, new object[] { value });
+
+            }
+            catch (Exception exception)
+            {
+                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", collectionName), exception);
+            }
         }
     }
 }

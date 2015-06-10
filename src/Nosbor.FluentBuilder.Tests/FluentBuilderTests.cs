@@ -56,6 +56,8 @@ namespace Nosbor.FluentBuilder.Tests
                 .New()
                 .WithDependency<IAnyService, ConcreteService>(concreteService)
                 .Build();
+
+            // TODO: assertion
         }
 
         [Test]
@@ -85,8 +87,8 @@ namespace Nosbor.FluentBuilder.Tests
         {
             var createdObject = FluentBuilder<ClassWithReadOnlyProperty>
                 .New()
-                .Adding(newObject => newObject.Addresses, "20th Street")
-                .Adding(newObject => newObject.Addresses, "1st Avenue")
+                .AddingTo(newObject => newObject.Addresses, "20th Street")
+                .AddingTo(newObject => newObject.Addresses, "1st Avenue")
                 .Build();
 
             var expectedAddresses = new List<string> { "20th Street", "1st Avenue" };
