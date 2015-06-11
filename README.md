@@ -5,5 +5,15 @@ Library for dynamic creation of objects, implemented with a focus on writing mor
 ### Available at NuGet:
 Install-Package Nosbor.FluentBuilder
 
+### Features
+
+##### With
+
+var newAddress = FluentBuilder<Address>
+                .New()
+                .With(a => a.Street)
+                .With(a => a.ZipCode)
+                .Build();
+
 ### WARNING !!
 **** BETA VERSION / Some features not working as expected yet (see ignored tests) ****
