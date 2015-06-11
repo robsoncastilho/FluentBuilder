@@ -48,6 +48,19 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
+        public void Should_build_object_setting_an_element_from_a_collection()
+        {
+            var createdObject = FluentBuilder<ClassWithReadOnlyProperty>
+                .New()
+                .AddingTo(newObject => newObject.Addresses, "20th Street")
+                .AddingTo(newObject => newObject.Addresses, "1st Avenue")
+                .Build();
+
+            var expectedAddresses = new List<string> { "20th Street", "1st Avenue" };
+            CollectionAssert.AreEqual(expectedAddresses, createdObject.Addresses);
+        }
+
+        [Test]
         public void Should_build_object_setting_services()
         {
             var concreteService = new ConcreteService();
@@ -80,19 +93,6 @@ namespace Nosbor.FluentBuilder.Tests
                 .New()
                 .With(justAnObjectWithNoPropInformed => justAnObjectWithNoPropInformed, dummy)
                 .Build());
-        }
-
-        [Test, Ignore]
-        public void Should_build_object_setting_an_element_from_a_collection()
-        {
-            var createdObject = FluentBuilder<ClassWithReadOnlyProperty>
-                .New()
-                .AddingTo(newObject => newObject.Addresses, "20th Street")
-                .AddingTo(newObject => newObject.Addresses, "1st Avenue")
-                .Build();
-
-            var expectedAddresses = new List<string> { "20th Street", "1st Avenue" };
-            CollectionAssert.AreEqual(expectedAddresses, createdObject.Addresses);
         }
 
         [Test]

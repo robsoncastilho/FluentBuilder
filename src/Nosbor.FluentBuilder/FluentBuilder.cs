@@ -127,7 +127,7 @@ namespace Nosbor.FluentBuilder
 
         private static void SetField(T newObject, string baseName, object newValue)
         {
-            var fieldName = "_" + Regex.Replace(baseName, "^[I]", ""); // TODO: allow other conventions?
+            var fieldName = "_" + Regex.Replace(baseName, "^I", ""); // TODO: allow other conventions?
 
             try
             {
@@ -143,31 +143,40 @@ namespace Nosbor.FluentBuilder
         {
             try
             {
-                var propertyInfo = typeof(T).GetProperty(collectionName);
-                var methodInfo = propertyInfo.PropertyType.GetMethod("Add");
+                var fieldName = "_" + collectionName;
+                var fieldInfo = typeof(T).GetField(fieldName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
 
-                // TODO: must set underlying field with new List<> before adding elements
-                //propertyInfo.SetValue(newObject, new List<string>(), null);
-                //foreach (var fieldInfo in typeof(T).GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
-                //{
-                //    if (fieldInfo.FieldType.GetInterface("IEnumerable") != null)
-                //    {
-                //        var genericTypes = fieldInfo.FieldType.GenericTypeArguments;
-                //        // list = create instance of List<T> where T in genericTypes
-                //        //fieldInfo.SetValue(newObject, list);
-                //    }
-                //}
+                var genericList = BuildGenericListFrom(fieldInfo);
 
-                var property = propertyInfo.GetValue(newObject, null);
+                SetGenericListInstanceTo(fieldInfo, genericList, newObject);
 
-                foreach (var value in collectionValues)
-                    methodInfo.Invoke(property, new object[] { value });
-
+                AddElementsTo(fieldInfo, genericList, collectionValues, newObject);
             }
             catch (Exception exception)
             {
                 throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", collectionName), exception);
             }
+        }
+
+        private Type BuildGenericListFrom(FieldInfo fieldInfo)
+        {
+            var genericTypes = fieldInfo.FieldType.GenericTypeArguments;
+            return typeof(List<>).MakeGenericType(genericTypes);
+        }
+
+        private void SetGenericListInstanceTo(FieldInfo fieldInfo, Type genericListType, T newObject)
+        {
+            var instance = Activator.CreateInstance(genericListType);
+            fieldInfo.SetValue(newObject, instance);
+        }
+
+        private void AddElementsTo(FieldInfo fieldInfo, Type genericListType, IList<object> collectionValues, T newObject)
+        {
+            var methodInfo = genericListType.GetMethod("Add");
+            var fieldInstance = fieldInfo.GetValue(newObject);
+
+            foreach (var value in collectionValues)
+                methodInfo.Invoke(fieldInstance, new object[] { value });
         }
     }
 }
