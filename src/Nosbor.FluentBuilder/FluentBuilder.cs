@@ -147,9 +147,7 @@ namespace Nosbor.FluentBuilder
                 var fieldInfo = typeof(T).GetField(fieldName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
 
                 var genericList = BuildGenericListFrom(fieldInfo);
-
                 SetGenericListInstanceTo(fieldInfo, genericList, newObject);
-
                 AddElementsTo(fieldInfo, genericList, collectionValues, newObject);
             }
             catch (Exception exception)
