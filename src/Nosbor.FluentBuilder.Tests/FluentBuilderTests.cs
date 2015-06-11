@@ -96,6 +96,17 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
+        public void Throws_exception_when_underlying_field_for_collection_is_not_found()
+        {
+            var dummy = new AnotherSampleClass();
+
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ClassWithReadOnlyProperty>
+                .New()
+                .AddingTo(newObject => newObject.CollectionWithFieldNotFollowingNameConvention, dummy)
+                .Build());
+        }
+
+        [Test]
         public void Should_build_object_setting_dummies_for_all_service_interfaces_not_specified()
         {
             Assert.Ignore();
@@ -103,6 +114,12 @@ namespace Nosbor.FluentBuilder.Tests
 
         [Test]
         public void Should_build_object_setting_default_values_to_properties_not_specified()
+        {
+            Assert.Ignore();
+        }
+
+        [Test]
+        public void Tests_builder_performance()
         {
             Assert.Ignore();
         }
