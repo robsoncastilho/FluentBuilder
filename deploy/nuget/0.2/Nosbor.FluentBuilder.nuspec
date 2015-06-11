@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Nosbor.FluentBuilder</id>
+    <version>0.2.0</version>
+	<title>FluentBuilder</title>
+    <authors>robsoncastilho</authors>
+    <owners>robsoncastilho</owners>
+    <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Create objects for testing purpose in a fluent and easy way.</description>
+    <releaseNotes>Method 'AddingTo' to add new elements to a collection</releaseNotes>
+    <copyright>Copyright Robson Castilho 2015</copyright>
+    <tags>builder unittest testing</tags>
+  </metadata>
+</package>
