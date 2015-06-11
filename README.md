@@ -14,9 +14,9 @@ Allows setting values for writable properties (ie. properties must have 'set' wi
 Sample:
 ```
 var newAddress = FluentBuilder<Address>
-                .New()
-                .With(a => a.Street, "1st Street")
-                .With(a => a.ZipCode, "1011")
-                .Build();
+                  .New()
+                  .With(a => a.Street, "1st Street")
+                  .With(a => a.ZipCode, "1011")
+                  .Build();
 ```
 
