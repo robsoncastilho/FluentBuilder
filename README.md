@@ -10,10 +10,10 @@ Install-Package Nosbor.FluentBuilder
 ##### With
 
 var newAddress = FluentBuilder<Address>
-                .New()
-                .With(a => a.Street)
-                .With(a => a.ZipCode)
-                .Build();
+								.New()
+								.With(a => a.Street)
+								.With(a => a.ZipCode)
+								.Build();
 
 ### WARNING !!
 **** BETA VERSION / Some features not working as expected yet (see ignored tests) ****
