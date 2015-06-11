@@ -9,9 +9,7 @@ Install-Package Nosbor.FluentBuilder
 
 ####1. With
 
-Allows setting values for writable properties (ie. properties must have 'set' with any kind of modifier)
-
-Sample:
+Allows setting values for writable properties (ie. properties must have 'set' with any kind of modifier):
 ```
 var newAddress = FluentBuilder<Address>
                   .New()
@@ -19,4 +17,6 @@ var newAddress = FluentBuilder<Address>
                   .With(a => a.ZipCode, "1011")
                   .Build();
 ```
+####2. WithDependency
 
+####3. AddingTo
