@@ -10,16 +10,14 @@ namespace Nosbor.FluentBuilder
 {
     public sealed class FluentBuilder<T> where T : class
     {
-        private readonly Dictionary<string, object> _properties;
-        private readonly Dictionary<string, object> _dependencies;
-        private readonly Dictionary<string, IList<object>> _collections;
+        private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _dependencies = new Dictionary<string, object>();
+        private readonly Dictionary<string, IList<object>> _collections = new Dictionary<string, IList<object>>();
 
-        private FluentBuilder()
-        {
-            _properties = new Dictionary<string, object>();
-            _dependencies = new Dictionary<string, object>();
-            _collections = new Dictionary<string, IList<object>>();
-        }
+        private static BindingFlags _defaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance |
+                                                                BindingFlags.Static | BindingFlags.NonPublic;
+
+        private FluentBuilder() { }
 
         /// <summary>
         /// Returns an instance of the builder to start the fluent creation of the object.
@@ -95,7 +93,7 @@ namespace Nosbor.FluentBuilder
 
             foreach (var dependency in _dependencies)
             {
-                SetField(newObject, dependency.Key, dependency.Value);
+                SetDependencyField(newObject, dependency.Key, dependency.Value);
             }
 
             foreach (var collection in _collections)
@@ -125,13 +123,12 @@ namespace Nosbor.FluentBuilder
             }
         }
 
-        private static void SetField(T newObject, string baseName, object newValue)
+        private static void SetDependencyField(T newObject, string fieldName, object newValue)
         {
-            var fieldName = "_" + Regex.Replace(baseName, "^I", ""); // TODO: allow other conventions?
-
             try
             {
-                typeof(T).GetField(fieldName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic).SetValue(newObject, newValue);
+                var fieldInfo = GetFieldApplyingConventionsIn(Regex.Replace(fieldName, "^I", ""));
+                fieldInfo.SetValue(newObject, newValue);
             }
             catch (Exception exception)
             {
@@ -139,13 +136,29 @@ namespace Nosbor.FluentBuilder
             }
         }
 
+        private static FieldInfo GetFieldApplyingConventionsIn(string fieldName)
+        {
+            FieldInfo fieldInfo = null;
+            foreach (var fieldNameConvention in GetDefaultConventionsFor(fieldName))
+            {
+                fieldInfo = typeof(T).GetField(fieldNameConvention, _defaultFieldBindingFlags);
+                if (fieldInfo != null) break;
+            }
+
+            return fieldInfo;
+        }
+
+        private static string[] GetDefaultConventionsFor(string fieldName)
+        {
+            return new[] { fieldName, "_" + fieldName };
+        }
+
         private void SetCollection(T newObject, string collectionName, IList<object> collectionValues)
         {
+
             try
             {
-                var fieldName = "_" + collectionName;
-                var fieldInfo = typeof(T).GetField(fieldName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-
+                var fieldInfo = GetFieldApplyingConventionsIn(collectionName);
                 var genericList = BuildGenericListFrom(fieldInfo);
                 SetGenericListInstanceTo(fieldInfo, genericList, newObject);
                 AddElementsTo(fieldInfo, genericList, collectionValues, newObject);

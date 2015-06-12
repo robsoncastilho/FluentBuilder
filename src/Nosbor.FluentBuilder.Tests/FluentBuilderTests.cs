@@ -116,7 +116,7 @@ namespace Nosbor.FluentBuilder.Tests
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var numberOfObjects = 500000;
+            var numberOfObjects = 100000;
             for (var i = 1; i <= numberOfObjects; i++)
             {
                 var obj = FluentBuilder<SampleEntity>
@@ -133,11 +133,10 @@ namespace Nosbor.FluentBuilder.Tests
             }
 
             stopWatch.Stop();
+            var elapsedTime = stopWatch.Elapsed;
+            var formattedElapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", elapsedTime.Hours, elapsedTime.Minutes, elapsedTime.Seconds, elapsedTime.Milliseconds / 10);
 
-            var ts = stopWatch.Elapsed;
-            var elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-
-            Assert.Pass(string.Format("Finish building {0:n0} objects in {1}", numberOfObjects, elapsedTime));
+            Assert.Pass(string.Format("Finish building {0:n0} objects in {1}", numberOfObjects, formattedElapsedTime));
         }
 
         [Test]
