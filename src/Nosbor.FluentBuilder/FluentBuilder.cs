@@ -46,7 +46,8 @@ namespace Nosbor.FluentBuilder
         }
 
         /// <summary>
-        /// Configures the builder to set the property with the informed value.
+        /// Configures the builder to set a property with the informed value.
+        /// <para>(Property must not be read-only)</para>
         /// </summary>
         public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> expression, TProperty newValue)
         {
@@ -56,8 +57,9 @@ namespace Nosbor.FluentBuilder
         }
 
         /// <summary>
-        /// Configures the builder to set the field with the concrete service informed.
-        /// This method makes possible to set a test double object as the service for testing purposes.
+        /// Configures the builder to set a private field with the dependency informed.
+        /// <para>(This method makes possible to set a concrete dependency for integrated tests or a test double for unit tests)</para>
+        /// <para>(If dependency interface is 'ICustomerRepository' then field name must be 'customerRepository' or '_customerRepository' - case is ignored)</para>
         /// </summary>
         public FluentBuilder<T> WithDependency<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
             where TServiceImplementation : TServiceInterface
@@ -69,6 +71,8 @@ namespace Nosbor.FluentBuilder
 
         /// <summary>
         /// Configures the builder to add an element to a collection.
+        /// <para>(Property must have a corresponding private field)</para>
+        /// <para>(If property name is 'Addresses' then field name must be 'addresses' or '_addresses')</para>
         /// </summary>
         public FluentBuilder<T> AddingTo<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, TElement newElement)
             where TCollectionProperty : IEnumerable<TElement>
