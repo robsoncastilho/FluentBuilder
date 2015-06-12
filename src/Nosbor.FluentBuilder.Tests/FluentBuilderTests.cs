@@ -2,6 +2,7 @@
 using Nosbor.FluentBuilder.Tests.SampleClasses;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Nosbor.FluentBuilder.Tests
 {
@@ -14,14 +15,14 @@ namespace Nosbor.FluentBuilder.Tests
             const string newName = "Robson";
             var newAddresses = new List<string> { "20th Street", "1st Avenue" };
 
-            var createdObject = FluentBuilder<ClassWithWritableProperties>
+            var createdObject = FluentBuilder<SampleEntity>
                 .New()
                 .With(newObject => newObject.Name, newName)
-                .With(newObject => newObject.Addresses, newAddresses)
+                .With(newObject => newObject.AddressesWithSetter, newAddresses)
                 .Build();
 
             Assert.AreEqual(newName, createdObject.Name);
-            Assert.AreEqual(newAddresses, createdObject.Addresses);
+            Assert.AreEqual(newAddresses, createdObject.AddressesWithSetter);
         }
 
         [Test]
@@ -29,7 +30,7 @@ namespace Nosbor.FluentBuilder.Tests
         {
             const string newName = "Robson";
 
-            ClassWithWritableProperties createdObject = FluentBuilder<ClassWithWritableProperties>.New().With(newObject => newObject.Name, newName);
+            SampleEntity createdObject = FluentBuilder<SampleEntity>.New().With(newObject => newObject.Name, newName);
 
             Assert.AreEqual(newName, createdObject.Name);
         }
@@ -39,7 +40,7 @@ namespace Nosbor.FluentBuilder.Tests
         {
             const string newName = "Robson";
 
-            var createdObject = FluentBuilder<ClassWithoutParameterlessCtor>
+            var createdObject = FluentBuilder<SampleEntity>
                 .New()
                 .With(newObject => newObject.Name, newName)
                 .Build();
@@ -50,7 +51,7 @@ namespace Nosbor.FluentBuilder.Tests
         [Test]
         public void Should_build_object_setting_an_element_from_a_collection()
         {
-            var createdObject = FluentBuilder<ClassWithReadOnlyProperty>
+            var createdObject = FluentBuilder<SampleEntity>
                 .New()
                 .AddingTo(newObject => newObject.Addresses, "20th Street")
                 .AddingTo(newObject => newObject.Addresses, "1st Avenue")
@@ -61,13 +62,13 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
-        public void Should_build_object_setting_services()
+        public void Should_build_object_setting_dependency()
         {
-            var concreteService = new ConcreteService();
+            var concreteService = new SampleConcreteDependency();
 
-            var createdObject = FluentBuilder<ClassWithDependency>
+            var createdObject = FluentBuilder<SampleServiceWithDependency>
                 .New()
-                .WithDependency<IAnyService, ConcreteService>(concreteService)
+                .WithDependency<IDependency, SampleConcreteDependency>(concreteService)
                 .Build();
 
             // TODO: assertion
@@ -78,7 +79,7 @@ namespace Nosbor.FluentBuilder.Tests
         {
             var dummy = new List<string> { "20th Street", "1st Avenue" };
 
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ClassWithReadOnlyProperty>
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleEntity>
                 .New()
                 .With(newObject => newObject.Addresses, dummy)
                 .Build());
@@ -87,9 +88,9 @@ namespace Nosbor.FluentBuilder.Tests
         [Test]
         public void Throws_exception_when_property_is_not_informed()
         {
-            var dummy = new ClassWithReadOnlyProperty();
+            var dummy = new SampleEntity();
 
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ClassWithReadOnlyProperty>
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleEntity>
                 .New()
                 .With(justAnObjectWithNoPropInformed => justAnObjectWithNoPropInformed, dummy)
                 .Build());
@@ -98,12 +99,45 @@ namespace Nosbor.FluentBuilder.Tests
         [Test]
         public void Throws_exception_when_underlying_field_for_collection_is_not_found()
         {
-            var dummy = new AnotherSampleClass();
+            int dummy = 0;
 
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ClassWithReadOnlyProperty>
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleEntity>
                 .New()
                 .AddingTo(newObject => newObject.CollectionWithFieldNotFollowingNameConvention, dummy)
                 .Build());
+        }
+
+        /// <summary>
+        /// Not a "real" test. Just a performance test of building thousands of objects
+        /// </summary>
+        [Test]
+        public void Tests_builder_performance()
+        {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            var numberOfObjects = 500000;
+            for (var i = 1; i <= numberOfObjects; i++)
+            {
+                var obj = FluentBuilder<SampleEntity>
+                    .New()
+                    .With(newObject => newObject.Name, "Name")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .Build();
+            }
+
+            stopWatch.Stop();
+
+            var ts = stopWatch.Elapsed;
+            var elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+
+            Assert.Pass(string.Format("Finish building {0:n0} objects in {1}", numberOfObjects, elapsedTime));
         }
 
         [Test]
@@ -114,12 +148,6 @@ namespace Nosbor.FluentBuilder.Tests
 
         [Test]
         public void Should_build_object_setting_default_values_to_properties_not_specified()
-        {
-            Assert.Ignore();
-        }
-
-        [Test]
-        public void Tests_builder_performance()
         {
             Assert.Ignore();
         }

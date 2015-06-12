@@ -37,13 +37,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SampleClasses\AnotherSampleClass.cs" />
-    <Compile Include="SampleClasses\IAnyService.cs" />
-    <Compile Include="SampleClasses\ClassWithoutParameterlessCtor.cs" />
-    <Compile Include="SampleClasses\ClassWithReadOnlyProperty.cs" />
-    <Compile Include="SampleClasses\ClassWithWritableProperties.cs" />
+    <Compile Include="SampleClasses\SampleEntity.cs" />
     <Compile Include="FluentBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleClasses\SampleServiceWithDependency.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
