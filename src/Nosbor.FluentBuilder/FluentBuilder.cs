@@ -19,8 +19,6 @@ namespace Nosbor.FluentBuilder
         private static BindingFlags _defaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance |
                                                                 BindingFlags.Static | BindingFlags.NonPublic;
 
-        private FluentBuilder() { }
-
         /// <summary>
         /// Returns an instance of the builder to start the fluent creation of the object.
         /// </summary>
