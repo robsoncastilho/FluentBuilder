@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\FluentBuilderException.cs" />
+    <Compile Include="Extensions\PtBr\PtBr.cs" />
     <Compile Include="FluentBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

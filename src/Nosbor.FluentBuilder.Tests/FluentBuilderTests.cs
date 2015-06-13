@@ -108,7 +108,7 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         /// <summary>
-        /// Not a "real" test. Just a performance test of building thousands of objects
+        /// Not a "real" test. Just a performance test for building thousands of objects
         /// </summary>
         [Test]
         public void Tests_builder_performance()

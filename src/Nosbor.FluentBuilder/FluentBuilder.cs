@@ -10,6 +10,8 @@ namespace Nosbor.FluentBuilder
 {
     public sealed class FluentBuilder<T> where T : class
     {
+        private T _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
+
         private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
         private readonly Dictionary<string, object> _dependencies = new Dictionary<string, object>();
         private readonly Dictionary<string, IList<object>> _collections = new Dictionary<string, IList<object>>();
@@ -40,9 +42,8 @@ namespace Nosbor.FluentBuilder
         /// </summary>
         public T Build()
         {
-            var newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
-            SetAllMembersFor(newObject);
-            return newObject;
+            SetAllMembers();
+            return _newObject;
         }
 
         /// <summary>
@@ -88,22 +89,9 @@ namespace Nosbor.FluentBuilder
             return this;
         }
 
-        private void SetAllMembersFor(T newObject)
+        private static string[] GetDefaultConventionsFor(string fieldName)
         {
-            foreach (var property in _properties)
-            {
-                SetWritableProperty(newObject, property.Key, property.Value);
-            }
-
-            foreach (var dependency in _dependencies)
-            {
-                SetDependencyField(newObject, dependency.Key, dependency.Value);
-            }
-
-            foreach (var collection in _collections)
-            {
-                SetCollection(newObject, collection.Key, collection.Value);
-            }
+            return new[] { fieldName, "_" + fieldName };
         }
 
         private string GetMemberNameFor<TProperty>(Expression<Func<T, TProperty>> expression)
@@ -115,31 +103,6 @@ namespace Nosbor.FluentBuilder
             return memberExpression.Member.Name;
         }
 
-        private static void SetWritableProperty(T newObject, string propertyName, object newValue)
-        {
-            try
-            {
-                typeof(T).GetProperty(propertyName).SetValue(newObject, newValue, null);
-            }
-            catch (Exception exception)
-            {
-                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", propertyName), exception);
-            }
-        }
-
-        private static void SetDependencyField(T newObject, string fieldName, object newValue)
-        {
-            try
-            {
-                var fieldInfo = GetFieldApplyingConventionsIn(Regex.Replace(fieldName, "^I", ""));
-                fieldInfo.SetValue(newObject, newValue);
-            }
-            catch (Exception exception)
-            {
-                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", fieldName), exception);
-            }
-        }
-
         private static FieldInfo GetFieldApplyingConventionsIn(string fieldName)
         {
             FieldInfo fieldInfo = null;
@@ -148,24 +111,62 @@ namespace Nosbor.FluentBuilder
                 fieldInfo = typeof(T).GetField(fieldNameConvention, _defaultFieldBindingFlags);
                 if (fieldInfo != null) break;
             }
-
             return fieldInfo;
         }
 
-        private static string[] GetDefaultConventionsFor(string fieldName)
+        private void SetAllMembers()
         {
-            return new[] { fieldName, "_" + fieldName };
+            foreach (var property in _properties)
+            {
+                SetWritableProperty(property.Key, property.Value);
+            }
+
+            foreach (var dependency in _dependencies)
+            {
+                SetDependencyField(dependency.Key, dependency.Value);
+            }
+
+            foreach (var collection in _collections)
+            {
+                SetCollection(collection.Key, collection.Value);
+            }
         }
 
-        private void SetCollection(T newObject, string collectionName, IList<object> collectionValues)
+        private void SetWritableProperty(string propertyName, object newValue)
+        {
+            try
+            {
+                var propertyInfo = typeof(T).GetProperty(propertyName);
+                propertyInfo.SetValue(_newObject, newValue, null);
+            }
+            catch (Exception exception)
+            {
+                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", propertyName), exception);
+            }
+        }
+
+        private void SetDependencyField(string fieldName, object newValue)
+        {
+            try
+            {
+                var fieldInfo = GetFieldApplyingConventionsIn(Regex.Replace(fieldName, "^I", ""));
+                fieldInfo.SetValue(_newObject, newValue);
+            }
+            catch (Exception exception)
+            {
+                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", fieldName), exception);
+            }
+        }
+
+        private void SetCollection(string collectionName, IList<object> collectionValues)
         {
 
             try
             {
                 var fieldInfo = GetFieldApplyingConventionsIn(collectionName);
                 var genericList = BuildGenericListFrom(fieldInfo);
-                SetGenericListInstanceTo(fieldInfo, genericList, newObject);
-                AddElementsTo(fieldInfo, genericList, collectionValues, newObject);
+                SetGenericListInstanceTo(fieldInfo, genericList);
+                AddElementsTo(fieldInfo, genericList, collectionValues);
             }
             catch (Exception exception)
             {
@@ -179,16 +180,16 @@ namespace Nosbor.FluentBuilder
             return typeof(List<>).MakeGenericType(genericTypes);
         }
 
-        private void SetGenericListInstanceTo(FieldInfo fieldInfo, Type genericListType, T newObject)
+        private void SetGenericListInstanceTo(FieldInfo fieldInfo, Type genericListType)
         {
             var instance = Activator.CreateInstance(genericListType);
-            fieldInfo.SetValue(newObject, instance);
+            fieldInfo.SetValue(_newObject, instance);
         }
 
-        private void AddElementsTo(FieldInfo fieldInfo, Type genericListType, IList<object> collectionValues, T newObject)
+        private void AddElementsTo(FieldInfo fieldInfo, Type genericListType, IList<object> collectionValues)
         {
             var methodInfo = genericListType.GetMethod("Add");
-            var fieldInstance = fieldInfo.GetValue(newObject);
+            var fieldInstance = fieldInfo.GetValue(_newObject);
 
             foreach (var value in collectionValues)
                 methodInfo.Invoke(fieldInstance, new object[] { value });
