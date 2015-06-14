@@ -3,7 +3,9 @@
 Library for dynamic creation of objects, implemented with a focus on writing more readable and less fragile unit tests.
 
 ### Available at NuGet:
+```
 Install-Package Nosbor.FluentBuilder
+```
 
 ### Features
 
@@ -51,5 +53,7 @@ service.DoSomething();
 dependencyMock.Verify(dependency => dependency.Do(), Times.Once);
 ......
 ```
+
+####3. AddingTo
 
 **** IN CONSTRUCTION....
