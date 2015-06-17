@@ -1,6 +1,7 @@
 using Nosbor.FluentBuilder.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -40,6 +41,7 @@ namespace Nosbor.FluentBuilder
         /// </summary>
         public T Build()
         {
+            InitializeRequiredMembers(_newObject);
             SetAllMembers();
             return _newObject;
         }
@@ -79,9 +81,7 @@ namespace Nosbor.FluentBuilder
             var propertyName = GetMemberNameFor(expression);
 
             if (!_collections.ContainsKey(propertyName))
-            {
                 _collections[propertyName] = new List<object>();
-            }
 
             _collections[propertyName].Add(newElement);
             return this;
@@ -112,22 +112,41 @@ namespace Nosbor.FluentBuilder
             return fieldInfo;
         }
 
+        private void InitializeRequiredMembers<TType>(TType type) where TType : class
+        {
+            var parameters = typeof(TType).GetConstructors().ToList().SelectMany(ctorInfo => ctorInfo.GetParameters());
+
+            foreach (var parameter in parameters)
+            {
+                if (parameter.ParameterType == typeof(string))
+                {
+                    var propertyName = ToPropertyConvention(parameter.Name);
+                    SetWritableProperty(propertyName, propertyName);
+                }
+                // TODO: incorrect
+                //else if (parameter.ParameterType.IsClass)
+                //{
+                //    var newObject = Convert.ChangeType(FormatterServices.GetUninitializedObject(parameter.ParameterType), parameter.ParameterType);
+                //    InitializeRequiredMembers(newObject);
+                //}
+            }
+        }
+
+        private string ToPropertyConvention(string name)
+        {
+            return name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
+        }
+
         private void SetAllMembers()
         {
             foreach (var property in _properties)
-            {
                 SetWritableProperty(property.Key, property.Value);
-            }
 
             foreach (var dependency in _dependencies)
-            {
                 SetDependencyField(dependency.Key, dependency.Value);
-            }
 
             foreach (var collection in _collections)
-            {
                 SetCollection(collection.Key, collection.Value);
-            }
         }
 
         private void SetWritableProperty(string propertyName, object newValue)

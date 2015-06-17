@@ -75,6 +75,16 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
+        public void Should_build_object_setting_default_values_for_members_required_from_constructor_but_not_specified_in_builder()
+        {
+            var createdObject = FluentBuilder<SampleEntityWithNoParameterlessCtor>
+               .New()
+               .Build();
+
+            Assert.AreEqual("Name", createdObject.Name);
+        }
+
+        [Test]
         public void Throws_exception_when_property_is_read_only()
         {
             var dummy = new List<string> { "20th Street", "1st Avenue" };
@@ -137,18 +147,6 @@ namespace Nosbor.FluentBuilder.Tests
             var formattedElapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", elapsedTime.Hours, elapsedTime.Minutes, elapsedTime.Seconds, elapsedTime.Milliseconds / 10);
 
             Assert.Pass(string.Format("Finish building {0:n0} objects in {1}", numberOfObjects, formattedElapsedTime));
-        }
-
-        [Test]
-        public void Should_build_object_setting_dummies_for_all_service_interfaces_not_specified()
-        {
-            Assert.Ignore();
-        }
-
-        [Test]
-        public void Should_build_object_setting_default_values_to_properties_not_specified()
-        {
-            Assert.Ignore();
         }
     }
 }
