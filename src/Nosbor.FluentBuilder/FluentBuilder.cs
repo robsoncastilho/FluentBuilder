@@ -118,17 +118,25 @@ namespace Nosbor.FluentBuilder
 
             foreach (var parameter in parameters)
             {
-                if (parameter.ParameterType == typeof(string))
+                var parameterType = parameter.ParameterType;
+                if (parameterType == typeof(string))
                 {
                     var propertyName = ToPropertyConvention(parameter.Name);
                     SetWritableProperty(propertyName, propertyName);
                 }
-                // TODO: incorrect
-                //else if (parameter.ParameterType.IsClass)
-                //{
-                //    var newObject = Convert.ChangeType(FormatterServices.GetUninitializedObject(parameter.ParameterType), parameter.ParameterType);
-                //    InitializeRequiredMembers(newObject);
-                //}
+                else if (parameterType.IsClass)
+                {
+                    if (parameterType == typeof(T)) continue;
+
+                    var typeOfBuilder = typeof(FluentBuilder<>).MakeGenericType(parameterType);
+                    var builderForChildObject = Activator.CreateInstance(typeOfBuilder);
+
+                    var methodInfo = typeOfBuilder.GetMethod("Build");
+                    var instanceOfChildObject = methodInfo.Invoke(builderForChildObject, new object[] { });
+
+                    var propertyName = ToPropertyConvention(parameter.Name);
+                    SetWritableProperty(propertyName, instanceOfChildObject);
+                }
             }
         }
 
@@ -177,7 +185,6 @@ namespace Nosbor.FluentBuilder
 
         private void SetCollection(string collectionName, IList<object> collectionValues)
         {
-
             try
             {
                 var fieldInfo = GetFieldApplyingConventionsIn(collectionName);

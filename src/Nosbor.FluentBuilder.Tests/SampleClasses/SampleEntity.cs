@@ -17,12 +17,24 @@ namespace Nosbor.FluentBuilder.Tests.SampleClasses
     internal class SampleEntityWithNoParameterlessCtor
     {
         public string Name { get; private set; }
-        public SampleEntityWithNoParameterlessCtor SampleEntity { get; private set; }
+        public SampleSimpleEntity SampleEntity { get; private set; }
+        public SampleEntityWithNoParameterlessCtor SameTypeEntity { get; private set; }
 
-        public SampleEntityWithNoParameterlessCtor(string name, SampleEntityWithNoParameterlessCtor sampleEntity)
+        public SampleEntityWithNoParameterlessCtor(string name, SampleSimpleEntity sampleEntity, SampleEntityWithNoParameterlessCtor sameTypeEntity)
         {
             Name = name;
             SampleEntity = sampleEntity;
+            SameTypeEntity = sameTypeEntity;
+        }
+    }
+
+    internal class SampleSimpleEntity
+    {
+        public string Name { get; private set; }
+
+        public SampleSimpleEntity(string name)
+        {
+            Name = name;
         }
     }
 }
