@@ -3,4 +3,5 @@ solution: src/FluentBuilder.sln
 install: 
     - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
+    - xbuild /p:Configuration=Release src/FluentBuilder.sln 
     - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe src/Nosbor.FluentBuilder.Tests/bin/Release/Nosbor.FluentBuilder.Tests.dll
