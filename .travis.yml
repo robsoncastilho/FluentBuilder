@@ -7,5 +7,3 @@ script:
     - sudo apt-get remove mono-complete 
     - xbuild /p:Configuration=Release src/FluentBuilder.sln 
     - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe src/Nosbor.FluentBuilder.Tests/bin/Release/Nosbor.FluentBuilder.Tests.dll
-    - mono src/packages/NuGet/NuGet.exe pack src/Nosbor.FluentBuilder/Nosbor.FluentBuilder.csproj
-    - mono src/packages/NuGet/NuGet.exe push Nosbor.FluentBuilder.*.nupkg $APINUGET 
