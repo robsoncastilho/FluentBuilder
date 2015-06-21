@@ -124,19 +124,15 @@ namespace Nosbor.FluentBuilder.Tests
                 .Build());
         }
 
-        /// <summary>
-        /// Not a "real" test. Just a performance test for building thousands of objects
-        /// </summary>
-        [Test]
-        public void Tests_builder_performance()
+        [TestCase(1000000, 30)]
+        public void Should_build_a_large_number_of_objects_in_acceptable_time(int numberOfObjects, int expectedMaxTime)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var numberOfObjects = 100000;
             for (var i = 1; i <= numberOfObjects; i++)
             {
-                var obj = FluentBuilder<SampleEntity>
+                FluentBuilder<SampleEntity>
                     .New()
                     .With(newObject => newObject.Name, "Name")
                     .AddingTo(newObject => newObject.Addresses, "Address")
@@ -153,7 +149,7 @@ namespace Nosbor.FluentBuilder.Tests
             var elapsedTime = stopWatch.Elapsed;
             var formattedElapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", elapsedTime.Hours, elapsedTime.Minutes, elapsedTime.Seconds, elapsedTime.Milliseconds / 10);
 
-            Assert.Pass(string.Format("Finish building {0:n0} objects in {1}", numberOfObjects, formattedElapsedTime));
+            Assert.LessOrEqual(elapsedTime.Seconds, expectedMaxTime);
         }
     }
 }
