@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/robsoncastilho/FluentBuilder.svg?branch=master)](https://travis-ci.org/robsoncastilho/FluentBuilder)
+
 # FluentBuilder
 
 Library for dynamic creation of objects, implemented with a focus on writing more readable and less fragile unit tests.
