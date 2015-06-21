@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FluentBuilder")]
 [assembly: AssemblyDescription("Create objects for testing purpose in a fluent and easy way.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Robson Castilho")]
+[assembly: AssemblyCompany("Robson Castilho - robsoncastilho.com.br")]
 [assembly: AssemblyProduct("FluentBuilder")]
 [assembly: AssemblyCopyright("Copyright © RCS 2015")]
 [assembly: AssemblyTrademark("")]
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.4.0.*")]
+[assembly: AssemblyVersion("0.4.1.*")]

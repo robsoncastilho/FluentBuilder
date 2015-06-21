@@ -41,7 +41,7 @@ namespace Nosbor.FluentBuilder
         /// </summary>
         public T Build()
         {
-            InitializeRequiredMembers(_newObject);
+            InitializeRequiredMembers();
             SetAllMembers();
             return _newObject;
         }
@@ -112,9 +112,9 @@ namespace Nosbor.FluentBuilder
             return fieldInfo;
         }
 
-        private void InitializeRequiredMembers<TType>(TType type) where TType : class
+        private void InitializeRequiredMembers()
         {
-            var parameters = typeof(TType).GetConstructors().ToList().SelectMany(ctorInfo => ctorInfo.GetParameters());
+            var parameters = typeof(T).GetConstructors().ToList().SelectMany(ctorInfo => ctorInfo.GetParameters());
 
             foreach (var parameter in parameters)
             {
