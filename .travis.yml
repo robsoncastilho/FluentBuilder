@@ -1,2 +1,6 @@
 language: csharp
 solution: src/FluentBuilder.sln
+install: 
+    - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+script:
+    - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe src/Nosbor.FluentBuilder.Tests/bin/Release/Nosbor.FluentBuilder.Tests.dll
