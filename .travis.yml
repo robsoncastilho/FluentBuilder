@@ -4,6 +4,7 @@ secure: "Y7O9SmdlRm6PYZEArBzGFO6fXOm/kzWabWQ+19F3zsDF9gfQhxgJRDO9NKVcdQ6gf1slyCb
 install: 
     - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
+    - sudo apt-get remove mono-complete 
     - xbuild /p:Configuration=Release src/FluentBuilder.sln 
     - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe src/Nosbor.FluentBuilder.Tests/bin/Release/Nosbor.FluentBuilder.Tests.dll
     - mono src/packages/NuGet/NuGet.exe pack src/Nosbor.FluentBuilder/Nosbor.FluentBuilder.csproj
