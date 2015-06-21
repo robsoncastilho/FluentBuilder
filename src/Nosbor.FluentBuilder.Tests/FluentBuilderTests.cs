@@ -83,7 +83,7 @@ namespace Nosbor.FluentBuilder.Tests
         {
             var concreteService = new SampleConcreteDependency();
 
-            var createdObject = FluentBuilder<SampleServiceWithDependency>
+            FluentBuilder<SampleServiceWithDependency>
                 .New()
                 .WithDependency<IDependency, SampleConcreteDependency>(concreteService)
                 .Build();
