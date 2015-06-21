@@ -129,7 +129,6 @@ namespace Nosbor.FluentBuilder.Tests
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-
             for (var i = 1; i <= numberOfObjects; i++)
             {
                 FluentBuilder<SampleEntity>
@@ -144,12 +143,9 @@ namespace Nosbor.FluentBuilder.Tests
                     .AddingTo(newObject => newObject.Addresses, "Address")
                     .Build();
             }
-
             stopWatch.Stop();
-            var elapsedTime = stopWatch.Elapsed;
-            var formattedElapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", elapsedTime.Hours, elapsedTime.Minutes, elapsedTime.Seconds, elapsedTime.Milliseconds / 10);
 
-            Assert.LessOrEqual(elapsedTime.Seconds, expectedMaxTime);
+            Assert.LessOrEqual(stopWatch.Elapsed.Seconds, expectedMaxTime);
         }
     }
 }
