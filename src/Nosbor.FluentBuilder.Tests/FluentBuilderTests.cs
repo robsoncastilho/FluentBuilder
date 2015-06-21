@@ -62,6 +62,23 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
+        public void Should_build_object_setting_default_values_for_members_required_from_constructor_but_not_specified_in_builder()
+        {
+            var createdObject = FluentBuilder<SampleEntityWithNoParameterlessCtor>.New().Build();
+
+            Assert.AreEqual("Name", createdObject.Name);
+            Assert.AreEqual("Name", createdObject.SampleEntity.Name);
+        }
+
+        [Test]
+        public void Should_build_object_setting_no_value_for_member_of_same_type()
+        {
+            var createdObject = FluentBuilder<SampleEntityWithNoParameterlessCtor>.New().Build();
+
+            Assert.IsNull(createdObject.SameTypeEntity);
+        }
+
+        [Test]
         public void Should_build_object_setting_dependency()
         {
             var concreteService = new SampleConcreteDependency();
@@ -72,16 +89,6 @@ namespace Nosbor.FluentBuilder.Tests
                 .Build();
 
             // TODO: assertion
-        }
-
-        [Test]
-        public void Should_build_object_setting_default_values_for_members_required_from_constructor_but_not_specified_in_builder()
-        {
-            var createdObject = FluentBuilder<SampleEntityWithNoParameterlessCtor>
-               .New()
-               .Build();
-
-            Assert.AreEqual("Name", createdObject.Name);
         }
 
         [Test]
