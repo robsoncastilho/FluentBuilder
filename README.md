@@ -25,7 +25,7 @@ var newAddress = FluentBuilder<Address>
                   .Build();
 ```
 
-####2. WithDependency
+#####1.2. WithDependency
 
 Allows setting values for a injected dependency stored in a private field.
 This option allows creating a builder for a SUT (a service that has dependencies) and passing a test double object to the SUT.
@@ -59,6 +59,6 @@ dependencyMock.Verify(dependency => dependency.Do(), Times.Once);
 ......
 ```
 
-####3. AddingTo
+#####1.3. AddingTo
 
 **** IN CONSTRUCTION....
