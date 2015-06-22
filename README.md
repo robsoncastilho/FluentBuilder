@@ -11,7 +11,9 @@ Install-Package Nosbor.FluentBuilder
 
 ### Features
 
-####1. With
+####1. Public API
+
+#####1.1. With
 
 Allows setting values for writable properties (ie. properties must have 'set' with any kind of modifier):
 
