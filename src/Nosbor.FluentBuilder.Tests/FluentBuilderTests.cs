@@ -91,7 +91,7 @@ namespace Nosbor.FluentBuilder.Tests
             // TODO: assertion
         }
 
-        [TestCase(500000, 30)]
+        [TestCase(100000, 30)]
         public void Should_build_large_number_of_objects_in_acceptable_time(int numberOfObjects, int expectedMaxTime)
         {
             var stopWatch = new Stopwatch();
