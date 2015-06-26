@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/robsoncastilho/FluentBuilder.svg?branch=master)](https://travis-ci.org/robsoncastilho/FluentBuilder)
+[![Build status](https://ci.appveyor.com/api/projects/status/vmkcqc500wbj3krr?svg=true)](https://ci.appveyor.com/project/robsoncastilho/fluentbuilder)
 
 # FluentBuilder
 
