@@ -1,7 +1,7 @@
 using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Internals;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -12,6 +12,8 @@ namespace Nosbor.FluentBuilder
     public sealed class FluentBuilder<T> where T : class
     {
         private T _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
+
+        private ConstrutorMembersInitializer _membersInitializer = new ConstrutorMembersInitializer();
 
         private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
         private readonly Dictionary<string, object> _dependencies = new Dictionary<string, object>();
@@ -87,18 +89,21 @@ namespace Nosbor.FluentBuilder
             return this;
         }
 
-        private static string[] GetDefaultConventionsFor(string fieldName)
-        {
-            return new[] { fieldName, "_" + fieldName };
-        }
-
         private string GetMemberNameFor<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var memberExpression = expression.Body as MemberExpression;
             if (memberExpression == null)
                 throw new FluentBuilderException(string.Format("Property missing in '{0}'", expression), new ArgumentException("Argument should be a MemberExpression", "expression"));
 
+            if (memberExpression.Expression.ToString().Contains("."))
+                throw new FluentBuilderException(string.Format("Nested property {0} not allowed", expression), new ArgumentException("Argument should be a direct property of the object being constructed", "expression"));
+
             return memberExpression.Member.Name;
+        }
+
+        private static string[] GetDefaultConventionsFor(string fieldName)
+        {
+            return new[] { fieldName, "_" + fieldName };
         }
 
         private static FieldInfo GetFieldApplyingConventionsIn(string fieldName)
@@ -114,35 +119,7 @@ namespace Nosbor.FluentBuilder
 
         private void InitializeRequiredMembers()
         {
-            var parameters = typeof(T).GetConstructors().ToList().SelectMany(ctorInfo => ctorInfo.GetParameters());
-
-            foreach (var parameter in parameters)
-            {
-                var parameterType = parameter.ParameterType;
-                if (parameterType == typeof(string))
-                {
-                    var propertyName = ToPropertyConvention(parameter.Name);
-                    SetWritableProperty(propertyName, propertyName);
-                }
-                else if (parameterType.IsClass)
-                {
-                    if (parameterType == typeof(T)) continue;
-
-                    var typeOfBuilder = typeof(FluentBuilder<>).MakeGenericType(parameterType);
-                    var builderForChildObject = Activator.CreateInstance(typeOfBuilder);
-
-                    var methodInfo = typeOfBuilder.GetMethod("Build");
-                    var instanceOfChildObject = methodInfo.Invoke(builderForChildObject, new object[] { });
-
-                    var propertyName = ToPropertyConvention(parameter.Name);
-                    SetWritableProperty(propertyName, instanceOfChildObject);
-                }
-            }
-        }
-
-        private string ToPropertyConvention(string name)
-        {
-            return name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
+            _membersInitializer.InitializeMembersOf(_newObject);
         }
 
         private void SetAllMembers()

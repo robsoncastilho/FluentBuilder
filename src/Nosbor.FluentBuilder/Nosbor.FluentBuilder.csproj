@@ -42,6 +42,7 @@
     <Compile Include="Exceptions\FluentBuilderException.cs" />
     <Compile Include="Extensions\PtBr\FluentBuilderPtBr.cs" />
     <Compile Include="FluentBuilder.cs" />
+    <Compile Include="Internals\ConstrutorMembersInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

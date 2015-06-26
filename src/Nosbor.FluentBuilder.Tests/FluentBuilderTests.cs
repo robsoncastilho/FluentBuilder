@@ -91,6 +91,30 @@ namespace Nosbor.FluentBuilder.Tests
             // TODO: assertion
         }
 
+        [TestCase(500000, 30)]
+        public void Should_build_large_number_of_objects_in_acceptable_time(int numberOfObjects, int expectedMaxTime)
+        {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            for (var i = 1; i <= numberOfObjects; i++)
+            {
+                FluentBuilder<SampleEntity>
+                    .New()
+                    .With(newObject => newObject.Name, "Name")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .AddingTo(newObject => newObject.Addresses, "Address")
+                    .Build();
+            }
+            stopWatch.Stop();
+
+            Assert.LessOrEqual(stopWatch.Elapsed.Seconds, expectedMaxTime);
+        }
+
         [Test]
         public void Throws_exception_when_property_is_read_only()
         {
@@ -124,28 +148,13 @@ namespace Nosbor.FluentBuilder.Tests
                 .Build());
         }
 
-        [TestCase(1000000, 60)]
-        public void Should_build_a_large_number_of_objects_in_acceptable_time(int numberOfObjects, int expectedMaxTime)
+        [Test]
+        public void Throws_exception_when_trying_to_set_property_of_child_object()
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-            for (var i = 1; i <= numberOfObjects; i++)
-            {
-                FluentBuilder<SampleEntity>
-                    .New()
-                    .With(newObject => newObject.Name, "Name")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .Build();
-            }
-            stopWatch.Stop();
-
-            Assert.LessOrEqual(stopWatch.Elapsed.Seconds, expectedMaxTime);
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleEntityWithNoParameterlessCtor>
+                .New()
+                .With(newObject => newObject.SampleEntity.Name, "dummy")
+                .Build());
         }
     }
 }
