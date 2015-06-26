@@ -43,7 +43,7 @@ namespace Nosbor.FluentBuilder
         /// </summary>
         public T Build()
         {
-            InitializeRequiredMembers();
+            _membersInitializer.InitializeMembersOf(_newObject);
             SetAllMembers();
             return _newObject;
         }
@@ -115,11 +115,6 @@ namespace Nosbor.FluentBuilder
                 if (fieldInfo != null) break;
             }
             return fieldInfo;
-        }
-
-        private void InitializeRequiredMembers()
-        {
-            _membersInitializer.InitializeMembersOf(_newObject);
         }
 
         private void SetAllMembers()
