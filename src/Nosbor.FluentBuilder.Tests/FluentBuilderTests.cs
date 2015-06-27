@@ -12,70 +12,65 @@ namespace Nosbor.FluentBuilder.Tests
         [Test]
         public void Should_build_object_setting_writable_properties()
         {
-            const string newName = "Robson";
-            var newAddresses = new List<string> { "20th Street", "1st Avenue" };
+            const string newValue = "Robson";
+            var newElements = new List<string> { "20th Street", "1st Avenue" };
 
-            var createdObject = FluentBuilder<SampleEntity>
+            var createdObject = FluentBuilder<ComplexType>
                 .New()
-                .With(newObject => newObject.Name, newName)
-                .With(newObject => newObject.AddressesWithSetter, newAddresses)
+                .With(newObject => newObject.PropertyWithSetter, newValue)
+                .With(newObject => newObject.CollectionWithSetter, newElements)
                 .Build();
 
-            Assert.AreEqual(newName, createdObject.Name);
-            Assert.AreEqual(newAddresses, createdObject.AddressesWithSetter);
-        }
-
-        [Test]
-        public void Should_build_object_using_implicit_conversion_when_not_calling_build_method()
-        {
-            const string newName = "Robson";
-
-            SampleEntity createdObject = FluentBuilder<SampleEntity>.New().With(newObject => newObject.Name, newName);
-
-            Assert.AreEqual(newName, createdObject.Name);
-        }
-
-        [Test]
-        public void Should_build_object_with_no_public_parameterless_constructor()
-        {
-            const string newName = "Robson";
-
-            var createdObject = FluentBuilder<SampleEntity>
-                .New()
-                .With(newObject => newObject.Name, newName)
-                .Build();
-
-            Assert.AreEqual(newName, createdObject.Name);
+            Assert.AreEqual(newValue, createdObject.PropertyWithSetter);
+            Assert.AreEqual(newElements, createdObject.CollectionWithSetter);
         }
 
         [Test]
         public void Should_build_object_setting_an_element_from_a_collection()
         {
-            var createdObject = FluentBuilder<SampleEntity>
+            var anObject = new AnotherComplexType("Robson");
+            var otherObject = new AnotherComplexType("Nosbor");
+
+            var createdObject = FluentBuilder<ComplexType>
                 .New()
-                .AddingTo(newObject => newObject.Addresses, "20th Street")
-                .AddingTo(newObject => newObject.Addresses, "1st Avenue")
+                .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, anObject)
+                .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, otherObject)
                 .Build();
 
-            var expectedAddresses = new List<string> { "20th Street", "1st Avenue" };
-            CollectionAssert.AreEqual(expectedAddresses, createdObject.Addresses);
+            var expectedAddresses = new List<AnotherComplexType> { anObject, otherObject };
+            CollectionAssert.AreEqual(expectedAddresses, createdObject.CollectionWithFieldFollowingNameConvention);
         }
 
         [Test]
-        public void Should_build_object_setting_default_values_for_members_required_from_constructor_but_not_specified_in_builder()
+        public void Should_build_object_using_implicit_conversion_when_not_calling_build_method()
         {
-            var createdObject = FluentBuilder<SampleEntityWithNoParameterlessCtor>.New().Build();
+            const string newValue = "Robson";
 
-            Assert.AreEqual("Name", createdObject.Name);
-            Assert.AreEqual("Name", createdObject.SampleEntity.Name);
+            ComplexType createdObject = FluentBuilder<ComplexType>.New().With(newObject => newObject.PropertyWithSetter, newValue);
+
+            Assert.AreEqual(newValue, createdObject.PropertyWithSetter);
         }
 
         [Test]
-        public void Should_build_object_setting_no_value_for_member_of_same_type()
+        public void Should_build_object_setting_default_values_for_members_required_from_constructor()
         {
-            var createdObject = FluentBuilder<SampleEntityWithNoParameterlessCtor>.New().Build();
+            var createdObject = FluentBuilder<ComplexType>.New().Build();
 
-            Assert.IsNull(createdObject.SameTypeEntity);
+            Assert.AreEqual("publicField", createdObject.PublicField);
+            Assert.AreEqual("propertyWithSetter", createdObject.PropertyWithSetter);
+            Assert.AreEqual("propertyWithBackingField", createdObject.PropertyWithBackingField);
+            Assert.AreEqual("name", createdObject.AnotherComplexType.Name);
+            Assert.AreEqual("name", createdObject.AnotherComplexTypeInsensitiveCaseTest.Name);
+
+            // TODO: assert private field
+        }
+
+        [Test]
+        public void Should_build_object_setting_no_default_value_for_member_of_same_type()
+        {
+            var createdObject = FluentBuilder<ComplexType>.New().Build();
+
+            Assert.IsNull(createdObject.SameTypeEntityIsNotInitialized);
         }
 
         [Test]
@@ -88,50 +83,26 @@ namespace Nosbor.FluentBuilder.Tests
                 .WithDependency<IDependency, SampleConcreteDependency>(concreteService)
                 .Build();
 
-            // TODO: assertion
-        }
-
-        [TestCase(100000, 30)]
-        public void Should_build_large_number_of_objects_in_acceptable_time(int numberOfObjects, int expectedMaxTime)
-        {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-            for (var i = 1; i <= numberOfObjects; i++)
-            {
-                FluentBuilder<SampleEntity>
-                    .New()
-                    .With(newObject => newObject.Name, "Name")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .AddingTo(newObject => newObject.Addresses, "Address")
-                    .Build();
-            }
-            stopWatch.Stop();
-
-            Assert.LessOrEqual(stopWatch.Elapsed.Seconds, expectedMaxTime);
+            // TODO: assert private field
         }
 
         [Test]
         public void Throws_exception_when_property_is_read_only()
         {
-            var dummy = new List<string> { "20th Street", "1st Avenue" };
+            var dummy = "";
 
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleEntity>
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
                 .New()
-                .With(newObject => newObject.Addresses, dummy)
+                .With(newObject => newObject.PropertyWithBackingField, dummy)
                 .Build());
         }
 
         [Test]
         public void Throws_exception_when_property_is_not_informed()
         {
-            var dummy = new SampleEntity();
+            var dummy = (ComplexType)null;
 
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleEntity>
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
                 .New()
                 .With(justAnObjectWithNoPropInformed => justAnObjectWithNoPropInformed, dummy)
                 .Build());
@@ -142,7 +113,7 @@ namespace Nosbor.FluentBuilder.Tests
         {
             int dummy = 0;
 
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleEntity>
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
                 .New()
                 .AddingTo(newObject => newObject.CollectionWithFieldNotFollowingNameConvention, dummy)
                 .Build());
@@ -151,10 +122,40 @@ namespace Nosbor.FluentBuilder.Tests
         [Test]
         public void Throws_exception_when_trying_to_set_property_of_child_object()
         {
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleEntityWithNoParameterlessCtor>
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
                 .New()
-                .With(newObject => newObject.SampleEntity.Name, "dummy")
+                .With(newObject => newObject.AnotherComplexType.Name, "dummy")
                 .Build());
+        }
+
+        [TestCase(100000, 30), Ignore]
+        public void Should_build_large_number_of_objects_in_acceptable_time(int numberOfObjects, int expectedMaxTime)
+        {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            for (var i = 1; i <= numberOfObjects; i++)
+            {
+                FluentBuilder<ComplexType>
+                    .New()
+                    .With(newObject => newObject.PropertyWithSetter, "Name")
+                    .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, new AnotherComplexType(i.ToString()))
+                    .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, new AnotherComplexType(i.ToString()))
+                    .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, new AnotherComplexType(i.ToString()))
+                    .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, new AnotherComplexType(i.ToString()))
+                    .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, new AnotherComplexType(i.ToString()))
+                    .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, new AnotherComplexType(i.ToString()))
+                    .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, new AnotherComplexType(i.ToString()))
+                    .Build();
+            }
+            stopWatch.Stop();
+
+            Assert.LessOrEqual(stopWatch.Elapsed.Seconds, expectedMaxTime);
+        }
+
+        [Test, Ignore]
+        public void Should_build_object_setting_public_fields()
+        {
+
         }
     }
 }

@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>$version$ - "With()" method not accepting nested properties anymore</releaseNotes>
+    <releaseNotes>$version$ - Setting default values for other member types besides properties</releaseNotes>
     <copyright>Copyright Robson Castilho 2015</copyright>
     <tags>builder unittest testing</tags>
   </metadata>

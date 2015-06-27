@@ -1,22 +1,23 @@
-﻿using Nosbor.FluentBuilder.Exceptions;
-using System;
+﻿using System;
 using System.Linq;
 
 namespace Nosbor.FluentBuilder.Internals
 {
-    internal class ConstrutorMembersInitializer
+    internal class ConstrutorMembersInitializer<T> where T : class
     {
-        internal void InitializeMembersOf<T>(T destinationObject) where T : class
+        private MemberSetter<T> _memberSetter = new MemberSetter<T>();
+
+        internal void InitializeMembersOf(T destinationObject)
         {
             var parameters = typeof(T).GetConstructors().ToList().SelectMany(ctorInfo => ctorInfo.GetParameters());
 
             foreach (var parameter in parameters)
             {
+                object defaultValue = null;
                 var parameterType = parameter.ParameterType;
                 if (parameterType == typeof(string))
                 {
-                    var propertyName = ToPropertyConvention(parameter.Name);
-                    SetWritableProperty(destinationObject, propertyName, propertyName);
+                    defaultValue = parameter.Name;
                 }
                 else if (parameterType.IsClass && parameterType != typeof(T))
                 {
@@ -24,30 +25,12 @@ namespace Nosbor.FluentBuilder.Internals
                     var builderForChildObject = Activator.CreateInstance(typeOfBuilder);
 
                     var methodInfo = typeOfBuilder.GetMethod("Build");
-                    var instanceOfChildObject = methodInfo.Invoke(builderForChildObject, new object[] { });
-
-                    var propertyName = ToPropertyConvention(parameter.Name);
-                    SetWritableProperty(destinationObject, propertyName, instanceOfChildObject);
+                    defaultValue = methodInfo.Invoke(builderForChildObject, new object[] { });
                 }
-            }
-        }
 
-        private void SetWritableProperty<T>(T destinationObject, string propertyName, object newValue)
-        {
-            try
-            {
-                var propertyInfo = typeof(T).GetProperty(propertyName);
-                propertyInfo.SetValue(destinationObject, newValue, null);
+                if (defaultValue != null)
+                    _memberSetter.SetMember(destinationObject, parameter.Name, defaultValue);
             }
-            catch (Exception exception)
-            {
-                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", propertyName), exception);
-            }
-        }
-
-        private string ToPropertyConvention(string name)
-        {
-            return name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
         }
     }
 }
