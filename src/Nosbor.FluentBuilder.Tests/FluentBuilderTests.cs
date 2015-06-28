@@ -157,5 +157,17 @@ namespace Nosbor.FluentBuilder.Tests
         {
 
         }
+
+		[Test]
+		public void Should_build_many_objects()
+		{
+			var amountOfObjects = 3;
+			
+			var collection = FluentBuilder<ComplexType>.
+				Many(amountOfObjects);
+
+			CollectionAssert.AllItemsAreInstancesOfType(collection, typeof(ComplexType));
+			Assert.AreEqual(amountOfObjects, collection.Count);
+		}
     }
 }

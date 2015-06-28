@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Nosbor.FluentBuilder
 {
@@ -26,6 +27,18 @@ namespace Nosbor.FluentBuilder
         {
             return new FluentBuilder<T>();
         }
+
+		/// <summary>
+		/// Returns a list with the amount of requested items
+		/// </summary>
+		/// <param name="howMany">The amount of requested items</param>
+		public static IList<T> Many(int howMany)
+		{
+			return Enumerable
+				.Range(0, howMany)
+				.Select(i => New().Build())
+				.ToList();
+		}
 
         /// <summary>
         /// Performs implicit conversion from builder to destination object so that it's not needed to call Build method explicitly.
