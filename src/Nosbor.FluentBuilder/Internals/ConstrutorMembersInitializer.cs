@@ -5,7 +5,7 @@ namespace Nosbor.FluentBuilder.Internals
 {
     internal class ConstrutorMembersInitializer<T> where T : class
     {
-        private MemberSetter<T> _memberSetter = new MemberSetter<T>();
+        private readonly MemberSetter<T> _memberSetter = new MemberSetter<T>();
 
         internal void InitializeMembersOf(T destinationObject)
         {

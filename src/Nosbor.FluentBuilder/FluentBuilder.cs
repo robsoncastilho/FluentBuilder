@@ -2,19 +2,19 @@ using Nosbor.FluentBuilder.Exceptions;
 using Nosbor.FluentBuilder.Internals;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace Nosbor.FluentBuilder
 {
     public sealed class FluentBuilder<T> where T : class
     {
-        private T _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
+        private readonly T _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
 
-        private ConstrutorMembersInitializer<T> _membersInitializer = new ConstrutorMembersInitializer<T>();
-        private MemberSetter<T> _memberSetter = new MemberSetter<T>();
+        private readonly ConstrutorMembersInitializer<T> _membersInitializer = new ConstrutorMembersInitializer<T>();
+        private readonly MemberSetter<T> _memberSetter = new MemberSetter<T>();
 
         private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
         private readonly Dictionary<string, object> _dependencies = new Dictionary<string, object>();
@@ -27,18 +27,6 @@ namespace Nosbor.FluentBuilder
         {
             return new FluentBuilder<T>();
         }
-
-		/// <summary>
-		/// Returns a list with the amount of requested items
-		/// </summary>
-		/// <param name="howMany">The amount of requested items</param>
-		public static IList<T> Many(int howMany)
-		{
-			return Enumerable
-				.Range(0, howMany)
-				.Select(i => New().Build())
-				.ToList();
-		}
 
         /// <summary>
         /// Performs implicit conversion from builder to destination object so that it's not needed to call Build method explicitly.
@@ -56,6 +44,14 @@ namespace Nosbor.FluentBuilder
             _membersInitializer.InitializeMembersOf(_newObject);
             SetAllMembers();
             return _newObject;
+        }
+
+        /// <summary>
+        /// Returns a list with the amount of requested items
+        /// </summary>        
+        public static IList<T> Many(int howMany)
+        {
+            return Enumerable.Range(0, howMany).Select(i => New().Build()).ToList();
         }
 
         /// <summary>
@@ -99,7 +95,7 @@ namespace Nosbor.FluentBuilder
             return this;
         }
 
-        private string GetMemberNameFor<TProperty>(Expression<Func<T, TProperty>> expression)
+        private static string GetMemberNameFor<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var memberExpression = expression.Body as MemberExpression;
             if (memberExpression == null)
