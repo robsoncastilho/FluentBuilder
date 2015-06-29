@@ -81,6 +81,10 @@ var customer = FluentBuilder<Customer>
     .Build();
 ```
 
-The collection must have a read-only collection with a backing private field. If the collection is a writable property then you can set the whole collection using "With()".
+The collection must be a read-only collection with a backing private field. If the collection is a writable property then you can set the whole collection using "With()".
+
+####2. Auto-initializing members
+
+####3. Implicit conversion
 
 **** IN CONSTRUCTION....
