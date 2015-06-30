@@ -1,12 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+
 namespace Nosbor.FluentBuilder.Internals
 {
     internal class MemberSetter<T> where T : class
     {
         private const BindingFlags DefaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
+        private readonly GenericTypeCreator _genericTypeCreator = new GenericTypeCreator();
 
         internal void SetMember(T destinationObject, string memberName, object newValue)
         {
@@ -43,21 +44,11 @@ namespace Nosbor.FluentBuilder.Internals
         internal void SetCollection(T destinationObject, string collectionName, IList<object> collectionValues)
         {
             var fieldInfo = GetFieldApplyingConventionsIn(collectionName);
-            var genericList = BuildGenericListFrom(fieldInfo);
-            SetGenericListInstanceTo(destinationObject, fieldInfo, genericList);
-            AddElementsTo(destinationObject, fieldInfo, genericList, collectionValues);
-        }
 
-        private static Type BuildGenericListFrom(FieldInfo fieldInfo)
-        {
-            var genericTypes = fieldInfo.FieldType.GenericTypeArguments;
-            return typeof(List<>).MakeGenericType(genericTypes);
-        }
+            var genericListInstance = _genericTypeCreator.CreateInstanceFor(fieldInfo.FieldType.GenericTypeArguments);
+            fieldInfo.SetValue(destinationObject, genericListInstance);
 
-        private static void SetGenericListInstanceTo(T destinationObject, FieldInfo fieldInfo, Type genericListType)
-        {
-            var instance = Activator.CreateInstance(genericListType);
-            fieldInfo.SetValue(destinationObject, instance);
+            AddElementsTo(destinationObject, fieldInfo, genericListInstance.GetType(), collectionValues);
         }
 
         private static void AddElementsTo(T destinationObject, FieldInfo fieldInfo, Type genericListType, IList<object> collectionValues)

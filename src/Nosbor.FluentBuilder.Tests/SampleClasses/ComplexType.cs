@@ -15,15 +15,15 @@ namespace Nosbor.FluentBuilder.Tests.SampleClasses
         private string _propertyWithBackingField;
         public string PropertyWithBackingField { get { return _propertyWithBackingField; } }
 
-        private readonly IList<AnotherComplexType> _collectionWithFieldFollowingNameConvention = new List<AnotherComplexType>();
-        public IEnumerable<AnotherComplexType> CollectionWithFieldFollowingNameConvention { get { return _collectionWithFieldFollowingNameConvention; } }
+        private readonly IList<AnotherComplexType> collectionWithFieldFollowingNameConvention = new List<AnotherComplexType>();
+        public IEnumerable<AnotherComplexType> CollectionWithFieldFollowingNameConvention { get { return collectionWithFieldFollowingNameConvention; } }
 
         private readonly List<int> _anotherName = new List<int>();
         public IEnumerable<int> CollectionWithFieldNotFollowingNameConvention { get { return _anotherName; } }
 
         public ComplexType(string privateField, string publicField, string propertyWithSetter, string propertyWithBackingField,
             AnotherComplexType anotherComplexType, AnotherComplexType anotherComplexTypeINSENSITIVECASETest, ComplexType sameTypeEntityIsNotInitialized,
-            IEnumerable<AnotherComplexType> collectionWithFieldFollowingNameConvention)
+            List<AnotherComplexType> collectionWithFieldFollowingNameConvention)
         {
             // initialize members... 
         }

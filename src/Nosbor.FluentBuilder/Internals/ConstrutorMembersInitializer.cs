@@ -6,6 +6,7 @@ namespace Nosbor.FluentBuilder.Internals
     internal class ConstrutorMembersInitializer<T> where T : class
     {
         private readonly MemberSetter<T> _memberSetter = new MemberSetter<T>();
+        private readonly GenericTypeCreator _genericTypeCreator = new GenericTypeCreator();
 
         internal void InitializeMembersOf(T destinationObject)
         {
@@ -23,7 +24,7 @@ namespace Nosbor.FluentBuilder.Internals
                 }
                 else if (typeof(System.Collections.IEnumerable).IsAssignableFrom(parameterType))
                 {
-
+                    defaultValue = _genericTypeCreator.CreateInstanceFor(parameterType.GenericTypeArguments);
                 }
                 else if (parameterType.IsClass)
                 {

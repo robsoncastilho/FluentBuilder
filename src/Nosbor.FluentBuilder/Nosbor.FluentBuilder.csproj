@@ -43,6 +43,7 @@
     <Compile Include="Extensions\PtBr\FluentBuilderPtBr.cs" />
     <Compile Include="FluentBuilder.cs" />
     <Compile Include="Internals\ConstrutorMembersInitializer.cs" />
+    <Compile Include="Internals\GenericTypeCreator.cs" />
     <Compile Include="Internals\MemberSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
