@@ -3,6 +3,7 @@ using Nosbor.FluentBuilder.Tests.SampleClasses;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Nosbor.FluentBuilder.Tests
 {
@@ -75,6 +76,28 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
+        public void Should_build_object_within_a_list()
+        {
+            var collectionWithOneComplexType = FluentBuilder<ComplexType>
+                .New()
+                .With(newObject => newObject.PropertyWithSetter, "Some value")
+                .AsList();
+
+            Assert.AreEqual(1, collectionWithOneComplexType.Count());
+            Assert.AreEqual("Some value", collectionWithOneComplexType.First().PropertyWithSetter);
+        }
+
+        [Test]
+        public void Should_build_many_objects()
+        {
+            const int amountOfObjects = 3;
+
+            var collection = FluentBuilder<ComplexType>.Many(amountOfObjects);
+
+            Assert.AreEqual(amountOfObjects, collection.Count);
+        }
+
+        [Test]
         public void Should_build_object_setting_dependency()
         {
             var concreteService = new SampleConcreteDependency();
@@ -85,17 +108,6 @@ namespace Nosbor.FluentBuilder.Tests
                 .Build();
 
             // TODO: assert private field
-        }
-
-        [Test]
-        public void Should_build_many_objects()
-        {
-            const int amountOfObjects = 3;
-
-            var collection = FluentBuilder<ComplexType>.Many(amountOfObjects);
-
-            CollectionAssert.AllItemsAreInstancesOfType(collection, typeof(ComplexType));
-            Assert.AreEqual(amountOfObjects, collection.Count);
         }
 
         [Test]

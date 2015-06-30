@@ -47,6 +47,14 @@ namespace Nosbor.FluentBuilder
         }
 
         /// <summary>
+        /// Like <see cref="Build()"/>, however it returns the destination object within a collection.
+        /// </summary>
+        public IEnumerable<T> AsList()
+        {
+            return new List<T> { Build() };
+        }
+
+        /// <summary>
         /// Returns a list with the amount of requested items
         /// </summary>        
         public static IList<T> Many(int howMany)

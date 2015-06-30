@@ -30,7 +30,6 @@ namespace Nosbor.FluentBuilder.Internals
                 {
                     var typeOfBuilder = typeof(FluentBuilder<>).MakeGenericType(parameterType);
                     var builderForChildObject = Activator.CreateInstance(typeOfBuilder);
-
                     var methodInfo = typeOfBuilder.GetMethod("Build");
                     defaultValue = methodInfo.Invoke(builderForChildObject, new object[] { });
                 }
