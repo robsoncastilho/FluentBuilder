@@ -61,4 +61,30 @@ dependencyMock.Verify(dependency => dependency.Do(), Times.Once);
 
 #####1.3. AddingTo
 
+Allows setting elements in a collection, one by one:
+
+```csharp
+var customer = FluentBuilder<Customer>
+    .New()
+    .AddingTo(c => c.Addresses, new Address("1st Street"))
+    .AddingTo(c => c.Addresses, new Address("2nd Street"))
+    .Build();
+```
+
+Or:
+
+```csharp
+var customer = FluentBuilder<Customer>
+    .New()
+    .AddingTo(c => c.Addresses, FluentBuilder<Address>.New().With(a => a.Street, "1st Street").Build())
+    .AddingTo(c => c.Addresses, FluentBuilder<Address>.New().With(a => a.Street, "2nd Street").Build())
+    .Build();
+```
+
+The collection must be a read-only collection with a backing private field. If the collection is a writable property then you can set the whole collection using "With()".
+
+####2. Auto-initializing members
+
+####3. Implicit conversion
+
 **** IN CONSTRUCTION....

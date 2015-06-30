@@ -88,9 +88,20 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
+        public void Should_build_many_objects()
+        {
+            const int amountOfObjects = 3;
+
+            var collection = FluentBuilder<ComplexType>.Many(amountOfObjects);
+
+            CollectionAssert.AllItemsAreInstancesOfType(collection, typeof(ComplexType));
+            Assert.AreEqual(amountOfObjects, collection.Count);
+        }
+
+        [Test]
         public void Throws_exception_when_property_is_read_only()
         {
-            var dummy = "";
+            const string dummy = "";
 
             Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
                 .New()
@@ -112,7 +123,7 @@ namespace Nosbor.FluentBuilder.Tests
         [Test]
         public void Throws_exception_when_underlying_field_for_collection_is_not_found()
         {
-            int dummy = 0;
+            const int dummy = 0;
 
             Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
                 .New()

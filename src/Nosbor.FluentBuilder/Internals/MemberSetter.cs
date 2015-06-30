@@ -6,7 +6,7 @@ namespace Nosbor.FluentBuilder.Internals
 {
     internal class MemberSetter<T> where T : class
     {
-        private static BindingFlags _defaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
+        private const BindingFlags DefaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
 
         internal void SetMember(T destinationObject, string memberName, object newValue)
         {
@@ -48,25 +48,25 @@ namespace Nosbor.FluentBuilder.Internals
             AddElementsTo(destinationObject, fieldInfo, genericList, collectionValues);
         }
 
-        private Type BuildGenericListFrom(FieldInfo fieldInfo)
+        private static Type BuildGenericListFrom(FieldInfo fieldInfo)
         {
             var genericTypes = fieldInfo.FieldType.GenericTypeArguments;
             return typeof(List<>).MakeGenericType(genericTypes);
         }
 
-        private void SetGenericListInstanceTo(T destinationObject, FieldInfo fieldInfo, Type genericListType)
+        private static void SetGenericListInstanceTo(T destinationObject, FieldInfo fieldInfo, Type genericListType)
         {
             var instance = Activator.CreateInstance(genericListType);
             fieldInfo.SetValue(destinationObject, instance);
         }
 
-        private void AddElementsTo(T destinationObject, FieldInfo fieldInfo, Type genericListType, IList<object> collectionValues)
+        private static void AddElementsTo(T destinationObject, FieldInfo fieldInfo, Type genericListType, IList<object> collectionValues)
         {
             var methodInfo = genericListType.GetMethod("Add");
             var fieldInstance = fieldInfo.GetValue(destinationObject);
 
             foreach (var value in collectionValues)
-                methodInfo.Invoke(fieldInstance, new object[] { value });
+                methodInfo.Invoke(fieldInstance, new[] { value });
         }
 
         private static FieldInfo GetFieldApplyingConventionsIn(string fieldName)
@@ -74,13 +74,13 @@ namespace Nosbor.FluentBuilder.Internals
             FieldInfo fieldInfo = null;
             foreach (var fieldNameConvention in GetDefaultConventionsFor(fieldName))
             {
-                fieldInfo = typeof(T).GetField(fieldNameConvention, _defaultFieldBindingFlags);
+                fieldInfo = typeof(T).GetField(fieldNameConvention, DefaultFieldBindingFlags);
                 if (fieldInfo != null) break;
             }
             return fieldInfo;
         }
 
-        private static string[] GetDefaultConventionsFor(string fieldName)
+        private static IEnumerable<string> GetDefaultConventionsFor(string fieldName)
         {
             return new[] { fieldName, "_" + fieldName };
         }
