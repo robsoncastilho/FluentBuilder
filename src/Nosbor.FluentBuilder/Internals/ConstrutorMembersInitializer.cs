@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nosbor.FluentBuilder.Lib;
+using System;
 using System.Linq;
 
 namespace Nosbor.FluentBuilder.Internals

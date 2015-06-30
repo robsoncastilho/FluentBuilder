@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nosbor.FluentBuilder.Lib;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -23,12 +24,17 @@ namespace Nosbor.FluentBuilder.Extensions.PtBr
             where T : class
             where TCollectionProperty : IEnumerable<TElement>
         {
-            return builder.AddingTo<TCollectionProperty, TElement>(expression, newElement);
+            return builder.AddingTo(expression, newElement);
         }
 
         public static T Criar<T>(this FluentBuilder<T> builder) where T : class
         {
             return builder.Build();
+        }
+
+        public static IEnumerable<T> EmUmaLista<T>(this FluentBuilder<T> builder) where T : class
+        {
+            return builder.AsList();
         }
     }
 }

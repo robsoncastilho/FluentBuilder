@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
-namespace Nosbor.FluentBuilder
+namespace Nosbor.FluentBuilder.Lib
 {
     public sealed class FluentBuilder<T> where T : class
     {

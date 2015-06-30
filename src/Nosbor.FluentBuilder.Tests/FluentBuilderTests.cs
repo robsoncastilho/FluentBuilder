@@ -1,4 +1,5 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Lib;
 using Nosbor.FluentBuilder.Tests.SampleClasses;
 using NUnit.Framework;
 using System.Collections.Generic;
