@@ -22,7 +22,8 @@ namespace Nosbor.FluentBuilder.Tests.SampleClasses
         public IEnumerable<int> CollectionWithFieldNotFollowingNameConvention { get { return _anotherName; } }
 
         public ComplexType(string privateField, string publicField, string propertyWithSetter, string propertyWithBackingField,
-            AnotherComplexType anotherComplexType, AnotherComplexType anotherComplexTypeINSENSITIVECASETest, ComplexType sameTypeEntityIsNotInitialized)
+            AnotherComplexType anotherComplexType, AnotherComplexType anotherComplexTypeINSENSITIVECASETest, ComplexType sameTypeEntityIsNotInitialized,
+            IEnumerable<AnotherComplexType> collectionWithFieldFollowingNameConvention)
         {
             // initialize members... 
         }

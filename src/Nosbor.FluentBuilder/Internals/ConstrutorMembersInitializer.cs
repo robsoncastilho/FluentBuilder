@@ -13,13 +13,19 @@ namespace Nosbor.FluentBuilder.Internals
 
             foreach (var parameter in parameters)
             {
-                object defaultValue = null;
                 var parameterType = parameter.ParameterType;
+                if (parameterType == typeof(T)) continue;
+
+                object defaultValue = null;
                 if (parameterType == typeof(string))
                 {
                     defaultValue = parameter.Name;
                 }
-                else if (parameterType.IsClass && parameterType != typeof(T))
+                else if (typeof(System.Collections.IEnumerable).IsAssignableFrom(parameterType))
+                {
+
+                }
+                else if (parameterType.IsClass)
                 {
                     var typeOfBuilder = typeof(FluentBuilder<>).MakeGenericType(parameterType);
                     var builderForChildObject = Activator.CreateInstance(typeOfBuilder);

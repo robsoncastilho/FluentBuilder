@@ -61,6 +61,7 @@ namespace Nosbor.FluentBuilder.Tests
             Assert.AreEqual("propertyWithBackingField", createdObject.PropertyWithBackingField);
             Assert.AreEqual("name", createdObject.AnotherComplexType.Name);
             Assert.AreEqual("name", createdObject.AnotherComplexTypeInsensitiveCaseTest.Name);
+            Assert.IsNotNull(createdObject.CollectionWithFieldFollowingNameConvention);
 
             // TODO: assert private field
         }
