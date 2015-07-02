@@ -23,6 +23,8 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\FluentBuilderException.cs" />
-    <Compile Include="Extensions\PtBr\FluentBuilderPtBr.cs" />
+    <Compile Include="Globalization\PtBr\FluentBuilderBr.cs" />
     <Compile Include="Internals\ConstrutorMembersInitializer.cs" />
     <Compile Include="Internals\GenericTypeCreator.cs" />
     <Compile Include="Internals\MemberSetter.cs" />
