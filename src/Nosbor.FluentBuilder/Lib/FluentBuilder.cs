@@ -57,7 +57,7 @@ namespace Nosbor.FluentBuilder.Lib
         /// <summary>
         /// Returns a list with the amount of requested items
         /// </summary>        
-        public static IList<T> Many(int howMany)
+        public static IEnumerable<T> Many(int howMany)
         {
             return Enumerable.Range(0, howMany).Select(i => New().Build()).ToList();
         }

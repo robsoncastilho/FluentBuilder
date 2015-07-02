@@ -95,7 +95,7 @@ namespace Nosbor.FluentBuilder.Tests
 
             var collection = FluentBuilder<ComplexType>.Many(amountOfObjects);
 
-            Assert.AreEqual(amountOfObjects, collection.Count);
+            Assert.AreEqual(amountOfObjects, collection.Count());
         }
 
         [Test]
