@@ -64,6 +64,7 @@ namespace Nosbor.FluentBuilder.Tests
             Assert.AreEqual("name", createdObject.AnotherComplexType.Name);
             Assert.AreEqual("name", createdObject.AnotherComplexTypeInsensitiveCaseTest.Name);
             Assert.IsNotNull(createdObject.CollectionWithFieldFollowingNameConvention);
+            Assert.IsNull(createdObject.AbstractComplexType);
 
             // TODO: assert private field
         }

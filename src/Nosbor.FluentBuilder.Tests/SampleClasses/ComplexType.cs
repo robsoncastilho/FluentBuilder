@@ -10,6 +10,8 @@ namespace Nosbor.FluentBuilder.Tests.SampleClasses
         public List<string> CollectionWithSetter { get; protected set; }
         public AnotherComplexType AnotherComplexType { get; private set; }
         public AnotherComplexType AnotherComplexTypeInsensitiveCaseTest { get; private set; }
+        public AbstractComplexType AbstractComplexType { get; private set; }
+
         public ComplexType SameTypeEntityIsNotInitialized { get; private set; }
 
         private string _propertyWithBackingField;
@@ -23,10 +25,14 @@ namespace Nosbor.FluentBuilder.Tests.SampleClasses
 
         public ComplexType(string privateField, string publicField, string propertyWithSetter, string propertyWithBackingField,
             AnotherComplexType anotherComplexType, AnotherComplexType anotherComplexTypeINSENSITIVECASETest, ComplexType sameTypeEntityIsNotInitialized,
-            List<AnotherComplexType> collectionWithFieldFollowingNameConvention)
+            List<AnotherComplexType> collectionWithFieldFollowingNameConvention, AbstractComplexType abstractComplexType)
         {
             // initialize members... 
         }
+    }
+
+    internal abstract class AbstractComplexType
+    {
     }
 
     internal class AnotherComplexType
