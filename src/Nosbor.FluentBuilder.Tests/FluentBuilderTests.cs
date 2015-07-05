@@ -58,6 +58,7 @@ namespace Nosbor.FluentBuilder.Tests
         {
             var createdObject = FluentBuilder<ComplexType>.New().Build();
 
+            Assert.AreEqual("privateField", createdObject.PropertyOnlyForTestingPurpose);
             Assert.AreEqual("publicField", createdObject.PublicField);
             Assert.AreEqual("propertyWithSetter", createdObject.PropertyWithSetter);
             Assert.AreEqual("propertyWithBackingField", createdObject.PropertyWithBackingField);
@@ -65,8 +66,6 @@ namespace Nosbor.FluentBuilder.Tests
             Assert.AreEqual("name", createdObject.AnotherComplexTypeInsensitiveCaseTest.Name);
             Assert.IsNotNull(createdObject.CollectionWithFieldFollowingNameConvention);
             Assert.IsNull(createdObject.AbstractComplexType);
-
-            // TODO: assert private field
         }
 
         [Test]
@@ -104,12 +103,12 @@ namespace Nosbor.FluentBuilder.Tests
         {
             var concreteService = new SampleConcreteDependency();
 
-            FluentBuilder<SampleServiceWithDependency>
+            var createdObject = FluentBuilder<SampleServiceWithDependency>
                 .New()
                 .WithDependency<IDependency, SampleConcreteDependency>(concreteService)
                 .Build();
 
-            // TODO: assert private field
+            Assert.AreEqual(createdObject.PropertyOnlyForTestingPurpose, concreteService);
         }
 
         [Test]

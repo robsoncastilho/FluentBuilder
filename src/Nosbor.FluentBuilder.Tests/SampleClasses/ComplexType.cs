@@ -29,6 +29,8 @@ namespace Nosbor.FluentBuilder.Tests.SampleClasses
         {
             // initialize members... 
         }
+
+        public string PropertyOnlyForTestingPurpose { get { return privateField; } }
     }
 
     internal abstract class AbstractComplexType

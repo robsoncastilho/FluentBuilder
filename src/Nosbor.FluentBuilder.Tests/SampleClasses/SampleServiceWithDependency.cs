@@ -8,6 +8,8 @@
         {
             _dependency = dependency;
         }
+
+        public IDependency PropertyOnlyForTestingPurpose { get { return _dependency; } }
     }
 
     internal interface IDependency
