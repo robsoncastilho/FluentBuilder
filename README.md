@@ -9,6 +9,10 @@ Library for dynamic creation of objects, implemented with a focus on writing mor
 Install-Package Nosbor.FluentBuilder
 ```
 
+### Compatibility
+
+.Net Framework 4.5 or higher.
+
 ### Features
 
 ####1. Public API
@@ -104,8 +108,12 @@ IEnumerable<Address> addresses = FluentBuilder<Address>
 
 It's helpful when just one object is necessary for the test but the method/construtor of the SUT requires a collection of objects of that type.
 
-####2. Auto-initializing members
+####2. Implicit conversion
 
-####3. Implicit conversion
+Allows calling Build() to be avoided since you use the returned type explicitly instead of 'var':
+
+```csharp
+Address address = FluentBuilder<Address>.New().With(a => a.Street, "1st Street");
+```
 
 **** IN CONSTRUCTION....
