@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\FluentBuilderException.cs" />
-    <Compile Include="Globalization\PtBr\FluentBuilderBr.cs" />
     <Compile Include="Internals\ConstrutorMembersInitializer.cs" />
     <Compile Include="Internals\GenericTypeCreator.cs" />
     <Compile Include="Internals\MemberSetter.cs" />

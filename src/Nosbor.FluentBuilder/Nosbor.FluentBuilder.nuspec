@@ -10,8 +10,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>$version$ : 
-		- FluentBuilderException's constructor made internal
-	</releaseNotes>
+		- Removed brazilian version (it is available now from another package: Nosbor.FluentBuilder.Br)
+	  </releaseNotes>
     <copyright>Copyright Robson Castilho 2015</copyright>
     <tags>builder unittest testing</tags>
   </metadata>
