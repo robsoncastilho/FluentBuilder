@@ -176,11 +176,5 @@ namespace Nosbor.FluentBuilder.Tests
 
             Assert.LessOrEqual(stopWatch.Elapsed.Seconds, expectedMaxTime);
         }
-
-        [Test, Ignore]
-        public void Should_build_object_setting_public_fields()
-        {
-
-        }
     }
 }

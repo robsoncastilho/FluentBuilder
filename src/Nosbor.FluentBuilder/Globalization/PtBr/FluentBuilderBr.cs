@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace Nosbor.FluentBuilder.Globalization.PtBr
 {
     /// <summary>
-    /// Wrapper exposing builder API in Brazilian Portuguese
+    /// FluentBuilder - API traduzida para o português do Brasil
     /// </summary>
     public sealed class FluentBuilderBr<T> where T : class
     {
@@ -37,23 +37,23 @@ namespace Nosbor.FluentBuilder.Globalization.PtBr
             return _builder.AsList();
         }
 
-        public FluentBuilderBr<T> Com<TPropriedade>(Expression<Func<T, TPropriedade>> expressao, TPropriedade valor)
+        public FluentBuilderBr<T> Com<TPropriedade>(Expression<Func<T, TPropriedade>> expressao, TPropriedade novoValor)
         {
-            _builder.With(expressao, valor);
+            _builder.With(expressao, novoValor);
             return this;
         }
 
-        public FluentBuilderBr<T> ComDependencia<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
-            where TServiceImplementation : TServiceInterface
+        public FluentBuilderBr<T> ComDependencia<TInterface, TImplementacao>(TImplementacao implementacao)
+            where TImplementacao : TInterface
         {
-            _builder.WithDependency<TServiceInterface, TServiceImplementation>(serviceImplementation);
+            _builder.WithDependency<TInterface, TImplementacao>(implementacao);
             return this;
         }
 
-        public FluentBuilderBr<T> AdicionandoEm<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, TElement newElement)
-            where TCollectionProperty : IEnumerable<TElement>
+        public FluentBuilderBr<T> AdicionandoEm<TColecao, TElemento>(Expression<Func<T, TColecao>> expressao, TElemento novoElemento)
+            where TColecao : IEnumerable<TElemento>
         {
-            _builder.AddingTo(expression, newElement);
+            _builder.AddingTo(expressao, novoElemento);
             return this;
         }
     }
