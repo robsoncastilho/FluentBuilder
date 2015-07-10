@@ -74,6 +74,17 @@ namespace Nosbor.FluentBuilder.Lib
         }
 
         /// <summary>
+        /// Configures the builder to set a member with the informed value.
+        /// <para>(Member name must be the same as its type name)</para>
+        /// </summary>
+        public FluentBuilder<T> With<TMember>(TMember newValue) where TMember : class
+        {
+            var propertyName = typeof(TMember).Name;
+            _properties[propertyName] = newValue;
+            return this;
+        }
+
+        /// <summary>
         /// Configures the builder to set a private field with the dependency informed.
         /// <para>(This method makes possible to set a concrete dependency for integrated tests or a test double for unit tests)</para>
         /// <para>(If dependency interface is 'ICustomerRepository' then field name must be 'customerRepository' or '_customerRepository' - case is ignored)</para>

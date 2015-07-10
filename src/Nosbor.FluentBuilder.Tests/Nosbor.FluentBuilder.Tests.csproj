@@ -39,6 +39,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FluentBuilderExceptionsTests.cs" />
     <Compile Include="SampleClasses\ComplexType.cs" />
     <Compile Include="FluentBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

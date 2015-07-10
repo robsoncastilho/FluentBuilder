@@ -1,5 +1,4 @@
-﻿using Nosbor.FluentBuilder.Exceptions;
-using Nosbor.FluentBuilder.Lib;
+﻿using Nosbor.FluentBuilder.Lib;
 using Nosbor.FluentBuilder.Tests.SampleClasses;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -28,6 +27,25 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
+        public void Should_build_object_setting_writable_property_just_passing_the_value()
+        {
+            var newValueForACorrespondingProperty = new AnotherComplexType("any");
+
+            var createdObject = FluentBuilder<ComplexType>
+                .New()
+                .With(newValueForACorrespondingProperty)
+                .Build();
+
+            Assert.AreEqual(newValueForACorrespondingProperty, createdObject.AnotherComplexType);
+        }
+
+        [Test, Ignore]
+        public void Should_build_object_setting_field_just_passing_the_value()
+        {
+
+        }
+
+        [Test]
         public void Should_build_object_setting_an_element_from_a_collection()
         {
             var anObject = new AnotherComplexType("Robson");
@@ -39,8 +57,8 @@ namespace Nosbor.FluentBuilder.Tests
                 .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, otherObject)
                 .Build();
 
-            var expectedAddresses = new List<AnotherComplexType> { anObject, otherObject };
-            CollectionAssert.AreEqual(expectedAddresses, createdObject.CollectionWithFieldFollowingNameConvention);
+            var expected = new List<AnotherComplexType> { anObject, otherObject };
+            CollectionAssert.AreEqual(expected, createdObject.CollectionWithFieldFollowingNameConvention);
         }
 
         [Test]
@@ -61,7 +79,7 @@ namespace Nosbor.FluentBuilder.Tests
             Assert.AreEqual("privateField", createdObject.PropertyOnlyForTestingPurpose);
             Assert.AreEqual("publicField", createdObject.PublicField);
             Assert.AreEqual("propertyWithSetter", createdObject.PropertyWithSetter);
-            Assert.AreEqual("propertyWithBackingField", createdObject.PropertyWithBackingField);
+            Assert.AreEqual("readOnlyPropertyWithBackingField", createdObject.ReadOnlyPropertyWithBackingField);
             Assert.AreEqual("name", createdObject.AnotherComplexType.Name);
             Assert.AreEqual("name", createdObject.AnotherComplexTypeInsensitiveCaseTest.Name);
             Assert.IsNotNull(createdObject.CollectionWithFieldFollowingNameConvention);
@@ -111,46 +129,11 @@ namespace Nosbor.FluentBuilder.Tests
             Assert.AreEqual(createdObject.PropertyOnlyForTestingPurpose, concreteService);
         }
 
-        [Test]
-        public void Throws_exception_when_property_is_read_only()
+        [Test, Ignore]
+        public void Should_build_object_setting_association_to_an_association()
         {
-            const string dummy = "";
 
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
-                .With(newObject => newObject.PropertyWithBackingField, dummy)
-                .Build());
-        }
 
-        [Test]
-        public void Throws_exception_when_property_is_not_informed()
-        {
-            var dummy = (ComplexType)null;
-
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
-                .With(justAnObjectWithNoPropInformed => justAnObjectWithNoPropInformed, dummy)
-                .Build());
-        }
-
-        [Test]
-        public void Throws_exception_when_underlying_field_for_collection_is_not_found()
-        {
-            const int dummy = 0;
-
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
-                .AddingTo(newObject => newObject.CollectionWithFieldNotFollowingNameConvention, dummy)
-                .Build());
-        }
-
-        [Test]
-        public void Throws_exception_when_trying_to_set_property_of_child_object()
-        {
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
-                .With(newObject => newObject.AnotherComplexType.Name, "dummy")
-                .Build());
         }
 
         [TestCase(100000, 30), Ignore]
