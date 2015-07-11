@@ -14,12 +14,9 @@ namespace Nosbor.FluentBuilder.Lib
     public sealed class FluentBuilder<T> where T : class
     {
         private readonly T _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
-
         private readonly ConstrutorMembersInitializer<T> _membersInitializer = new ConstrutorMembersInitializer<T>();
-        private readonly MemberSetter<T> _memberSetter = new MemberSetter<T>();
 
-        private readonly Dictionary<string, IList<object>> _collections = new Dictionary<string, IList<object>>();
-
+        private SetFieldCollectionCommand _setFieldCollectionCommand;
         private List<ICommand> _commands = new List<ICommand>();
 
         /// <summary>
@@ -45,7 +42,6 @@ namespace Nosbor.FluentBuilder.Lib
         {
             _membersInitializer.InitializeMembersOf(_newObject);
             _commands.ForEach(command => command.Execute());
-            SetAllMembers();
             return _newObject;
         }
 
@@ -98,6 +94,7 @@ namespace Nosbor.FluentBuilder.Lib
             var dependencyName = Regex.Replace(typeof(TServiceInterface).Name, "^I", "");
             var fieldInfo = GetFieldApplyingConventionsIn(dependencyName);
             var fieldName = fieldInfo.Name;
+
             _commands.Add(new SetFieldCommand(_newObject, fieldName, serviceImplementation));
             return this;
         }
@@ -110,12 +107,18 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> AddingTo<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, TElement newElement)
             where TCollectionProperty : IEnumerable<TElement>
         {
-            var propertyName = GetMemberNameFor(expression);
+            var collectionName = GetMemberNameFor(expression);
 
-            if (!_collections.ContainsKey(propertyName))
-                _collections[propertyName] = new List<object>();
+            // TODO: refactoring 
+            var fieldInfo = GetFieldApplyingConventionsIn(collectionName);
+            var fieldName = fieldInfo == null ? null : fieldInfo.Name;
 
-            _collections[propertyName].Add(newElement);
+            if (_setFieldCollectionCommand == null)
+            {
+                _setFieldCollectionCommand = new SetFieldCollectionCommand(_newObject, fieldName);
+                _commands.Add(_setFieldCollectionCommand);
+            }
+            _setFieldCollectionCommand.Add(newElement);
             return this;
         }
 
@@ -147,24 +150,6 @@ namespace Nosbor.FluentBuilder.Lib
         private static IEnumerable<string> GetDefaultConventionsFor(string fieldName)
         {
             return new[] { fieldName, "_" + fieldName };
-        }
-
-        private void SetAllMembers()
-        {
-            foreach (var collection in _collections)
-                SetCollection(collection.Key, collection.Value);
-        }
-
-        private void SetCollection(string collectionName, IList<object> collectionValues)
-        {
-            try
-            {
-                _memberSetter.SetCollection(_newObject, collectionName, collectionValues);
-            }
-            catch (Exception exception)
-            {
-                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", collectionName), exception);
-            }
         }
     }
 }

@@ -9,7 +9,6 @@ namespace Nosbor.FluentBuilder.Commands
         private object _object;
         private object _newValue;
         private PropertyInfo _propertyInfo;
-
         private string _errorMessage = "Can't set value";
 
         internal SetPropertyCommand(object @object, string propertyName, object newValue)

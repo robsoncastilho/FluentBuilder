@@ -13,10 +13,9 @@ namespace Nosbor.FluentBuilder.Tests.Commands
             var @object = new SampleTypeWithProperties();
             var propertyName = "WritableProperty";
             var newValue = 10;
+            var command = new SetPropertyCommand(@object, propertyName, newValue);
 
-            var cmd = new SetPropertyCommand(@object, propertyName, newValue);
-
-            cmd.Execute();
+            command.Execute();
 
             Assert.AreEqual(newValue, @object.WritableProperty);
         }

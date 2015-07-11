@@ -1,4 +1,5 @@
 ﻿using Nosbor.FluentBuilder.Commands;
+using Nosbor.FluentBuilder.Exceptions;
 using NUnit.Framework;
 namespace Nosbor.FluentBuilder.Tests.Commands
 {
@@ -31,10 +32,16 @@ namespace Nosbor.FluentBuilder.Tests.Commands
             Assert.AreEqual(newValue, @object.PropertyOnlyForTestingPurpose);
         }
 
-        [Test, Ignore]
-        public void Should_not_create_invalid_command()
+        [TestCase("field", null, Description = "When value is null")]
+        [TestCase("field", "string", Description = "When field type is different from value type")]
+        [TestCase(null, 10, Description = "When field name is null")]
+        public void Should_not_create_invalid_command(string fieldName, object newValue)
         {
+            var @object = new SampleTypeWithFields();
 
+            TestDelegate testAction = () => new SetFieldCommand(@object, fieldName, newValue);
+
+            Assert.Throws<FluentBuilderException>(testAction);
         }
     }
 
