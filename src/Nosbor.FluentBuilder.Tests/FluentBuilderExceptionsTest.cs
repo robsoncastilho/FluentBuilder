@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Nosbor.FluentBuilder.Tests
 {
     [TestFixture]
-    public class FluentBuilderExceptionsTests
+    public class FluentBuilderExceptionsTest
     {
         [Test]
         public void Throws_exception_when_property_is_read_only()
@@ -57,8 +57,7 @@ namespace Nosbor.FluentBuilder.Tests
 
             Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
                 .New()
-                .With(newValue)
-                .Build());
+                .With(newValue));
         }
 
         [Test]

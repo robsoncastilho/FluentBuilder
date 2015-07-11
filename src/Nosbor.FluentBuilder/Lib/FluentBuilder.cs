@@ -1,9 +1,11 @@
+using Nosbor.FluentBuilder.Commands;
 using Nosbor.FluentBuilder.Exceptions;
 using Nosbor.FluentBuilder.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
@@ -16,9 +18,9 @@ namespace Nosbor.FluentBuilder.Lib
         private readonly ConstrutorMembersInitializer<T> _membersInitializer = new ConstrutorMembersInitializer<T>();
         private readonly MemberSetter<T> _memberSetter = new MemberSetter<T>();
 
-        private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
-        private readonly Dictionary<string, object> _dependencies = new Dictionary<string, object>();
         private readonly Dictionary<string, IList<object>> _collections = new Dictionary<string, IList<object>>();
+
+        private List<ICommand> _commands = new List<ICommand>();
 
         /// <summary>
         /// Returns an instance of the builder to start the fluent creation of the object.
@@ -42,6 +44,7 @@ namespace Nosbor.FluentBuilder.Lib
         public T Build()
         {
             _membersInitializer.InitializeMembersOf(_newObject);
+            _commands.ForEach(command => command.Execute());
             SetAllMembers();
             return _newObject;
         }
@@ -69,7 +72,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> expression, TProperty newValue)
         {
             var propertyName = GetMemberNameFor(expression);
-            _properties[propertyName] = newValue;
+            _commands.Add(new SetPropertyCommand(_newObject, propertyName, newValue));
             return this;
         }
 
@@ -80,7 +83,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> With<TMember>(TMember newValue) where TMember : class
         {
             var propertyName = typeof(TMember).Name;
-            _properties[propertyName] = newValue;
+            _commands.Add(new SetPropertyCommand(_newObject, propertyName, newValue));
             return this;
         }
 
@@ -92,8 +95,10 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> WithDependency<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
             where TServiceImplementation : TServiceInterface
         {
-            var dependencyName = typeof(TServiceInterface).Name;
-            _dependencies[dependencyName] = serviceImplementation;
+            var dependencyName = Regex.Replace(typeof(TServiceInterface).Name, "^I", "");
+            var fieldInfo = GetFieldApplyingConventionsIn(dependencyName);
+            var fieldName = fieldInfo.Name;
+            _commands.Add(new SetFieldCommand(_newObject, fieldName, serviceImplementation));
             return this;
         }
 
@@ -126,40 +131,28 @@ namespace Nosbor.FluentBuilder.Lib
             return memberExpression.Member.Name;
         }
 
+        private const BindingFlags DefaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
+
+        private static FieldInfo GetFieldApplyingConventionsIn(string fieldName)
+        {
+            FieldInfo fieldInfo = null;
+            foreach (var fieldNameConvention in GetDefaultConventionsFor(fieldName))
+            {
+                fieldInfo = typeof(T).GetField(fieldNameConvention, DefaultFieldBindingFlags);
+                if (fieldInfo != null) break;
+            }
+            return fieldInfo;
+        }
+
+        private static IEnumerable<string> GetDefaultConventionsFor(string fieldName)
+        {
+            return new[] { fieldName, "_" + fieldName };
+        }
+
         private void SetAllMembers()
         {
-            foreach (var property in _properties)
-                SetWritableProperty(property.Key, property.Value);
-
-            foreach (var dependency in _dependencies)
-                SetDependencyField(dependency.Key, dependency.Value);
-
             foreach (var collection in _collections)
                 SetCollection(collection.Key, collection.Value);
-        }
-
-        private void SetWritableProperty(string propertyName, object newValue)
-        {
-            try
-            {
-                _memberSetter.SetWritableProperty(_newObject, propertyName, newValue);
-            }
-            catch (Exception exception)
-            {
-                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", propertyName), exception);
-            }
-        }
-
-        private void SetDependencyField(string fieldName, object newValue)
-        {
-            try
-            {
-                _memberSetter.SetField(_newObject, Regex.Replace(fieldName, "^I", ""), newValue);
-            }
-            catch (Exception exception)
-            {
-                throw new FluentBuilderException(string.Format("Failed setting value for '{0}'", fieldName), exception);
-            }
         }
 
         private void SetCollection(string collectionName, IList<object> collectionValues)

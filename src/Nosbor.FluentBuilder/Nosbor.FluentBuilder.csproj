@@ -41,6 +41,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\SetFieldCommand.cs" />
+    <Compile Include="Commands\SetPropertyCommand.cs" />
     <Compile Include="Exceptions\FluentBuilderException.cs" />
     <Compile Include="Internals\ConstrutorMembersInitializer.cs" />
     <Compile Include="Internals\GenericTypeCreator.cs" />

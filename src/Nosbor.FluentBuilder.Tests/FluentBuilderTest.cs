@@ -8,7 +8,7 @@ using System.Linq;
 namespace Nosbor.FluentBuilder.Tests
 {
     [TestFixture]
-    public class FluentBuilderTests
+    public class FluentBuilderTest
     {
         [Test]
         public void Should_build_object_setting_writable_properties()

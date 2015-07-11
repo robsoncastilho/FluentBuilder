@@ -39,9 +39,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FluentBuilderExceptionsTests.cs" />
+    <Compile Include="Commands\SetFieldCollectionCommandTest.cs" />
+    <Compile Include="Commands\SetFieldCommandTest.cs" />
+    <Compile Include="Commands\SetPropertyCommandTest.cs" />
+    <Compile Include="FluentBuilderExceptionsTest.cs" />
     <Compile Include="SampleClasses\ComplexType.cs" />
-    <Compile Include="FluentBuilderTests.cs" />
+    <Compile Include="FluentBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleClasses\SampleServiceWithDependency.cs" />
   </ItemGroup>
