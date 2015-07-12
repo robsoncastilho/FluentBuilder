@@ -20,7 +20,7 @@ Install-Package Nosbor.FluentBuilder
 
 Creates a new FluentBuilder instance and starts the fluent construction of the destination object (see next sections).
 
-#####1.2. With(expression, value)
+#####1.2. With
 
 Allows setting values for writable properties (ie. properties must have 'set' with any kind of modifier):
 
@@ -32,7 +32,7 @@ var newAddress = FluentBuilder<Address>
                 .Build();
 ```
 
-######1.2.1 With(value)
+######1.2.1 With (just passing the new value)
 
 Allows setting a value (reference type) just passing its instance. FluentBuilder will find the corresponding member to receive the instance based on naming convention:
 
