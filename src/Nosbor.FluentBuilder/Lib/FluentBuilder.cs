@@ -12,13 +12,12 @@ namespace Nosbor.FluentBuilder.Lib
     public sealed class FluentBuilder<T> where T : class
     {
         private readonly T _newObject;
-        private readonly Dictionary<string, SetFieldCollectionCommand> _collections = new Dictionary<string, SetFieldCollectionCommand>();
-        private readonly List<ICommand> _commands = new List<ICommand>();
+        private readonly Dictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
 
         public FluentBuilder()
         {
             _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
-            _commands.Add(new SetDefaultValuesForRequiredMembersCommand(_newObject));
+            _commands["defaultValues"] = new SetDefaultValuesForRequiredMembersCommand(_newObject);
         }
 
         /// <summary>
@@ -42,7 +41,7 @@ namespace Nosbor.FluentBuilder.Lib
         /// </summary>
         public T Build()
         {
-            _commands.ForEach(command => command.Execute());
+            foreach (var command in _commands.Values) command.Execute();
             return _newObject;
         }
 
@@ -69,7 +68,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> expression, TProperty newValue)
         {
             var propertyName = GetMemberQuery.GetPropertyNameFor<T, TProperty>(expression);
-            _commands.Add(new SetPropertyCommand(_newObject, propertyName, newValue));
+            _commands[propertyName] = new SetPropertyCommand(_newObject, propertyName, newValue);
             return this;
         }
 
@@ -80,7 +79,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> With<TMember>(TMember newValue) where TMember : class
         {
             var memberName = typeof(TMember).Name;
-            _commands.Add(new SetMemberCommand(_newObject, memberName, newValue));
+            _commands[memberName] = new SetMemberCommand(_newObject, memberName, newValue);
             return this;
         }
 
@@ -93,7 +92,7 @@ namespace Nosbor.FluentBuilder.Lib
             where TServiceImplementation : TServiceInterface
         {
             var fieldName = GetMemberQuery.GetFieldNameFor<T>(Regex.Replace(typeof(TServiceInterface).Name, "^I", ""));
-            _commands.Add(new SetFieldCommand(_newObject, fieldName, serviceImplementation));
+            _commands[fieldName] = new SetFieldCommand(_newObject, fieldName, serviceImplementation);
             return this;
         }
 
@@ -114,12 +113,11 @@ namespace Nosbor.FluentBuilder.Lib
 
         private SetFieldCollectionCommand GetCommandFor(string fieldName)
         {
-            if (_collections.ContainsKey(fieldName))
-                return _collections[fieldName];
+            if (_commands.ContainsKey(fieldName))
+                return (SetFieldCollectionCommand)_commands[fieldName];
 
             var setFieldCollectionCommand = new SetFieldCollectionCommand(_newObject, fieldName);
-            _collections[fieldName] = setFieldCollectionCommand;
-            _commands.Add(setFieldCollectionCommand);
+            _commands[fieldName] = setFieldCollectionCommand;
             return setFieldCollectionCommand;
         }
     }
