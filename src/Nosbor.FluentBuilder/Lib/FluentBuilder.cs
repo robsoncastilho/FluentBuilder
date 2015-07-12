@@ -58,7 +58,7 @@ namespace Nosbor.FluentBuilder.Lib
         /// </summary>        
         public static IEnumerable<T> Many(int howMany)
         {
-            return Enumerable.Range(0, howMany).Select(i => New().Build()).ToList();
+            return Enumerable.Repeat(New().Build(), howMany);
         }
 
         /// <summary>
