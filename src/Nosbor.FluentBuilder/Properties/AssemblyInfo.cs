@@ -23,7 +23,9 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("4681d267-52ac-4e96-aa81-dc7c5501963e")]
 
+// Allows visibility of internal members to the test project
 [assembly: InternalsVisibleTo("Nosbor.FluentBuilder.Tests")]
+
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version
@@ -34,4 +36,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.7.0")]
+[assembly: AssemblyVersion("0.8.0")]

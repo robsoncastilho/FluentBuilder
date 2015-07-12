@@ -9,9 +9,7 @@
     <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>$version$ : 
-		- Removed brazilian version (it is available now from another package: Nosbor.FluentBuilder.Br)
-	  </releaseNotes>
+    <releaseNotes>$version$ : New method (overload for With()) allows passing just a value and finds corresponding field/property by convention name</releaseNotes>
     <copyright>Copyright Robson Castilho 2015</copyright>
     <tags>builder unittest testing</tags>
   </metadata>
