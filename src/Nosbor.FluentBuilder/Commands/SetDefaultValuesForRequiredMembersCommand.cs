@@ -1,31 +1,45 @@
-﻿using Nosbor.FluentBuilder.Commands;
+﻿using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Internals;
 using Nosbor.FluentBuilder.Lib;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Nosbor.FluentBuilder.Internals
+namespace Nosbor.FluentBuilder.Commands
 {
-    internal class ConstrutorMembersInitializer<T> where T : class
+    internal class SetDefaultValuesForRequiredMembersCommand : ICommand
     {
+        private readonly object _object;
         private readonly GenericTypeCreator _genericTypeCreator = new GenericTypeCreator();
-        private List<ICommand> _commands = new List<ICommand>();
+        private string _errorMessage = "Can't set value";
 
-        internal void InitializeMembersOf(T destinationObject)
+        internal SetDefaultValuesForRequiredMembersCommand(object @object)
         {
-            var parameters = typeof(T).GetConstructors().ToList().SelectMany(ctorInfo => ctorInfo.GetParameters());
+            ValidateArguments(@object);
+            _object = @object;
+        }
+
+        private void ValidateArguments(object @object)
+        {
+            if (@object == null)
+                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("@object"));
+        }
+
+        public void Execute()
+        {
+            var objectType = _object.GetType();
+            var parameters = objectType.GetConstructors().ToList().SelectMany(ctorInfo => ctorInfo.GetParameters());
 
             foreach (var parameterInfo in parameters)
             {
                 var parameterType = parameterInfo.ParameterType;
-                if (parameterType == typeof(T)) continue;
+                if (parameterType == objectType) continue;
 
                 var defaultValue = CreateDefaultValueBasedOnParameterType(parameterInfo);
 
                 if (defaultValue != null)
                 {
-                    var command = new SetMemberCommand(destinationObject, parameterInfo.Name, defaultValue);
+                    var command = new SetMemberCommand(_object, parameterInfo.Name, defaultValue);
                     command.Execute();
                 }
             }
@@ -52,6 +66,11 @@ namespace Nosbor.FluentBuilder.Internals
                 defaultValue = methodInfo.Invoke(builderForChildObject, new object[] { });
             }
             return defaultValue;
+        }
+
+        private string AppendErrorMessage(string aditionalMessage)
+        {
+            return string.Format("{0} - {1}", _errorMessage, aditionalMessage);
         }
     }
 }

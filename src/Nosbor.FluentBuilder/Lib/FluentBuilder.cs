@@ -1,5 +1,4 @@
 using Nosbor.FluentBuilder.Commands;
-using Nosbor.FluentBuilder.Internals;
 using Nosbor.FluentBuilder.Queries;
 using System;
 using System.Collections.Generic;
@@ -12,11 +11,15 @@ namespace Nosbor.FluentBuilder.Lib
 {
     public sealed class FluentBuilder<T> where T : class
     {
-        private readonly T _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
-        private readonly ConstrutorMembersInitializer<T> _membersInitializer = new ConstrutorMembersInitializer<T>();
-
+        private readonly T _newObject;
         private SetFieldCollectionCommand _setFieldCollectionCommand;
         private List<ICommand> _commands = new List<ICommand>();
+
+        public FluentBuilder()
+        {
+            _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
+            _commands.Add(new SetDefaultValuesForRequiredMembersCommand(_newObject));
+        }
 
         /// <summary>
         /// Returns an instance of the builder to start the fluent creation of the object.
@@ -39,7 +42,6 @@ namespace Nosbor.FluentBuilder.Lib
         /// </summary>
         public T Build()
         {
-            _membersInitializer.InitializeMembersOf(_newObject);
             _commands.ForEach(command => command.Execute());
             return _newObject;
         }

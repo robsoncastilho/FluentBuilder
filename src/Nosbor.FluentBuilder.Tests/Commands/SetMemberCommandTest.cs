@@ -60,8 +60,9 @@ namespace Nosbor.FluentBuilder.Tests.Commands
         }
 
         [TestCase("WritableProperty", null, Description = "When value is null")]
-        [TestCase("NonExistentProperty", "dummyValue", Description = "When member was not found")]
+        [TestCase("MemberNotPropertyNorField", "dummyValue", Description = "When member is not property nor field")]
         [TestCase(null, 10, Description = "When member name is null")]
+        [TestCase("NonExistentProperty", "dummyValue", Description = "When member was not found")]
         public void Should_not_create_invalid_command_when(string memberName, object newValue)
         {
             var @object = new SampleTypeWithFieldAndProperties();
@@ -91,5 +92,7 @@ namespace Nosbor.FluentBuilder.Tests.Commands
         public int ReadOnlyPropertyWithUnderLyingField { get { return _readOnlyPropertyWithUnderLyingField; } }
 
         public int PropertyOnlyForTestingPurpose { get { return field; } }
+
+        public void MemberNotPropertyNorField() { }
     }
 }

@@ -47,7 +47,7 @@
     <Compile Include="Commands\SetMemberCommand.cs" />
     <Compile Include="Commands\SetPropertyCommand.cs" />
     <Compile Include="Exceptions\FluentBuilderException.cs" />
-    <Compile Include="Internals\ConstrutorMembersInitializer.cs" />
+    <Compile Include="Commands\SetDefaultValuesForRequiredMembersCommand.cs" />
     <Compile Include="Internals\GenericTypeCreator.cs" />
     <Compile Include="Lib\FluentBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

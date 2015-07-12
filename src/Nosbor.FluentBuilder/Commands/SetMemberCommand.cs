@@ -39,13 +39,16 @@ namespace Nosbor.FluentBuilder.Commands
         {
             if (_membersInfo.Length == 0)
                 throw new FluentBuilderException(AppendErrorMessage("Member not found"));
+
+            if (_membersInfo.Any(memberInfo => memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property))
+                throw new FluentBuilderException(AppendErrorMessage("Member must be a property or a field"));
         }
 
         // TODO: refactor
         public void Execute()
         {
             ICommand command = null;
-            foreach (var memberInfo in _membersInfo.ToList().OrderBy(m => m.MemberType))
+            foreach (var memberInfo in _membersInfo.ToList().OrderBy(mInfo => mInfo.MemberType))
             {
                 var memberName = memberInfo.Name;
                 if (memberInfo.MemberType == MemberTypes.Field)
@@ -66,8 +69,6 @@ namespace Nosbor.FluentBuilder.Commands
                     }
                 }
             }
-
-            if (command == null) return;
             command.Execute();
         }
 
