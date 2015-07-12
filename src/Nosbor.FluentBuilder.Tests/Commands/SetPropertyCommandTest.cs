@@ -7,17 +7,36 @@ namespace Nosbor.FluentBuilder.Tests.Commands
     [TestFixture]
     public class SetPropertyCommandTest
     {
+        private SampleTypeWithProperties _object;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _object = new SampleTypeWithProperties();
+        }
+
         [Test]
         public void Should_set_a_writable_property()
         {
-            var @object = new SampleTypeWithProperties();
             var propertyName = "WritableProperty";
             var newValue = 10;
-            var command = new SetPropertyCommand(@object, propertyName, newValue);
+            var command = new SetPropertyCommand(_object, propertyName, newValue);
 
             command.Execute();
 
-            Assert.AreEqual(newValue, @object.WritableProperty);
+            Assert.AreEqual(newValue, _object.WritableProperty);
+        }
+
+        [Test]
+        public void Should_set_a_writable_property_when_value_inherits_from_property_type()
+        {
+            var propertyName = "AbstractProperty";
+            var newValue = new ConcreteSampleType();
+            var command = new SetPropertyCommand(_object, propertyName, newValue);
+
+            command.Execute();
+
+            Assert.AreEqual(newValue, _object.AbstractProperty);
         }
 
         [TestCase("ReadOnlyProperty", 10, Description = "When property is read-only")]
@@ -27,9 +46,7 @@ namespace Nosbor.FluentBuilder.Tests.Commands
         [TestCase(null, 10, Description = "When property name is null")]
         public void Should_not_create_invalid_command_when(string propertyName, object newValue)
         {
-            var @object = new SampleTypeWithProperties();
-
-            TestDelegate testAction = () => new SetPropertyCommand(@object, propertyName, newValue);
+            TestDelegate testAction = () => new SetPropertyCommand(_object, propertyName, newValue);
 
             Assert.Throws<FluentBuilderException>(testAction);
         }
@@ -49,5 +66,15 @@ namespace Nosbor.FluentBuilder.Tests.Commands
     {
         public int WritableProperty { get; set; }
         public int ReadOnlyProperty { get { return 0; } }
+
+        public AbstractSampleType AbstractProperty { get; protected set; }
+    }
+
+    internal abstract class AbstractSampleType
+    {
+    }
+
+    internal class ConcreteSampleType : AbstractSampleType
+    {
     }
 }

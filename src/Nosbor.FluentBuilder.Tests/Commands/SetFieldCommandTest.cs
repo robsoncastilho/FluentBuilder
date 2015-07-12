@@ -1,35 +1,54 @@
 ﻿using Nosbor.FluentBuilder.Commands;
 using Nosbor.FluentBuilder.Exceptions;
 using NUnit.Framework;
+
 namespace Nosbor.FluentBuilder.Tests.Commands
 {
     [TestFixture]
     public class SetFieldCommandTest
     {
+        private SampleTypeWithFields _object;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _object = new SampleTypeWithFields();
+        }
+
         [Test]
         public void Should_set_a_public_field()
         {
-            var @object = new SampleTypeWithFields();
             var fieldName = "field";
             var newValue = 1;
-            var command = new SetFieldCommand(@object, fieldName, newValue);
+            var command = new SetFieldCommand(_object, fieldName, newValue);
 
             command.Execute();
 
-            Assert.AreEqual(newValue, @object.field);
+            Assert.AreEqual(newValue, _object.field);
         }
 
         [Test]
         public void Should_set_a_private_field()
         {
-            var @object = new SampleTypeWithFields();
             var fieldName = "privateField";
             var newValue = 1;
-            var command = new SetFieldCommand(@object, fieldName, newValue);
+            var command = new SetFieldCommand(_object, fieldName, newValue);
 
             command.Execute();
 
-            Assert.AreEqual(newValue, @object.PropertyOnlyForTestingPurpose);
+            Assert.AreEqual(newValue, _object.PropertyOnlyForTestingPurpose);
+        }
+
+        [Test]
+        public void Should_set_a_field_when_value_inherits_from_field_type()
+        {
+            var fieldName = "abstractField";
+            var newValue = new ConcreteSampleType();
+            var command = new SetFieldCommand(_object, fieldName, newValue);
+
+            command.Execute();
+
+            Assert.AreEqual(newValue, _object.abstractField);
         }
 
         [TestCase("field", null, Description = "When value is null")]
@@ -38,9 +57,7 @@ namespace Nosbor.FluentBuilder.Tests.Commands
         [TestCase(null, 10, Description = "When field name is null")]
         public void Should_not_create_invalid_command_when(string fieldName, object newValue)
         {
-            var @object = new SampleTypeWithFields();
-
-            TestDelegate testAction = () => new SetFieldCommand(@object, fieldName, newValue);
+            TestDelegate testAction = () => new SetFieldCommand(_object, fieldName, newValue);
 
             Assert.Throws<FluentBuilderException>(testAction);
         }
@@ -60,6 +77,8 @@ namespace Nosbor.FluentBuilder.Tests.Commands
     {
         public int field;
         private int privateField;
+
+        public AbstractSampleType abstractField;
 
         public int PropertyOnlyForTestingPurpose { get { return privateField; } }
     }

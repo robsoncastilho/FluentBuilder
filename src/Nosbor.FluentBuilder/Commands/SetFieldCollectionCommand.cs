@@ -6,14 +6,12 @@ using System.Reflection;
 
 namespace Nosbor.FluentBuilder.Commands
 {
-    internal class SetFieldCollectionCommand : ICommand
+    internal class SetFieldCollectionCommand : BaseCommand, ICommand
     {
-        private object _object;
-        private string _collectionName;
-        private IList<object> _newValues = new List<object>();
-        private FieldInfo _fieldInfo;
-        private string _errorMessage = "Can't set value";
-
+        private readonly object _object;
+        private readonly string _collectionName;
+        private readonly IList<object> _newValues = new List<object>();
+        private readonly FieldInfo _fieldInfo;
         private readonly GenericTypeCreator _genericTypeCreator = new GenericTypeCreator();
 
         internal SetFieldCollectionCommand(object @object, string collectionName)
@@ -55,11 +53,6 @@ namespace Nosbor.FluentBuilder.Commands
 
             foreach (var value in _newValues)
                 methodInfo.Invoke(fieldInstance, new[] { value });
-        }
-
-        private string AppendErrorMessage(string aditionalMessage)
-        {
-            return string.Format("{0} - {1}", _errorMessage, aditionalMessage);
         }
     }
 }

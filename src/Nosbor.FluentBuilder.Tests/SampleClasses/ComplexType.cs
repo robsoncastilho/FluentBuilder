@@ -49,6 +49,11 @@ namespace Nosbor.FluentBuilder.Tests.SampleClasses
     {
     }
 
+    internal class ConcreteComplexType : AbstractComplexType
+    {
+
+    }
+
     internal class AnotherComplexType
     {
         public string Name { get; private set; }

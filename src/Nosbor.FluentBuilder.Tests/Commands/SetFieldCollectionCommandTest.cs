@@ -8,27 +8,32 @@ namespace Nosbor.FluentBuilder.Tests.Commands
     [TestFixture]
     public class SetFieldCollectionCommandTest
     {
+        private SampleTypeWithCollectionField _object;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _object = new SampleTypeWithCollectionField();
+        }
+
         [Test]
         public void Should_set_a_field_collection()
         {
             var collectionName = "collectionField";
-            var @object = new SampleTypeWithCollectionField();
-            var command = new SetFieldCollectionCommand(@object, collectionName);
+            var command = new SetFieldCollectionCommand(_object, collectionName);
             command.Add(1);
             command.Add(10);
 
             command.Execute();
 
-            var newValues = new object[] { 1, 10 };
-            Assert.AreEqual(newValues, @object.PropertyForTestingPurpose);
+            var expected = new object[] { 1, 10 };
+            Assert.AreEqual(expected, _object.PropertyForTestingPurpose);
         }
 
         [TestCase(null, Description = "When collection name is null")]
         public void Should_not_create_invalid_command_when(string collectionName)
         {
-            var @object = new SampleTypeWithCollectionField();
-
-            TestDelegate testAction = () => new SetFieldCollectionCommand(@object, collectionName);
+            TestDelegate testAction = () => new SetFieldCollectionCommand(_object, collectionName);
 
             Assert.Throws<FluentBuilderException>(testAction);
         }

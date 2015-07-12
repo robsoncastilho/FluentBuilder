@@ -7,11 +7,10 @@ using System.Reflection;
 
 namespace Nosbor.FluentBuilder.Commands
 {
-    internal class SetDefaultValuesForRequiredMembersCommand : ICommand
+    internal class SetDefaultValuesForRequiredMembersCommand : BaseCommand, ICommand
     {
         private readonly object _object;
         private readonly GenericTypeCreator _genericTypeCreator = new GenericTypeCreator();
-        private string _errorMessage = "Can't set value";
 
         internal SetDefaultValuesForRequiredMembersCommand(object @object)
         {
@@ -66,11 +65,6 @@ namespace Nosbor.FluentBuilder.Commands
                 defaultValue = methodInfo.Invoke(builderForChildObject, new object[] { });
             }
             return defaultValue;
-        }
-
-        private string AppendErrorMessage(string aditionalMessage)
-        {
-            return string.Format("{0} - {1}", _errorMessage, aditionalMessage);
         }
     }
 }

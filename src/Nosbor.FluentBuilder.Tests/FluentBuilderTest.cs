@@ -109,7 +109,6 @@ namespace Nosbor.FluentBuilder.Tests
             Assert.AreEqual("name", createdObject.AnotherComplexType.Name);
             Assert.AreEqual("name", createdObject.AnotherComplexTypeInsensitiveCaseTest.Name);
             Assert.IsNotNull(createdObject.CollectionWithFieldFollowingNameConvention);
-            Assert.IsNull(createdObject.AbstractComplexType);
         }
 
         [Test]
@@ -118,6 +117,14 @@ namespace Nosbor.FluentBuilder.Tests
             var createdObject = FluentBuilder<ComplexType>.New().Build();
 
             Assert.IsNull(createdObject.SameTypeEntityIsNotInitialized);
+        }
+
+        [Test]
+        public void Should_build_object_setting_no_default_value_for_abstract_member()
+        {
+            var createdObject = FluentBuilder<ComplexType>.New().Build();
+
+            Assert.IsNull(createdObject.AbstractComplexType);
         }
 
         [Test]

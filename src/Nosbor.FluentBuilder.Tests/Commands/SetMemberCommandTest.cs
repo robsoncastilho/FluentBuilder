@@ -7,52 +7,56 @@ namespace Nosbor.FluentBuilder.Tests.Commands
     [TestFixture]
     public class SetMemberCommandTest
     {
+        private SampleTypeWithFieldAndProperties _object;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _object = new SampleTypeWithFieldAndProperties();
+        }
+
         [Test]
         public void Should_set_a_member_when_it_is_a_field()
         {
-            var @object = new SampleTypeWithFieldAndProperties();
             var memberName = "field";
             var newValue = 1;
-            var command = new SetMemberCommand(@object, memberName, newValue);
+            var command = new SetMemberCommand(_object, memberName, newValue);
 
             command.Execute();
 
-            Assert.AreEqual(newValue, @object.PropertyOnlyForTestingPurpose);
+            Assert.AreEqual(newValue, _object.PropertyOnlyForTestingPurpose);
         }
 
         [Test]
         public void Should_set_a_member_when_it_is_a_writable_property()
         {
-            var @object = new SampleTypeWithFieldAndProperties();
             var memberName = "WritableProperty";
             var newValue = 1;
-            var command = new SetMemberCommand(@object, memberName, newValue);
+            var command = new SetMemberCommand(_object, memberName, newValue);
 
             command.Execute();
 
-            Assert.AreEqual(newValue, @object.WritableProperty);
+            Assert.AreEqual(newValue, _object.WritableProperty);
         }
 
         [Test]
         public void Should_set_a_member_when_it_is_a_readonly_property_finding_the_underlying_field()
         {
-            var @object = new SampleTypeWithFieldAndProperties();
             var memberName = "ReadOnlyPropertyWithUnderLyingField";
             var newValue = 1;
-            var command = new SetMemberCommand(@object, memberName, newValue);
+            var command = new SetMemberCommand(_object, memberName, newValue);
 
             command.Execute();
 
-            Assert.AreEqual(newValue, @object.ReadOnlyPropertyWithUnderLyingField);
+            Assert.AreEqual(newValue, _object.ReadOnlyPropertyWithUnderLyingField);
         }
 
         [Test]
         public void Execute_throws_exception_when_member_type_is_different_from_the_type_of_the_new_value()
         {
-            var @object = new SampleTypeWithFieldAndProperties();
             var memberName = "WritableProperty";
             var newValueOfInvalidType = "string";
-            var command = new SetMemberCommand(@object, memberName, newValueOfInvalidType);
+            var command = new SetMemberCommand(_object, memberName, newValueOfInvalidType);
 
             TestDelegate testAction = () => command.Execute();
 
@@ -65,9 +69,7 @@ namespace Nosbor.FluentBuilder.Tests.Commands
         [TestCase("NonExistentProperty", "dummyValue", Description = "When member was not found")]
         public void Should_not_create_invalid_command_when(string memberName, object newValue)
         {
-            var @object = new SampleTypeWithFieldAndProperties();
-
-            TestDelegate testAction = () => new SetMemberCommand(@object, memberName, newValue);
+            TestDelegate testAction = () => new SetMemberCommand(_object, memberName, newValue);
 
             Assert.Throws<FluentBuilderException>(testAction);
         }

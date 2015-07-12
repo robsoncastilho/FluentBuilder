@@ -6,13 +6,12 @@ using System.Reflection;
 
 namespace Nosbor.FluentBuilder.Commands
 {
-    internal class SetMemberCommand : ICommand
+    internal class SetMemberCommand : BaseCommand, ICommand
     {
         private readonly object _object;
         private readonly object _newValue;
         private readonly MemberInfo[] _membersInfo;
         private const BindingFlags DefaultMemberBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public;
-        private string _errorMessage = "Can't set value";
 
         internal SetMemberCommand(object @object, string memberName, object newValue)
         {
@@ -44,37 +43,29 @@ namespace Nosbor.FluentBuilder.Commands
                 throw new FluentBuilderException(AppendErrorMessage("Member must be a property or a field"));
         }
 
-        // TODO: refactor
         public void Execute()
         {
-            ICommand command = null;
-            foreach (var memberInfo in _membersInfo.ToList().OrderBy(mInfo => mInfo.MemberType))
-            {
-                var memberName = memberInfo.Name;
-                if (memberInfo.MemberType == MemberTypes.Field)
-                {
-                    command = new SetFieldCommand(_object, memberName, _newValue);
-                    break;
-                }
+            ICommand command = CreateCommandForField();
+            if (command == null)
+                command = CreateCommandForProperty();
 
-                if (memberInfo.MemberType == MemberTypes.Property)
-                {
-                    var propertyInfo = (PropertyInfo)memberInfo;
-                    if (propertyInfo.CanWrite)
-                        command = new SetPropertyCommand(_object, memberName, _newValue);
-                    else
-                    {
-                        var fieldName = GetMemberQuery.GetFieldNameFor(_object, memberName);
-                        command = new SetFieldCommand(_object, fieldName, _newValue);
-                    }
-                }
-            }
             command.Execute();
         }
 
-        private string AppendErrorMessage(string aditionalMessage)
+        private ICommand CreateCommandForField()
         {
-            return string.Format("{0} - {1}", _errorMessage, aditionalMessage);
+            var memberInfo = _membersInfo.FirstOrDefault(mInfo => mInfo.MemberType == MemberTypes.Field);
+            return (memberInfo == null) ? null : new SetFieldCommand(_object, memberInfo.Name, _newValue);
+        }
+
+        private ICommand CreateCommandForProperty()
+        {
+            var propertyInfo = (PropertyInfo)_membersInfo.FirstOrDefault(mInfo => mInfo.MemberType == MemberTypes.Property);
+            if (propertyInfo.CanWrite)
+                return new SetPropertyCommand(_object, propertyInfo.Name, _newValue);
+
+            var fieldName = GetMemberQuery.GetFieldNameFor(_object, propertyInfo.Name);
+            return new SetFieldCommand(_object, fieldName, _newValue);
         }
     }
 }

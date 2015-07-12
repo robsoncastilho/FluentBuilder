@@ -4,12 +4,11 @@ using System.Reflection;
 
 namespace Nosbor.FluentBuilder.Commands
 {
-    internal class SetFieldCommand : ICommand
+    internal class SetFieldCommand : BaseCommand, ICommand
     {
-        private object _object;
-        private object _newValue;
-        private FieldInfo _fieldInfo;
-        private string _errorMessage = "Can't set value";
+        private readonly object _object;
+        private readonly object _newValue;
+        private readonly FieldInfo _fieldInfo;
 
         internal SetFieldCommand(object @object, string fieldName, object newValue)
         {
@@ -44,11 +43,6 @@ namespace Nosbor.FluentBuilder.Commands
         public void Execute()
         {
             _fieldInfo.SetValue(_object, _newValue);
-        }
-
-        private string AppendErrorMessage(string aditionalMessage)
-        {
-            return string.Format("{0} - {1}", _errorMessage, aditionalMessage);
         }
     }
 }
