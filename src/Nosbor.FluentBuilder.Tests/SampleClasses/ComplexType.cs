@@ -28,6 +28,10 @@ namespace Nosbor.FluentBuilder.Tests.SampleClasses
         private readonly IList<AnotherComplexType> _collectionWithFieldFollowingNameConvention = new List<AnotherComplexType>();
         public IEnumerable<AnotherComplexType> CollectionWithFieldFollowingNameConvention { get { return _collectionWithFieldFollowingNameConvention; } }
 
+        private readonly IList<int> _anotherCollection = new List<int>();
+        public IEnumerable<int> AnotherCollection { get { return _anotherCollection; } }
+
+
         private readonly List<int> _anotherName = new List<int>();
         public IEnumerable<int> CollectionWithFieldNotFollowingNameConvention { get { return _anotherName; } }
 

@@ -12,8 +12,8 @@ namespace Nosbor.FluentBuilder.Lib
     public sealed class FluentBuilder<T> where T : class
     {
         private readonly T _newObject;
-        private SetFieldCollectionCommand _setFieldCollectionCommand;
-        private List<ICommand> _commands = new List<ICommand>();
+        private readonly Dictionary<string, SetFieldCollectionCommand> _collections = new Dictionary<string, SetFieldCollectionCommand>();
+        private readonly List<ICommand> _commands = new List<ICommand>();
 
         public FluentBuilder()
         {
@@ -107,13 +107,20 @@ namespace Nosbor.FluentBuilder.Lib
         {
             var fieldName = GetMemberQuery.GetFieldNameFor<T, TCollectionProperty>(expression);
 
-            if (_setFieldCollectionCommand == null)
-            {
-                _setFieldCollectionCommand = new SetFieldCollectionCommand(_newObject, fieldName);
-                _commands.Add(_setFieldCollectionCommand);
-            }
-            _setFieldCollectionCommand.Add(newElement);
+            var setFieldCollectionCommand = GetCommandFor(fieldName);
+            setFieldCollectionCommand.Add(newElement);
             return this;
+        }
+
+        private SetFieldCollectionCommand GetCommandFor(string fieldName)
+        {
+            if (_collections.ContainsKey(fieldName))
+                return _collections[fieldName];
+
+            var setFieldCollectionCommand = new SetFieldCollectionCommand(_newObject, fieldName);
+            _collections[fieldName] = setFieldCollectionCommand;
+            _commands.Add(setFieldCollectionCommand);
+            return setFieldCollectionCommand;
         }
     }
 }

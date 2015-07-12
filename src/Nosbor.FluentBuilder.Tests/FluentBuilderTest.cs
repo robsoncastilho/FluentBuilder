@@ -69,6 +69,25 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
+        public void Should_build_object_setting_elements_for_different_collections()
+        {
+            var anObject = new AnotherComplexType("Robson");
+            var integerElement = 1000;
+
+            var createdObject = FluentBuilder<ComplexType>
+                .New()
+                .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, anObject)
+                .AddingTo(newObject => newObject.AnotherCollection, integerElement)
+                .AddingTo(newObject => newObject.AnotherCollection, integerElement)
+                .Build();
+
+            var expected = new List<AnotherComplexType> { anObject };
+            var expectedIntCollection = new List<int> { integerElement, integerElement };
+            CollectionAssert.AreEqual(expected, createdObject.CollectionWithFieldFollowingNameConvention);
+            CollectionAssert.AreEqual(expectedIntCollection, createdObject.AnotherCollection);
+        }
+
+        [Test]
         public void Should_build_object_using_implicit_conversion_when_not_calling_build_method()
         {
             const string newValue = "Robson";
