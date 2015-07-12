@@ -1,11 +1,10 @@
 using Nosbor.FluentBuilder.Commands;
-using Nosbor.FluentBuilder.Exceptions;
 using Nosbor.FluentBuilder.Internals;
+using Nosbor.FluentBuilder.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
@@ -67,7 +66,7 @@ namespace Nosbor.FluentBuilder.Lib
         /// </summary>
         public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> expression, TProperty newValue)
         {
-            var propertyName = GetMemberNameFor(expression);
+            var propertyName = GetMemberQuery.GetPropertyNameFor<T, TProperty>(expression);
             _commands.Add(new SetPropertyCommand(_newObject, propertyName, newValue));
             return this;
         }
@@ -78,8 +77,8 @@ namespace Nosbor.FluentBuilder.Lib
         /// </summary>
         public FluentBuilder<T> With<TMember>(TMember newValue) where TMember : class
         {
-            var propertyName = typeof(TMember).Name;
-            _commands.Add(new SetPropertyCommand(_newObject, propertyName, newValue));
+            var memberName = typeof(TMember).Name;
+            _commands.Add(new SetMemberCommand(_newObject, memberName, newValue));
             return this;
         }
 
@@ -91,10 +90,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> WithDependency<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
             where TServiceImplementation : TServiceInterface
         {
-            var dependencyName = Regex.Replace(typeof(TServiceInterface).Name, "^I", "");
-            var fieldInfo = GetFieldApplyingConventionsIn(dependencyName);
-            var fieldName = fieldInfo.Name;
-
+            var fieldName = GetMemberQuery.GetFieldNameFor<T>(Regex.Replace(typeof(TServiceInterface).Name, "^I", ""));
             _commands.Add(new SetFieldCommand(_newObject, fieldName, serviceImplementation));
             return this;
         }
@@ -107,11 +103,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> AddingTo<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, TElement newElement)
             where TCollectionProperty : IEnumerable<TElement>
         {
-            var collectionName = GetMemberNameFor(expression);
-
-            // TODO: refactoring 
-            var fieldInfo = GetFieldApplyingConventionsIn(collectionName);
-            var fieldName = fieldInfo == null ? null : fieldInfo.Name;
+            var fieldName = GetMemberQuery.GetFieldNameFor<T, TCollectionProperty>(expression);
 
             if (_setFieldCollectionCommand == null)
             {
@@ -120,36 +112,6 @@ namespace Nosbor.FluentBuilder.Lib
             }
             _setFieldCollectionCommand.Add(newElement);
             return this;
-        }
-
-        private static string GetMemberNameFor<TProperty>(Expression<Func<T, TProperty>> expression)
-        {
-            var memberExpression = expression.Body as MemberExpression;
-            if (memberExpression == null)
-                throw new FluentBuilderException(string.Format("Property missing in '{0}'", expression), new ArgumentException("Argument should be a MemberExpression", "expression"));
-
-            if (memberExpression.Expression.ToString().Contains("."))
-                throw new FluentBuilderException(string.Format("Nested property {0} not allowed", expression), new ArgumentException("Argument should be a direct property of the object being constructed", "expression"));
-
-            return memberExpression.Member.Name;
-        }
-
-        private const BindingFlags DefaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
-
-        private static FieldInfo GetFieldApplyingConventionsIn(string fieldName)
-        {
-            FieldInfo fieldInfo = null;
-            foreach (var fieldNameConvention in GetDefaultConventionsFor(fieldName))
-            {
-                fieldInfo = typeof(T).GetField(fieldNameConvention, DefaultFieldBindingFlags);
-                if (fieldInfo != null) break;
-            }
-            return fieldInfo;
-        }
-
-        private static IEnumerable<string> GetDefaultConventionsFor(string fieldName)
-        {
-            return new[] { fieldName, "_" + fieldName };
         }
     }
 }

@@ -44,14 +44,16 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\SetFieldCollectionCommand.cs" />
     <Compile Include="Commands\SetFieldCommand.cs" />
+    <Compile Include="Commands\SetMemberCommand.cs" />
     <Compile Include="Commands\SetPropertyCommand.cs" />
     <Compile Include="Exceptions\FluentBuilderException.cs" />
     <Compile Include="Internals\ConstrutorMembersInitializer.cs" />
     <Compile Include="Internals\GenericTypeCreator.cs" />
-    <Compile Include="Internals\MemberSetter.cs" />
     <Compile Include="Lib\FluentBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\GetMemberQuery.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

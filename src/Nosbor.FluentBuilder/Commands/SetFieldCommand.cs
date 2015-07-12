@@ -7,7 +7,6 @@ namespace Nosbor.FluentBuilder.Commands
     internal class SetFieldCommand : ICommand
     {
         private object _object;
-        private string _fieldName;
         private object _newValue;
         private FieldInfo _fieldInfo;
         private string _errorMessage = "Can't set value";
@@ -16,10 +15,9 @@ namespace Nosbor.FluentBuilder.Commands
         {
             ValidateArguments(@object, fieldName, newValue);
             _object = @object;
-            _fieldName = fieldName;
             _newValue = newValue;
             _fieldInfo = @object.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-            ValidadeField();
+            ValidateField();
         }
 
         private void ValidateArguments(object @object, string fieldName, object newValue)
@@ -27,14 +25,14 @@ namespace Nosbor.FluentBuilder.Commands
             if (@object == null)
                 throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("@object"));
 
-            if (fieldName == null)
+            if (string.IsNullOrWhiteSpace(fieldName))
                 throw new FluentBuilderException(AppendErrorMessage("Field name is null"), new ArgumentNullException("fieldName"));
 
             if (newValue == null)
                 throw new FluentBuilderException(AppendErrorMessage("Value is null"), new ArgumentNullException("newValue"));
         }
 
-        private void ValidadeField()
+        private void ValidateField()
         {
             if (_fieldInfo == null)
                 throw new FluentBuilderException(AppendErrorMessage("Field not found"));

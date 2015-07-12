@@ -16,7 +16,7 @@ namespace Nosbor.FluentBuilder.Commands
 
         private readonly GenericTypeCreator _genericTypeCreator = new GenericTypeCreator();
 
-        public SetFieldCollectionCommand(object @object, string collectionName)
+        internal SetFieldCollectionCommand(object @object, string collectionName)
         {
             ValidateArguments(@object, collectionName);
             _object = @object;
@@ -29,7 +29,7 @@ namespace Nosbor.FluentBuilder.Commands
             if (@object == null)
                 throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("@object"));
 
-            if (collectionName == null)
+            if (string.IsNullOrWhiteSpace(collectionName))
                 throw new FluentBuilderException(AppendErrorMessage("Collection name is null"), new ArgumentNullException("collectionName"));
         }
 

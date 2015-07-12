@@ -25,7 +25,7 @@ namespace Nosbor.FluentBuilder.Commands
             if (@object == null)
                 throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("@object"));
 
-            if (propertyName == null)
+            if (string.IsNullOrWhiteSpace(propertyName))
                 throw new FluentBuilderException(AppendErrorMessage("Property name is null"), new ArgumentNullException("propertyName"));
 
             if (newValue == null)
@@ -38,7 +38,7 @@ namespace Nosbor.FluentBuilder.Commands
                 throw new FluentBuilderException(AppendErrorMessage("Property not found"));
 
             if (!_propertyInfo.CanWrite)
-                throw new FluentBuilderException(AppendErrorMessage("Property must have a settter"));
+                throw new FluentBuilderException(AppendErrorMessage("Property must have a setter"));
 
             if (!_propertyInfo.PropertyType.IsAssignableFrom(_newValue.GetType()))
                 throw new FluentBuilderException(AppendErrorMessage("Value must be of the same type of the property"));

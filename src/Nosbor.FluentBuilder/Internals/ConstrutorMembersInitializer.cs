@@ -1,5 +1,7 @@
-﻿using Nosbor.FluentBuilder.Lib;
+﻿using Nosbor.FluentBuilder.Commands;
+using Nosbor.FluentBuilder.Lib;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -7,8 +9,8 @@ namespace Nosbor.FluentBuilder.Internals
 {
     internal class ConstrutorMembersInitializer<T> where T : class
     {
-        private readonly MemberSetter<T> _memberSetter = new MemberSetter<T>();
         private readonly GenericTypeCreator _genericTypeCreator = new GenericTypeCreator();
+        private List<ICommand> _commands = new List<ICommand>();
 
         internal void InitializeMembersOf(T destinationObject)
         {
@@ -22,7 +24,10 @@ namespace Nosbor.FluentBuilder.Internals
                 var defaultValue = CreateDefaultValueBasedOnParameterType(parameterInfo);
 
                 if (defaultValue != null)
-                    _memberSetter.SetMember(destinationObject, parameterInfo.Name, defaultValue);
+                {
+                    var command = new SetMemberCommand(destinationObject, parameterInfo.Name, defaultValue);
+                    command.Execute();
+                }
             }
         }
 

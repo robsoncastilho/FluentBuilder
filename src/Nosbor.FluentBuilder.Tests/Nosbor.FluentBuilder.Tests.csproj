@@ -41,8 +41,10 @@
   <ItemGroup>
     <Compile Include="Commands\SetFieldCollectionCommandTest.cs" />
     <Compile Include="Commands\SetFieldCommandTest.cs" />
+    <Compile Include="Commands\SetMemberCommandTest.cs" />
     <Compile Include="Commands\SetPropertyCommandTest.cs" />
     <Compile Include="FluentBuilderExceptionsTest.cs" />
+    <Compile Include="Queries\GetMemberQueryTest.cs" />
     <Compile Include="SampleClasses\ComplexType.cs" />
     <Compile Include="FluentBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

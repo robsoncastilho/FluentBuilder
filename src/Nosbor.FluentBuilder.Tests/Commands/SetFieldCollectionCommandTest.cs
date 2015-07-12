@@ -1,4 +1,5 @@
 ﻿using Nosbor.FluentBuilder.Commands;
+using Nosbor.FluentBuilder.Exceptions;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -8,7 +9,7 @@ namespace Nosbor.FluentBuilder.Tests.Commands
     public class SetFieldCollectionCommandTest
     {
         [Test]
-        public void Should_set_field_collection()
+        public void Should_set_a_field_collection()
         {
             var collectionName = "collectionField";
             var @object = new SampleTypeWithCollectionField();
@@ -21,9 +22,19 @@ namespace Nosbor.FluentBuilder.Tests.Commands
             var newValues = new object[] { 1, 10 };
             Assert.AreEqual(newValues, @object.PropertyForTestingPurpose);
         }
+
+        [TestCase(null, Description = "When collection name is null")]
+        public void Should_not_create_invalid_command_when(string collectionName)
+        {
+            var @object = new SampleTypeWithCollectionField();
+
+            TestDelegate testAction = () => new SetFieldCollectionCommand(@object, collectionName);
+
+            Assert.Throws<FluentBuilderException>(testAction);
+        }
     }
 
-    public class SampleTypeWithCollectionField
+    internal class SampleTypeWithCollectionField
     {
         private IList<int> collectionField = new List<int>();
 

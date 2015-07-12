@@ -39,10 +39,17 @@ namespace Nosbor.FluentBuilder.Tests
             Assert.AreEqual(newValueForACorrespondingProperty, createdObject.AnotherComplexType);
         }
 
-        [Test, Ignore]
+        [Test]
         public void Should_build_object_setting_field_just_passing_the_value()
         {
+            var newValueForACorrespondingField = new OneMoreComplexType();
 
+            var createdObject = FluentBuilder<ComplexType>
+                .New()
+                .With(newValueForACorrespondingField)
+                .Build();
+
+            Assert.AreEqual(newValueForACorrespondingField, createdObject.oneMoreComplexType);
         }
 
         [Test]
