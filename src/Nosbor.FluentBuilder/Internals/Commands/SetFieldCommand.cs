@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace Nosbor.FluentBuilder.Commands
+namespace Nosbor.FluentBuilder.Internals.Commands
 {
     internal class SetFieldCommand : BaseCommand, ICommand
     {

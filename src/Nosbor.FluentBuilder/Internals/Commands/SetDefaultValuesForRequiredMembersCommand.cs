@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Nosbor.FluentBuilder.Commands
+namespace Nosbor.FluentBuilder.Internals.Commands
 {
     internal class SetDefaultValuesForRequiredMembersCommand : BaseCommand, ICommand
     {

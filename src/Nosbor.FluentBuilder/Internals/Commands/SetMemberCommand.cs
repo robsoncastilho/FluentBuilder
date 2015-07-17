@@ -1,10 +1,10 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
-using Nosbor.FluentBuilder.Queries;
+using Nosbor.FluentBuilder.Internals.Queries;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Nosbor.FluentBuilder.Commands
+namespace Nosbor.FluentBuilder.Internals.Commands
 {
     internal class SetMemberCommand : BaseCommand, ICommand
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Nosbor.FluentBuilder.Queries
+namespace Nosbor.FluentBuilder.Internals.Queries
 {
     internal static class GetMemberQuery
     {

@@ -14,10 +14,14 @@
 
     internal interface IDependency
     {
+        int Count();
     }
 
     internal class SampleConcreteDependency : IDependency
     {
-
+        public int Count()
+        {
+            return 0;
+        }
     }
 }

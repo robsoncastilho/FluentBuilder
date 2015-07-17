@@ -33,7 +33,7 @@ namespace Nosbor.FluentBuilder.Tests
 
             var createdObject = FluentBuilder<ComplexType>
                 .New()
-                .With(newValueForACorrespondingProperty)
+                .WithValue(newValueForACorrespondingProperty)
                 .Build();
 
             Assert.AreEqual(newValueForACorrespondingProperty, createdObject.AnotherComplexType);
@@ -46,7 +46,7 @@ namespace Nosbor.FluentBuilder.Tests
 
             var createdObject = FluentBuilder<ComplexType>
                 .New()
-                .With(newValueForACorrespondingField)
+                .WithValue(newValueForACorrespondingField)
                 .Build();
 
             Assert.AreEqual(newValueForACorrespondingField, createdObject.oneMoreComplexType);

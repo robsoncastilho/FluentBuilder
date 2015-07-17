@@ -1,5 +1,5 @@
-using Nosbor.FluentBuilder.Commands;
-using Nosbor.FluentBuilder.Queries;
+using Nosbor.FluentBuilder.Internals.Commands;
+using Nosbor.FluentBuilder.Internals.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +76,7 @@ namespace Nosbor.FluentBuilder.Lib
         /// Configures the builder to set a member with the informed value.
         /// <para>(Member name must be the same as its type name)</para>
         /// </summary>
-        public FluentBuilder<T> With<TMember>(TMember newValue) where TMember : class
+        public FluentBuilder<T> WithValue<TMember>(TMember newValue) where TMember : class
         {
             var memberName = typeof(TMember).Name;
             _commands[memberName] = new SetMemberCommand(_newObject, memberName, newValue);

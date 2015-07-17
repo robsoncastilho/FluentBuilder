@@ -39,12 +39,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\SetFieldCollectionCommandTest.cs" />
-    <Compile Include="Commands\SetFieldCommandTest.cs" />
-    <Compile Include="Commands\SetMemberCommandTest.cs" />
-    <Compile Include="Commands\SetPropertyCommandTest.cs" />
+    <Compile Include="Internals\Commands\SetFieldCollectionCommandTest.cs" />
+    <Compile Include="Internals\Commands\SetFieldCommandTest.cs" />
+    <Compile Include="Internals\Commands\SetMemberCommandTest.cs" />
+    <Compile Include="Internals\Commands\SetPropertyCommandTest.cs" />
     <Compile Include="FluentBuilderExceptionsTest.cs" />
-    <Compile Include="Queries\GetMemberQueryTest.cs" />
+    <Compile Include="Internals\Queries\GetMemberQueryTest.cs" />
     <Compile Include="SampleClasses\ComplexType.cs" />
     <Compile Include="FluentBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

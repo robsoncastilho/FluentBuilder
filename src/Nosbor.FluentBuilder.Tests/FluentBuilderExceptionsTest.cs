@@ -37,13 +37,13 @@ namespace Nosbor.FluentBuilder.Tests
         }
 
         [Test]
-        public void With_overload_throws_exception_when_member_was_not_found()
+        public void WithValue_throws_exception_when_member_was_not_found()
         {
             var newValue = new StandAloneComplexType();
 
             Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
                 .New()
-                .With(newValue));
+                .WithValue(newValue));
         }
 
         [Test]

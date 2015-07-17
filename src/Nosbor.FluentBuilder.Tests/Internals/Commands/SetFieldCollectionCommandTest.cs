@@ -1,9 +1,9 @@
-﻿using Nosbor.FluentBuilder.Commands;
-using Nosbor.FluentBuilder.Exceptions;
+﻿using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Internals.Commands;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace Nosbor.FluentBuilder.Tests.Commands
+namespace Nosbor.FluentBuilder.Tests.Internals.Commands
 {
     [TestFixture]
     public class SetFieldCollectionCommandTest

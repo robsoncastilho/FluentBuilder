@@ -1,5 +1,4 @@
-﻿
-namespace Nosbor.FluentBuilder.Commands
+﻿namespace Nosbor.FluentBuilder.Internals.Commands
 {
     interface ICommand
     {

@@ -1,7 +1,7 @@
-﻿using Nosbor.FluentBuilder.Queries;
+﻿using Nosbor.FluentBuilder.Internals.Queries;
 using NUnit.Framework;
 
-namespace Nosbor.FluentBuilder.Tests.Queries
+namespace Nosbor.FluentBuilder.Tests.Internals.Queries
 {
     [TestFixture]
     public class GetMemberQueryTest

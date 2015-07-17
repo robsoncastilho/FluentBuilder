@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Nosbor.FluentBuilder.Commands
+namespace Nosbor.FluentBuilder.Internals.Commands
 {
     internal class SetFieldCollectionCommand : BaseCommand, ICommand
     {
