@@ -32,20 +32,20 @@ var newAddress = FluentBuilder<Address>
                 .Build();
 ```
 
-######1.2.1 With (just passing the new value)
+#####1.3. WithValue
 
 Allows setting a value (reference type) just passing its instance. FluentBuilder will find the corresponding member to receive the instance based on naming convention:
 
 ```csharp
 var newCustomer = FluentBuilder<Customer>
                   .New()
-                  .With(FluentBuilder<Address>.New().Build())
+                  .WithValue(FluentBuilder<Address>.New().Build())
                   .Build();
 ```
 
 For code above succeed, Customer class must have a property or field named 'Address' or 'address' and being of the same type of Address (or a base class of Address).
 
-#####1.3. WithDependency
+#####1.4. WithDependency
 
 Allows setting values for a injected dependency stored in a private field.
 This option allows creating a builder for a SUT (a service that has dependencies) and passing a test double object to the SUT.
@@ -79,7 +79,7 @@ dependencyMock.Verify(dependency => dependency.Do(), Times.Once);
 ......
 ```
 
-#####1.4. AddingTo
+#####1.5. AddingTo
 
 Allows setting elements in a collection, one by one:
 
@@ -103,11 +103,11 @@ var customer = FluentBuilder<Customer>
 
 The collection must be a read-only collection with a backing private field. If the collection is a writable property then you can set the whole collection using "With()".
 
-#####1.5. Build
+#####1.6. Build
 
 Constructs and returns the expected object.
 
-#####1.6. AsList
+#####1.7. AsList
 
 Like Build() method, with the difference that AsList() builds and returns the object within a list:
 
