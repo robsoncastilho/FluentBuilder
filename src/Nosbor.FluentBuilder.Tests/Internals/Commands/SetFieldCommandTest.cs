@@ -1,5 +1,5 @@
-﻿using Nosbor.FluentBuilder.Internals.Commands;
-using Nosbor.FluentBuilder.Exceptions;
+﻿using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Internals.Commands;
 using NUnit.Framework;
 
 namespace Nosbor.FluentBuilder.Tests.Internals.Commands
@@ -18,8 +18,8 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_public_field()
         {
-            var fieldName = "field";
-            var newValue = 1;
+            const string fieldName = "field";
+            const int newValue = 1;
             var command = new SetFieldCommand(_object, fieldName, newValue);
 
             command.Execute();
@@ -30,8 +30,8 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_private_field()
         {
-            var fieldName = "privateField";
-            var newValue = 1;
+            const string fieldName = "privateField";
+            const int newValue = 1;
             var command = new SetFieldCommand(_object, fieldName, newValue);
 
             command.Execute();
@@ -42,7 +42,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_field_when_value_inherits_from_field_type()
         {
-            var fieldName = "abstractField";
+            const string fieldName = "abstractField";
             var newValue = new ConcreteSampleType();
             var command = new SetFieldCommand(_object, fieldName, newValue);
 

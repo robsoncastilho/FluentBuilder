@@ -18,8 +18,8 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_writable_property()
         {
-            var propertyName = "WritableProperty";
-            var newValue = 10;
+            const string propertyName = "WritableProperty";
+            const int newValue = 10;
             var command = new SetPropertyCommand(_object, propertyName, newValue);
 
             command.Execute();
@@ -30,7 +30,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_writable_property_when_value_inherits_from_property_type()
         {
-            var propertyName = "AbstractProperty";
+            const string propertyName = "AbstractProperty";
             var newValue = new ConcreteSampleType();
             var command = new SetPropertyCommand(_object, propertyName, newValue);
 

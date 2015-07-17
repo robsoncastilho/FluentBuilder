@@ -19,7 +19,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_field_collection()
         {
-            var collectionName = "collectionField";
+            const string collectionName = "collectionField";
             var command = new SetFieldCollectionCommand(_object, collectionName);
             command.Add(1);
             command.Add(10);
