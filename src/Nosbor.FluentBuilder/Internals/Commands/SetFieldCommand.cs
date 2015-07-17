@@ -22,7 +22,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         private void ValidateArguments(object @object, string fieldName, object newValue)
         {
             if (@object == null)
-                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("@object"));
+                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("object"));
 
             if (string.IsNullOrWhiteSpace(fieldName))
                 throw new FluentBuilderException(AppendErrorMessage("Field name is null"), new ArgumentNullException("fieldName"));

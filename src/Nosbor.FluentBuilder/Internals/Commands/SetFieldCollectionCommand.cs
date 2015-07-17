@@ -1,5 +1,4 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
-using Nosbor.FluentBuilder.Internals;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -25,7 +24,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         private void ValidateArguments(object @object, string collectionName)
         {
             if (@object == null)
-                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("@object"));
+                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("object"));
 
             if (string.IsNullOrWhiteSpace(collectionName))
                 throw new FluentBuilderException(AppendErrorMessage("Collection name is null"), new ArgumentNullException("collectionName"));

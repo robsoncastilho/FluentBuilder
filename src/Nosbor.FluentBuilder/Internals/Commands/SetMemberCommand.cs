@@ -25,7 +25,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         private void ValidateArguments(object @object, string memberName, object newValue)
         {
             if (@object == null)
-                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("@object"));
+                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("object"));
 
             if (string.IsNullOrWhiteSpace(memberName))
                 throw new FluentBuilderException(AppendErrorMessage("Member name is null"), new ArgumentNullException("memberName"));

@@ -22,13 +22,13 @@ namespace Nosbor.FluentBuilder.Internals.Queries
 
         internal static string GetFieldNameFor<T, TProperty>(Expression<Func<T, TProperty>> expression) where T : class
         {
-            var memberName = GetMemberNameFor<T, TProperty>(expression);
+            var memberName = GetMemberNameFor(expression);
             return GetFieldNameFor<T>(memberName);
         }
 
         internal static string GetPropertyNameFor<T, TProperty>(Expression<Func<T, TProperty>> expression) where T : class
         {
-            return GetMemberNameFor<T, TProperty>(expression);
+            return GetMemberNameFor(expression);
         }
 
         private static string GetFieldNameFor(Type objectType, string memberName)

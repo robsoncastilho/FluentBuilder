@@ -67,7 +67,7 @@ namespace Nosbor.FluentBuilder.Lib
         /// </summary>
         public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> expression, TProperty newValue)
         {
-            var propertyName = GetMemberQuery.GetPropertyNameFor<T, TProperty>(expression);
+            var propertyName = GetMemberQuery.GetPropertyNameFor(expression);
             _commands[propertyName] = new SetPropertyCommand(_newObject, propertyName, newValue);
             return this;
         }
@@ -104,7 +104,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> AddingTo<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, TElement newElement)
             where TCollectionProperty : IEnumerable<TElement>
         {
-            var fieldName = GetMemberQuery.GetFieldNameFor<T, TCollectionProperty>(expression);
+            var fieldName = GetMemberQuery.GetFieldNameFor(expression);
 
             var setFieldCollectionCommand = GetCommandFor(fieldName);
             setFieldCollectionCommand.Add(newElement);
