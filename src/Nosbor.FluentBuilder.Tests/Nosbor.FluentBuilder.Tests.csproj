@@ -43,12 +43,12 @@
     <Compile Include="Internals\Commands\SetFieldCommandTest.cs" />
     <Compile Include="Internals\Commands\SetMemberCommandTest.cs" />
     <Compile Include="Internals\Commands\SetPropertyCommandTest.cs" />
-    <Compile Include="FluentBuilderExceptionsTest.cs" />
+    <Compile Include="Lib\FluentBuilderExceptionsTest.cs" />
     <Compile Include="Internals\Queries\GetMemberQueryTest.cs" />
-    <Compile Include="SampleClasses\ComplexType.cs" />
-    <Compile Include="FluentBuilderTest.cs" />
+    <Compile Include="Lib\SampleClasses\ComplexType.cs" />
+    <Compile Include="Lib\FluentBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleClasses\SampleServiceWithDependency.cs" />
+    <Compile Include="Lib\SampleClasses\SampleServiceWithDependency.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

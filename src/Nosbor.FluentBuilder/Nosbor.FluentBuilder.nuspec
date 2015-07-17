@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>$version$ : New method (overload for With()) allows passing just a value and finds corresponding field/property by convention name</releaseNotes>
+    <releaseNotes>$version$ : Breaking change - With(newValue) renamed to WithValue(newValue)</releaseNotes>
     <copyright>Copyright Robson Castilho 2015</copyright>
     <tags>builder unittest testing</tags>
   </metadata>

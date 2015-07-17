@@ -1,4 +1,4 @@
-﻿namespace Nosbor.FluentBuilder.Tests.SampleClasses
+﻿namespace Nosbor.FluentBuilder.Tests.Lib.SampleClasses
 {
     internal class SampleServiceWithDependency
     {

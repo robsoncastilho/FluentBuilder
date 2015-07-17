@@ -1,9 +1,9 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
 using Nosbor.FluentBuilder.Lib;
-using Nosbor.FluentBuilder.Tests.SampleClasses;
+using Nosbor.FluentBuilder.Tests.Lib.SampleClasses;
 using NUnit.Framework;
 
-namespace Nosbor.FluentBuilder.Tests
+namespace Nosbor.FluentBuilder.Tests.Lib
 {
     [TestFixture]
     public class FluentBuilderExceptionsTest
