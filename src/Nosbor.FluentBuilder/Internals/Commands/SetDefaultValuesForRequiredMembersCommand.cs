@@ -1,5 +1,4 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
-using Nosbor.FluentBuilder.Internals;
 using Nosbor.FluentBuilder.Lib;
 using System;
 using System.Linq;
@@ -21,7 +20,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         private void ValidateArguments(object @object)
         {
             if (@object == null)
-                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("@object"));
+                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("object"));
         }
 
         public void Execute()

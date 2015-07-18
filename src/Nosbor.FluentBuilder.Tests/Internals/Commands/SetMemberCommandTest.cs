@@ -18,8 +18,8 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_member_when_it_is_a_field()
         {
-            var memberName = "field";
-            var newValue = 1;
+            const string memberName = "field";
+            const int newValue = 1;
             var command = new SetMemberCommand(_object, memberName, newValue);
 
             command.Execute();
@@ -30,8 +30,8 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_member_when_it_is_a_writable_property()
         {
-            var memberName = "WritableProperty";
-            var newValue = 1;
+            const string memberName = "WritableProperty";
+            const int newValue = 1;
             var command = new SetMemberCommand(_object, memberName, newValue);
 
             command.Execute();
@@ -42,8 +42,8 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Should_set_a_member_when_it_is_a_readonly_property_finding_the_underlying_field()
         {
-            var memberName = "ReadOnlyPropertyWithUnderLyingField";
-            var newValue = 1;
+            const string memberName = "ReadOnlyPropertyWithUnderLyingField";
+            const int newValue = 1;
             var command = new SetMemberCommand(_object, memberName, newValue);
 
             command.Execute();
@@ -54,8 +54,8 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         [Test]
         public void Execute_throws_exception_when_member_type_is_different_from_the_type_of_the_new_value()
         {
-            var memberName = "WritableProperty";
-            var newValueOfInvalidType = "string";
+            const string memberName = "WritableProperty";
+            const string newValueOfInvalidType = "string";
             var command = new SetMemberCommand(_object, memberName, newValueOfInvalidType);
 
             TestDelegate testAction = () => command.Execute();
