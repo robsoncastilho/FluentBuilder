@@ -76,10 +76,10 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
     internal class SampleTypeWithFields
     {
         public int field;
-        private int privateField;
+        private int _privateField;
 
         public AbstractSampleType abstractField;
 
-        public int PropertyOnlyForTestingPurpose { get { return privateField; } }
+        public int PropertyOnlyForTestingPurpose { get { return _privateField; } }
     }
 }

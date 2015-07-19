@@ -28,26 +28,13 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         }
 
         [Test]
-        public void Should_build_object_setting_writable_property_just_passing_the_value()
-        {
-            var newValueForACorrespondingProperty = new AnotherComplexType("any");
-
-            var createdObject = FluentBuilder<ComplexType>
-                .New()
-                .WithValue(newValueForACorrespondingProperty)
-                .Build();
-
-            Assert.AreEqual(newValueForACorrespondingProperty, createdObject.AnotherComplexType);
-        }
-
-        [Test]
         public void Should_build_object_setting_field_just_passing_the_value()
         {
             var newValueForACorrespondingField = new OneMoreComplexType();
 
             var createdObject = FluentBuilder<ComplexType>
                 .New()
-                .WithValue(newValueForACorrespondingField)
+                .WithFieldValue(newValueForACorrespondingField)
                 .Build();
 
             Assert.AreEqual(newValueForACorrespondingField, createdObject.oneMoreComplexType);

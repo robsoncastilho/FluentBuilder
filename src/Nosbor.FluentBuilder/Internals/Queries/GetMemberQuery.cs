@@ -8,46 +8,9 @@ namespace Nosbor.FluentBuilder.Internals.Queries
 {
     internal static class GetMemberQuery
     {
-        private const BindingFlags DefaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
+        private const BindingFlags DefaultFieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public;
 
-        internal static string GetFieldNameFor<T>(string memberName) where T : class
-        {
-            return GetFieldNameFor(typeof(T), memberName);
-        }
-
-        internal static string GetFieldNameFor(object @object, string memberName)
-        {
-            return GetFieldNameFor(@object.GetType(), memberName);
-        }
-
-        internal static string GetFieldNameFor<T, TProperty>(Expression<Func<T, TProperty>> expression) where T : class
-        {
-            var memberName = GetMemberNameFor(expression);
-            return GetFieldNameFor<T>(memberName);
-        }
-
-        internal static string GetPropertyNameFor<T, TProperty>(Expression<Func<T, TProperty>> expression) where T : class
-        {
-            return GetMemberNameFor(expression);
-        }
-
-        private static string GetFieldNameFor(Type objectType, string memberName)
-        {
-            FieldInfo fieldInfo = null;
-            foreach (var fieldNameConvention in GetDefaultConventionsFor(memberName))
-            {
-                fieldInfo = objectType.GetField(fieldNameConvention, DefaultFieldBindingFlags);
-                if (fieldInfo != null) break;
-            }
-            return (fieldInfo == null) ? string.Empty : fieldInfo.Name;
-        }
-
-        private static IEnumerable<string> GetDefaultConventionsFor(string fieldName)
-        {
-            return new[] { fieldName, "_" + fieldName };
-        }
-
-        private static string GetMemberNameFor<T, TProperty>(Expression<Func<T, TProperty>> expression) where T : class
+        internal static string GetMemberNameFor<T, TProperty>(Expression<Func<T, TProperty>> expression) where T : class
         {
             var memberExpression = expression.Body as MemberExpression;
             if (memberExpression == null)
@@ -57,6 +20,28 @@ namespace Nosbor.FluentBuilder.Internals.Queries
                 throw new FluentBuilderException(string.Format("Nested property {0} not allowed", expression), new ArgumentException("Argument should be a direct property of the object being constructed", "expression"));
 
             return memberExpression.Member.Name;
+        }
+
+        internal static string GetFieldNameFor(object @object, string memberName)
+        {
+            var fieldInfo = GetFieldInfoFor(@object.GetType(), memberName);
+            return (fieldInfo == null) ? string.Empty : fieldInfo.Name;
+        }
+
+        internal static FieldInfo GetFieldInfoFor(Type objectType, string memberName)
+        {
+            FieldInfo fieldInfo = null;
+            foreach (var fieldNameConvention in GetDefaultConventionsFor(memberName))
+            {
+                fieldInfo = objectType.GetField(fieldNameConvention, DefaultFieldBindingFlags);
+                if (fieldInfo != null) return fieldInfo;
+            }
+            return fieldInfo;
+        }
+
+        private static IEnumerable<string> GetDefaultConventionsFor(string fieldName)
+        {
+            return new[] { fieldName, "_" + fieldName };
         }
     }
 }

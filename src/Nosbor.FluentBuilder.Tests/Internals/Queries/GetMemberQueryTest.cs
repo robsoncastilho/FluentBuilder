@@ -8,24 +8,16 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Queries
     {
         [TestCase("ReadOnlyPropertyWithUnderLyingField", Result = "readOnlyPropertyWithUnderLyingField")]
         [TestCase("ReadOnlyPropertyWithUnderLyingFieldWithUnderscore", Result = "_readOnlyPropertyWithUnderLyingFieldWithUnderscore")]
-        [TestCase("NonExistendMember", Result = "")]
+        [TestCase("NonExistentMember", Result = "")]
         public string Should_get_underlying_field_name_for_member(string memberName)
         {
-            return GetMemberQuery.GetFieldNameFor<SampleTypeWithFieldAndProperties>(memberName);
-        }
-
-        [Test]
-        public void Should_get_underlying_field_name_for_expression()
-        {
-            var fieldName = GetMemberQuery.GetFieldNameFor<SampleTypeWithFieldAndProperties, int>(sampleType => sampleType.ReadOnlyPropertyWithUnderLyingField);
-
-            Assert.AreEqual("readOnlyPropertyWithUnderLyingField", fieldName);
+            return GetMemberQuery.GetFieldNameFor(new SampleTypeWithFieldAndProperties(), memberName);
         }
 
         [Test]
         public void Shoud_get_property_name_for_expression()
         {
-            var propertyName = GetMemberQuery.GetPropertyNameFor<SampleTypeWithFieldAndProperties, int>(sampleType => sampleType.ReadOnlyPropertyWithUnderLyingField);
+            var propertyName = GetMemberQuery.GetMemberNameFor<SampleTypeWithFieldAndProperties, int>(sampleType => sampleType.ReadOnlyPropertyWithUnderLyingField);
 
             Assert.AreEqual("ReadOnlyPropertyWithUnderLyingField", propertyName);
         }

@@ -68,19 +68,18 @@ namespace Nosbor.FluentBuilder.Lib
         /// </summary>
         public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> expression, TProperty newValue)
         {
-            var propertyName = GetMemberQuery.GetPropertyNameFor(expression);
+            var propertyName = GetMemberQuery.GetMemberNameFor(expression);
             _commands[propertyName] = new SetPropertyCommand(_newObject, propertyName, newValue);
             return this;
         }
 
         /// <summary>
-        /// Configures the builder to set a member with the informed value.
-        /// <para>(Member name must be the same as its type name)</para>
+        /// Configures the builder to set a field with the informed value.
         /// </summary>
-        public FluentBuilder<T> WithValue<TMember>(TMember newValue) where TMember : class
+        public FluentBuilder<T> WithFieldValue<TField>(TField newValue) where TField : class
         {
-            var memberName = typeof(TMember).Name;
-            _commands[memberName] = new SetMemberCommand(_newObject, memberName, newValue);
+            var fieldName = typeof(TField).Name;
+            _commands[fieldName] = new SetFieldCommand(_newObject, fieldName, newValue);
             return this;
         }
 
@@ -92,7 +91,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> WithDependency<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
             where TServiceImplementation : TServiceInterface
         {
-            var fieldName = GetMemberQuery.GetFieldNameFor<T>(Regex.Replace(typeof(TServiceInterface).Name, "^I", ""));
+            var fieldName = Regex.Replace(typeof(TServiceInterface).Name, "^I", "");
             _commands[fieldName] = new SetFieldCommand(_newObject, fieldName, serviceImplementation);
             return this;
         }
@@ -109,6 +108,12 @@ namespace Nosbor.FluentBuilder.Lib
         }
 
         public FluentBuilder<T> Setting<TAbstraction, TReturn>(Func<TAbstraction, TReturn> setupFunction, TReturn returnValue)
+            where TAbstraction : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public FluentBuilder<T> WithMock<TMember>(TMember newValue) where TMember : class
         {
             throw new NotImplementedException();
         }
@@ -121,7 +126,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder<T> AddingTo<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, TElement newElement)
             where TCollectionProperty : IEnumerable<TElement>
         {
-            var fieldName = GetMemberQuery.GetFieldNameFor(expression);
+            var fieldName = GetMemberQuery.GetMemberNameFor(expression);
 
             var setFieldCollectionCommand = GetCommandFor(fieldName);
             setFieldCollectionCommand.Add(newElement);

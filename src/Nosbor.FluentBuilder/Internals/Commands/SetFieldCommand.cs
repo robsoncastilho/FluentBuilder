@@ -1,4 +1,5 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Internals.Queries;
 using System;
 using System.Reflection;
 
@@ -15,7 +16,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             ValidateArguments(@object, fieldName, newValue);
             _object = @object;
             _newValue = newValue;
-            _fieldInfo = @object.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            _fieldInfo = GetMemberQuery.GetFieldInfoFor(@object.GetType(), fieldName);
             ValidateField();
         }
 

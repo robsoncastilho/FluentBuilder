@@ -1,4 +1,5 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Internals.Queries;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -18,7 +19,8 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             ValidateArguments(@object, collectionName);
             _object = @object;
             _collectionName = collectionName;
-            _fieldInfo = _object.GetType().GetField(_collectionName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            _fieldInfo = GetMemberQuery.GetFieldInfoFor(_object.GetType(), _collectionName);
+            ValidateField();
         }
 
         private void ValidateArguments(object @object, string collectionName)
@@ -28,6 +30,12 @@ namespace Nosbor.FluentBuilder.Internals.Commands
 
             if (string.IsNullOrWhiteSpace(collectionName))
                 throw new FluentBuilderException(AppendErrorMessage("Collection name is null"), new ArgumentNullException("collectionName"));
+        }
+
+        private void ValidateField()
+        {
+            if (_fieldInfo == null)
+                throw new FluentBuilderException(AppendErrorMessage("Field not found"));
         }
 
         internal void Add(object newValue)
