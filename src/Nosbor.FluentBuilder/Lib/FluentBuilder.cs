@@ -13,6 +13,7 @@ namespace Nosbor.FluentBuilder.Lib
     {
         private readonly T _newObject;
         private readonly Dictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
+        internal Dictionary<string, ICommand> Commands { get { return _commands; } }
 
         public FluentBuilder()
         {
@@ -94,6 +95,22 @@ namespace Nosbor.FluentBuilder.Lib
             var fieldName = GetMemberQuery.GetFieldNameFor<T>(Regex.Replace(typeof(TServiceInterface).Name, "^I", ""));
             _commands[fieldName] = new SetFieldCommand(_newObject, fieldName, serviceImplementation);
             return this;
+        }
+
+        public FluentBuilder<T> WithStub<TAbstraction, TReturn>(Func<TAbstraction, TReturn> setupFunction, TReturn returnValue)
+            where TAbstraction : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public FluentBuilder<T> WithStub<TAbstraction>() where TAbstraction : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public FluentBuilder<T> Setting<TAbstraction, TReturn>(Func<TAbstraction, TReturn> setupFunction, TReturn returnValue)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

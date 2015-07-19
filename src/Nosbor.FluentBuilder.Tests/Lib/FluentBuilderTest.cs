@@ -1,6 +1,7 @@
 ﻿using Nosbor.FluentBuilder.Lib;
 using Nosbor.FluentBuilder.Tests.Lib.SampleClasses;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -167,6 +168,33 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         {
 
 
+        }
+
+        [Test, Ignore]
+        public void Should_build_object_creating_a_stub()
+        {
+            const int returnValue = 10;
+            Func<IDependency, int> setupAction = dependency => dependency.GetSomething();
+
+            var builder = FluentBuilder<SampleServiceWithDependency>
+                .New()
+                .WithStub<IDependency, int>(setupAction, returnValue);
+        }
+
+        [Test, Ignore]
+        public void Should_build_object_creating_a_stub_and_configuring_more_than_one_method_for_the_same_stub()
+        {
+            const int returnValue = 10;
+            const string otherReturnValue = "value";
+
+            Func<IDependency, int> setupAction = dependency => dependency.GetSomething();
+            Func<IDependency, string> otherSetupAction = dependency => dependency.GetOtherThing();
+
+            var builder = FluentBuilder<SampleServiceWithDependency>
+                .New()
+                .WithStub<IDependency>()
+                .Setting(setupAction, returnValue)
+                .Setting(otherSetupAction, otherReturnValue);
         }
 
         [TestCase(100000, 30), Ignore]

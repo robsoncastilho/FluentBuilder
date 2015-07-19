@@ -49,6 +49,7 @@
     <Compile Include="Internals\Commands\SetPropertyCommand.cs" />
     <Compile Include="Exceptions\FluentBuilderException.cs" />
     <Compile Include="Internals\Commands\SetDefaultValuesForRequiredMembersCommand.cs" />
+    <Compile Include="Internals\Commands\SetStubCommand.cs" />
     <Compile Include="Internals\GenericTypeCreator.cs" />
     <Compile Include="Lib\FluentBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

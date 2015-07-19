@@ -14,14 +14,20 @@
 
     internal interface IDependency
     {
-        int Count();
+        int GetSomething();
+        string GetOtherThing();
     }
 
     internal class SampleConcreteDependency : IDependency
     {
-        public int Count()
+        public int GetSomething()
         {
             return 0;
+        }
+
+        public string GetOtherThing()
+        {
+            return string.Empty;
         }
     }
 }
