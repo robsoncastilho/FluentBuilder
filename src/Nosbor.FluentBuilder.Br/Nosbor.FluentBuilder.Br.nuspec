@@ -9,10 +9,12 @@
 		<projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
-		<releaseNotes>$version$ : Com(valor) alterado para ComValor(valor) </releaseNotes>
+		<releaseNotes>$version$ :
+			ComValor(valor) setando valores apenas para campos (fields)
+		</releaseNotes>
 		<copyright>Copyright Robson Castilho 2015</copyright>
 		<tags>builder unittest testing</tags>
-	  <dependencies>
+		<dependencies>
 			<dependency id="Nosbor.FluentBuilder" version="0.8.1" />
 		</dependencies>
 	</metadata>
