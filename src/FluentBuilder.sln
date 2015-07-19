@@ -11,9 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder.Mock.M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{606347FF-A832-4510-A37B-87458E777183}"
 	ProjectSection(SolutionItems) = preProject
+		Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.nuspec = Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.nuspec
 		Nosbor.FluentBuilder.Mock.Moq\Nosbor.FluentBuilder.Mock.Moq.nuspec = Nosbor.FluentBuilder.Mock.Moq\Nosbor.FluentBuilder.Mock.Moq.nuspec
 		Nosbor.FluentBuilder\Nosbor.FluentBuilder.nuspec = Nosbor.FluentBuilder\Nosbor.FluentBuilder.nuspec
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder.Br", "Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.csproj", "{9CFC90C5-6388-4C74-9646-CCD618E70BB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +36,10 @@ Global
 		{D5CB3196-1AA6-4819-BA40-5485BF9554CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5CB3196-1AA6-4819-BA40-5485BF9554CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5CB3196-1AA6-4819-BA40-5485BF9554CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CFC90C5-6388-4C74-9646-CCD618E70BB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CFC90C5-6388-4C74-9646-CCD618E70BB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CFC90C5-6388-4C74-9646-CCD618E70BB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CFC90C5-6388-4C74-9646-CCD618E70BB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
