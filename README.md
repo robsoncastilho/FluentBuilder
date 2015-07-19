@@ -48,7 +48,7 @@ For code above succeed, Customer class must have a property or field named 'Addr
 #####1.4. WithDependency
 
 Allows setting values for a injected dependency stored in a private field.
-This option allows creating a builder for a SUT (a service that has dependencies) and passing a test double object to the SUT.
+This option allows creating a builder for a service that has dependencies and passing a test double object to the SUT.
 
 Sample 1 (Using a concrete dependency for integration tests):
 
