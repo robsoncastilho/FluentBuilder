@@ -128,4 +128,8 @@ Allows calling Build() to be avoided since you use the returned type explicitly 
 Address address = FluentBuilder<Address>.New().With(a => a.Street, "1st Street");
 ```
 
-**** IN CONSTRUCTION....
+####3. Extensions
+
+#####3.1. Mock.Moq
+
+#####3.2. Brazilian Version
