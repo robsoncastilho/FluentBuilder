@@ -1,8 +1,0 @@
-language: csharp
-solution: src/FluentBuilder.sln
-secure: "Y7O9SmdlRm6PYZEArBzGFO6fXOm/kzWabWQ+19F3zsDF9gfQhxgJRDO9NKVcdQ6gf1slyCbiFvd76PSqO9yRQooEDNJU0atGDccjjl7q/Ij/gjO8nE2UypLNDR2RxDlWxJ5FmEiLNKh2QguBuNWp6Vw1HQhIMsK5No36YyTqjSnuzujZggr5x5WCCyqCdUfc6X6Z0t8uK18dkrJA822Pvd0fea+mKZ5paX6D0o+fJuFXFSJPaDgtJCWsGFUg148BU4qXaMj6grFjudFUwH4ZyFzKXxmVEVPWCaZYx99SHSjvrV4nrMdjNTYwjTs4xInH4rGfrRp8qS/GRCuNieAoVf9DTCAefIffn/85K5U8sKV+FyV0WAjiQWiD+rO1Huqtu4kamsjW+WolgdYhapYVKJ8/G8dlDvGqntrJXSWjYX/PItnLtaxIJfdBdduQCceXzvA5xmbYZapyD2ztqsFahMzIVzJKWLTRAp1jbvbtD+GoHAXjujH6OtIMyACJHUt0zlLQ7pnELlD1DR2CGsoeMkCFHrYhdAdY5mKOmM6UX7wsZZqnrBxnGrz8AD/fsWJunlZ3dhYEGrdj/7m3QG4ybM4qqhDXYP5wX76qYJQ44k0v73niQ2MQgB5NgoEq+wDRSt3pKdbvrZNKiEcKSQ9NDkY9qEQfR/R9aPb7R9lIXbM="
-install: 
-    - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
-script:
-    - xbuild /p:Configuration=Release src/FluentBuilder.sln 
-    - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe src/Nosbor.FluentBuilder.Tests/bin/Release/Nosbor.FluentBuilder.Tests.dll
