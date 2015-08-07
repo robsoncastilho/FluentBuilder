@@ -10,27 +10,6 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
     {
         private SampleTypeWithFieldAndProperties _object;
 
-        private class SampleTypeWithFieldAndProperties
-        {
-            private string field;
-            public AnotherSampleType sampleType;
-            public IList<AnotherSampleType> sampleTypes;
-
-            public int WritableProperty { get; private set; }
-
-            private int _readOnlyPropertyWithUnderLyingField;
-            public int ReadOnlyPropertyWithUnderLyingField { get { return _readOnlyPropertyWithUnderLyingField; } }
-
-            public string PropertyOnlyForTestingPurpose { get { return field; } }
-
-            public void MemberNotPropertyNorField() { }
-        }
-
-        private class AnotherSampleType
-        {
-            public string stringField;
-        }
-
         [SetUp]
         public void SetUp()
         {
@@ -38,23 +17,32 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         }
 
         [Test]
-        public void Should_set_default_values_for_string_fields()
+        public void Should_set_default_values_for_all_string_complextypes_and_collection_members()
         {
             var command = new SetDefaultValuesCommand(_object, new DefaultValueGeneratorFactory());
 
             command.Execute();
 
             Assert.IsNotNull(_object.PropertyOnlyForTestingPurpose);
+            Assert.IsNotNull(_object.sampleType);
+            Assert.IsNotNull(_object.CollectionOnlyForTestingPurpose);
         }
 
-        [Test]
-        public void Should_set_default_values_for_complextype_fields()
+        private class SampleTypeWithFieldAndProperties
         {
-            var command = new SetDefaultValuesCommand(_object, new DefaultValueGeneratorFactory());
+            private string field;
+            public AnotherSampleType sampleType;
+            private IList<AnotherSampleType> sampleTypes;
 
-            command.Execute();
+            public string PropertyOnlyForTestingPurpose { get { return field; } }
+            public IEnumerable<AnotherSampleType> CollectionOnlyForTestingPurpose { get { return sampleTypes; } }
 
-            Assert.IsNotNull(_object.sampleType);
+            public void MemberNotPropertyNorField() { }
+        }
+
+        private class AnotherSampleType
+        {
+            public string stringField;
         }
     }
 }
