@@ -39,6 +39,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internals\Commands\SetDefaultValuesCommandTest.cs" />
     <Compile Include="Internals\Commands\SetFieldCollectionCommandTest.cs" />
     <Compile Include="Internals\Commands\SetFieldCommandTest.cs" />
     <Compile Include="Internals\Commands\SetMemberCommandTest.cs" />

@@ -1,4 +1,5 @@
 using Nosbor.FluentBuilder.Internals.Commands;
+using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
 using Nosbor.FluentBuilder.Internals.Queries;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder()
         {
             _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
-            _commands["defaultValues"] = new SetDefaultValuesForRequiredMembersCommand(_newObject);
+            _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject, new DefaultValueGeneratorFactory());
         }
 
         /// <summary>
@@ -94,28 +95,6 @@ namespace Nosbor.FluentBuilder.Lib
             var fieldName = Regex.Replace(typeof(TServiceInterface).Name, "^I", "");
             _commands[fieldName] = new SetFieldCommand(_newObject, fieldName, serviceImplementation);
             return this;
-        }
-
-        public FluentBuilder<T> WithStub<TAbstraction, TReturn>(Func<TAbstraction, TReturn> setupFunction, TReturn returnValue)
-            where TAbstraction : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public FluentBuilder<T> WithStub<TAbstraction>() where TAbstraction : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public FluentBuilder<T> Setting<TAbstraction, TReturn>(Func<TAbstraction, TReturn> setupFunction, TReturn returnValue)
-            where TAbstraction : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public FluentBuilder<T> WithMock<TMember>(TMember newValue) where TMember : class
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

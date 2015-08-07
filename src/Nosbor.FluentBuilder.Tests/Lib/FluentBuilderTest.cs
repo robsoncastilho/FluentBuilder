@@ -86,17 +86,16 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         }
 
         [Test]
-        public void Should_build_object_setting_default_values_for_members_required_from_constructor()
+        public void Should_build_object_setting_default_values()
         {
             var createdObject = FluentBuilder<ComplexType>.New().Build();
 
-            Assert.AreEqual("privateField", createdObject.PropertyOnlyForTestingPurpose);
-            Assert.AreEqual("publicField", createdObject.PublicField);
-            Assert.AreEqual("propertyWithSetter", createdObject.PropertyWithSetter);
-            Assert.AreEqual("readOnlyPropertyWithBackingField", createdObject.ReadOnlyPropertyWithBackingField);
-            Assert.AreEqual("name", createdObject.AnotherComplexType.Name);
-            Assert.AreEqual("name", createdObject.AnotherComplexTypeInsensitiveCaseTest.Name);
+            Assert.IsNotNull(createdObject.PropertyOnlyForTestingPurpose);
+            Assert.IsNotNull(createdObject.PublicField);
+            Assert.IsNotNull(createdObject.AnotherComplexType);
             Assert.IsNotNull(createdObject.CollectionWithFieldFollowingNameConvention);
+            Assert.IsNotNull(createdObject.PropertyWithSetter);
+            Assert.IsNotNull(createdObject.ReadOnlyPropertyWithBackingField);
         }
 
         [Test]
@@ -163,9 +162,9 @@ namespace Nosbor.FluentBuilder.Tests.Lib
             const int returnValue = 10;
             Func<IDependency, int> setupAction = dependency => dependency.GetSomething();
 
-            var builder = FluentBuilder<SampleServiceWithDependency>
-                .New()
-                .WithStub<IDependency, int>(setupAction, returnValue);
+            //var builder = FluentBuilder<SampleServiceWithDependency>
+            //    .New()
+            //    .WithStub<IDependency, int>(setupAction, returnValue);
         }
 
         [Test, Ignore]
@@ -177,11 +176,11 @@ namespace Nosbor.FluentBuilder.Tests.Lib
             Func<IDependency, int> setupAction = dependency => dependency.GetSomething();
             Func<IDependency, string> otherSetupAction = dependency => dependency.GetOtherThing();
 
-            var builder = FluentBuilder<SampleServiceWithDependency>
-                .New()
-                .WithStub<IDependency>()
-                .Setting(setupAction, returnValue)
-                .Setting(otherSetupAction, otherReturnValue);
+            //var builder = FluentBuilder<SampleServiceWithDependency>
+            //    .New()
+            //    .WithStub<IDependency>()
+            //    .Setting(setupAction, returnValue)
+            //    .Setting(otherSetupAction, otherReturnValue);
         }
 
         [TestCase(100000, 30), Ignore]
