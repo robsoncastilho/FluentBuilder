@@ -2,7 +2,7 @@
 
 namespace Nosbor.FluentBuilder.Internals.DefaultValueGenerators
 {
-    public interface IDefaultValueGenerator
+    internal interface IDefaultValueGenerator
     {
         object GetDefaultValueFor(Type type);
     }

@@ -1,6 +1,8 @@
 ﻿using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
 using System.Linq;
 using System.Reflection;
+using System;
+using Nosbor.FluentBuilder.Internals.Extensions;
 
 namespace Nosbor.FluentBuilder.Internals.Commands
 {
@@ -23,23 +25,27 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             var fieldsToInitialize = objectType.GetMembers(_allowedBindingFlags)
                 .Where(memberInfo => memberInfo.MemberType == MemberTypes.Field)
                 .Select(memberInfo => memberInfo as FieldInfo)
-                .Where(fieldInfo => fieldInfo.FieldType != objectType && (fieldInfo.FieldType == typeof(string) ||
-                                    (fieldInfo.FieldType.IsClass && !fieldInfo.FieldType.IsAbstract) ||
-                                    (typeof(System.Collections.IEnumerable).IsAssignableFrom(fieldInfo.FieldType))))
+                .Where(fieldInfo => IsAllowedToInitialize(fieldInfo.FieldType, objectType))
                 .ToList();
 
-            foreach (var memberToInitialize in fieldsToInitialize)
+            foreach (var fieldInfo in fieldsToInitialize)
             {
-                var defaultValueGenerator = _defaultValueGeneratorFactory.CreateFor(memberToInitialize.FieldType);
+                var defaultValueGenerator = _defaultValueGeneratorFactory.CreateFor(fieldInfo.FieldType);
 
-                var defaultValue = defaultValueGenerator.GetDefaultValueFor(memberToInitialize.FieldType);
+                var defaultValue = defaultValueGenerator.GetDefaultValueFor(fieldInfo.FieldType);
 
                 if (defaultValue != null)
                 {
-                    var command = new SetMemberCommand(_object, memberToInitialize.Name, defaultValue);
+                    var command = new SetMemberCommand(_object, fieldInfo.Name, defaultValue);
                     command.Execute();
                 }
             }
+        }
+
+        private bool IsAllowedToInitialize(Type fieldType, Type objectType)
+        {
+            return fieldType != objectType &&
+                   (fieldType.IsString() || fieldType.IsConcreteClass() || fieldType.InheritsFrom<System.Collections.IEnumerable>());
         }
     }
 }

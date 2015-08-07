@@ -9,6 +9,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
     {
         private readonly object _object;
         private readonly object _newValue;
+        private readonly string _fieldName;
         private readonly FieldInfo _fieldInfo;
 
         internal SetFieldCommand(object @object, string fieldName, object newValue)
@@ -16,6 +17,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             ValidateArguments(@object, fieldName, newValue);
             _object = @object;
             _newValue = newValue;
+            _fieldName = fieldName;
             _fieldInfo = GetMemberQuery.GetFieldInfoFor(@object.GetType(), fieldName);
             ValidateField();
         }
@@ -35,7 +37,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         private void ValidateField()
         {
             if (_fieldInfo == null)
-                throw new FluentBuilderException(AppendErrorMessage("Field not found"));
+                throw new FluentBuilderException(AppendErrorMessage(string.Format("Field '{0}' not found", _fieldName)));
 
             if (!_fieldInfo.FieldType.IsAssignableFrom(_newValue.GetType()))
                 throw new FluentBuilderException(AppendErrorMessage("Value must be of the same type of the field"));

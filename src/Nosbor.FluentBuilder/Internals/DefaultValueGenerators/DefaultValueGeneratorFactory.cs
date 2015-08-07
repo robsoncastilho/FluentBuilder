@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nosbor.FluentBuilder.Internals.Extensions;
+using System;
 
 namespace Nosbor.FluentBuilder.Internals.DefaultValueGenerators
 {
@@ -6,13 +7,13 @@ namespace Nosbor.FluentBuilder.Internals.DefaultValueGenerators
     {
         public IDefaultValueGenerator CreateFor(Type type)
         {
-            if (type == typeof(string))
+            if (type.IsString())
                 return new DefaultValueForString();
 
-            if (typeof(System.Collections.IEnumerable).IsAssignableFrom(type))
+            if (type.InheritsFrom<System.Collections.IEnumerable>())
                 return new DefaultValueForIEnumerable(new GenericTypeCreator());
 
-            if (type.IsClass && !type.IsAbstract)
+            if (type.IsConcreteClass())
                 return new DefaultValueForConcreteClass();
 
             return null;//TODO: null?

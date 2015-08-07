@@ -54,6 +54,7 @@
     <Compile Include="Internals\Commands\SetPropertyCommand.cs" />
     <Compile Include="Exceptions\FluentBuilderException.cs" />
     <Compile Include="Internals\DefaultValueGenerators\DefaultValueForConcreteClass.cs" />
+    <Compile Include="Internals\Extensions\TypeExtensions.cs" />
     <Compile Include="Internals\GenericTypeCreator.cs" />
     <Compile Include="Internals\DefaultValueGenerators\IDefaultValueGeneratorFactory.cs" />
     <Compile Include="Lib\FluentBuilder.cs" />
