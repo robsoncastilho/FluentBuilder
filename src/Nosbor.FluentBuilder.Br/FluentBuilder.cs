@@ -48,9 +48,9 @@ namespace Nosbor.FluentBuilder.Br
             return this;
         }
 
-        public FluentBuilder<T> ComValor<TMembro>(TMembro novoValor) where TMembro : class
+        public FluentBuilder<T> ComValorParaOCampo<TCampo>(TCampo novoValor) where TCampo : class
         {
-            _builder.WithValue(novoValor);
+            _builder.WithFieldValue(novoValor);
             return this;
         }
 

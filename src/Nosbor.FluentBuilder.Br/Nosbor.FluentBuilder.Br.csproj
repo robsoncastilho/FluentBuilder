@@ -32,8 +32,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nosbor.FluentBuilder, Version=0.8.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nosbor.FluentBuilder.0.8.1.0\lib\net45\Nosbor.FluentBuilder.dll</HintPath>
+    <Reference Include="Nosbor.FluentBuilder, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nosbor.FluentBuilder.0.8.2.0\lib\net45\Nosbor.FluentBuilder.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
