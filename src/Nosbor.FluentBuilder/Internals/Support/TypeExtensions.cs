@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nosbor.FluentBuilder.Internals.Extensions
+namespace Nosbor.FluentBuilder.Internals.Support
 {
     internal static class TypeExtensions
     {

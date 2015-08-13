@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nosbor.FluentBuilder.Internals
+namespace Nosbor.FluentBuilder.Internals.Support
 {
     internal class GenericTypeCreator
     {

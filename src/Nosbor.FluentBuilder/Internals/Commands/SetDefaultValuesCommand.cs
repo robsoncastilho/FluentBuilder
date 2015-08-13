@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System;
-using Nosbor.FluentBuilder.Internals.Extensions;
+using Nosbor.FluentBuilder.Internals.Support;
 
 namespace Nosbor.FluentBuilder.Internals.Commands
 {
@@ -28,24 +28,24 @@ namespace Nosbor.FluentBuilder.Internals.Commands
                 .Where(fieldInfo => IsAllowedToInitialize(fieldInfo.FieldType, objectType))
                 .ToList();
 
-            foreach (var fieldInfo in fieldsToInitialize)
-            {
-                var defaultValueGenerator = _defaultValueGeneratorFactory.CreateFor(fieldInfo.FieldType);
-
-                var defaultValue = defaultValueGenerator.GetDefaultValueFor(fieldInfo.FieldType);
-
-                if (defaultValue != null)
-                {
-                    var command = new SetMemberCommand(_object, fieldInfo.Name, defaultValue);
-                    command.Execute();
-                }
-            }
+            fieldsToInitialize.ForEach(fieldInfo => InitializeField(fieldInfo));
         }
 
         private bool IsAllowedToInitialize(Type fieldType, Type objectType)
         {
             return fieldType != objectType &&
                    (fieldType.IsString() || fieldType.IsConcreteClass() || fieldType.InheritsFrom<System.Collections.IEnumerable>());
+        }
+
+        private void InitializeField(FieldInfo fieldInfo)
+        {
+            var defaultValueGenerator = _defaultValueGeneratorFactory.CreateFor(fieldInfo.FieldType);
+
+            var defaultValue = defaultValueGenerator.GetDefaultValueFor(fieldInfo.FieldType);
+            if (defaultValue == null) return;
+
+            var command = new SetMemberCommand(_object, fieldInfo.Name, defaultValue);
+            command.Execute();
         }
     }
 }

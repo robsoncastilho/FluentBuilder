@@ -15,7 +15,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Queries
         }
 
         [Test]
-        public void Shoud_get_property_name_for_expression()
+        public void Should_get_property_name_for_expression()
         {
             var propertyName = GetMemberQuery.GetMemberNameFor<SampleTypeWithFieldAndProperties, int>(sampleType => sampleType.ReadOnlyPropertyWithUnderLyingField);
 

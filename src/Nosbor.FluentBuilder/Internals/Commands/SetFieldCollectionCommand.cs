@@ -1,5 +1,6 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
 using Nosbor.FluentBuilder.Internals.Queries;
+using Nosbor.FluentBuilder.Internals.Support;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

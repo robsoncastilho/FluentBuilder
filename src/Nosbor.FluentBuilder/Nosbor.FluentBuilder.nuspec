@@ -9,8 +9,7 @@
     <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>$version$ : 
-      Breaking change - WithValue(newValue) renamed to WithFieldValue(newValue) and allowing only fields
+    <releaseNotes>$version$ : All fields (string, concrete class or IEnumerable) are initialized when creating the object
     </releaseNotes>
     <copyright>Copyright Robson Castilho 2015</copyright>
     <tags>builder unittest testing</tags>

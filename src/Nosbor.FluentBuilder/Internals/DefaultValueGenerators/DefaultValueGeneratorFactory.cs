@@ -1,4 +1,4 @@
-﻿using Nosbor.FluentBuilder.Internals.Extensions;
+﻿using Nosbor.FluentBuilder.Internals.Support;
 using System;
 
 namespace Nosbor.FluentBuilder.Internals.DefaultValueGenerators
@@ -16,7 +16,7 @@ namespace Nosbor.FluentBuilder.Internals.DefaultValueGenerators
             if (type.IsConcreteClass())
                 return new DefaultValueForConcreteClass();
 
-            return null;//TODO: null?
+            return null; //TODO: null?
         }
     }
 }
