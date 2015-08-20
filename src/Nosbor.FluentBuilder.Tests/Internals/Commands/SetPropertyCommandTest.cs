@@ -39,12 +39,12 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
             Assert.AreEqual(newValue, _object.AbstractProperty);
         }
 
-        [TestCase("ReadOnlyProperty", 10, Description = "When property is read-only")]
-        [TestCase("WritableProperty", null, Description = "When value is null")]
-        [TestCase("WritableProperty", "invalidType", Description = "When property type is different from value type")]
-        [TestCase("NonExistentProperty", "dummyValue", Description = "When property was not found")]
         [TestCase(null, 10, Description = "When property name is null")]
-        public void Should_not_create_invalid_command_when(string propertyName, object newValue)
+        [TestCase("WritableProperty", null, Description = "When value is null")]
+        [TestCase("NonExistentProperty", "dummyValue", Description = "When property was not found")]
+        [TestCase("ReadOnlyProperty", 10, Description = "When property is read-only")]
+        [TestCase("WritableProperty", "invalidType", Description = "When property type is different from value type")]
+        public void Should_not_create_invalid_set_property_command_when(string propertyName, object newValue)
         {
             TestDelegate testAction = () => new SetPropertyCommand(_object, propertyName, newValue);
 
@@ -52,7 +52,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         }
 
         [Test]
-        public void Should_not_create_invalid_command_when_destination_object_is_null()
+        public void Should_not_create_invalid_set_property_command_when_destination_object_is_null()
         {
             SampleTypeWithProperties @object = null;
 

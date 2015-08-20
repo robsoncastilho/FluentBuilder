@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Nosbor.FluentBuilder.Internals.Commands
 {
-    internal class SetFieldCollectionCommand : BaseCommand, ICommand
+    internal class SetFieldCollectionCommand : ICommand
     {
         private readonly object _object;
         private readonly string _collectionName;
@@ -37,6 +37,13 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         {
             if (_fieldInfo == null)
                 throw new FluentBuilderException(AppendErrorMessage("Field not found"));
+        }
+
+        private string _errorMessage = "Can't set value";
+
+        private string AppendErrorMessage(string aditionalMessage)
+        {
+            return string.Format("{0} - {1}", _errorMessage, aditionalMessage);
         }
 
         internal void Add(object newValue)

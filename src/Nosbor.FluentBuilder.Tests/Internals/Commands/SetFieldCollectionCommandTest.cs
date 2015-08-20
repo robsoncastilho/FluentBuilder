@@ -31,7 +31,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         }
 
         [TestCase(null, Description = "When collection name is null")]
-        public void Should_not_create_invalid_command_when(string collectionName)
+        public void Should_not_create_invalid_set_field_collection_command_when(string collectionName)
         {
             TestDelegate testAction = () => new SetFieldCollectionCommand(_object, collectionName);
 

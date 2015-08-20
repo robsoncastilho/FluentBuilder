@@ -50,7 +50,6 @@
     <Compile Include="Internals\Commands\SetDefaultValuesCommand.cs" />
     <Compile Include="Internals\Commands\SetFieldCollectionCommand.cs" />
     <Compile Include="Internals\Commands\SetFieldCommand.cs" />
-    <Compile Include="Internals\Commands\SetMemberCommand.cs" />
     <Compile Include="Internals\Commands\SetPropertyCommand.cs" />
     <Compile Include="Exceptions\FluentBuilderException.cs" />
     <Compile Include="Internals\DefaultValueGenerators\DefaultValueForConcreteClass.cs" />

@@ -1,51 +1,40 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
-using System;
 using System.Reflection;
+using System.Text;
 
 namespace Nosbor.FluentBuilder.Internals.Commands
 {
     internal class SetPropertyCommand : BaseCommand, ICommand
     {
-        private readonly object _object;
-        private readonly object _newValue;
         private readonly PropertyInfo _propertyInfo;
 
-        internal SetPropertyCommand(object @object, string propertyName, object newValue)
+        internal SetPropertyCommand(object destinationObject, string propertyName, object newValue) : base(destinationObject, propertyName, newValue)
         {
-            ValidateArguments(@object, propertyName, newValue);
-            _propertyInfo = @object.GetType().GetProperty(propertyName);
-            _object = @object;
-            _newValue = newValue;
+            _propertyInfo = destinationObject.GetType().GetProperty(propertyName);
             ValidateProperty();
-        }
-
-        private void ValidateArguments(object @object, string propertyName, object newValue)
-        {
-            if (@object == null)
-                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("object"));
-
-            if (string.IsNullOrWhiteSpace(propertyName))
-                throw new FluentBuilderException(AppendErrorMessage("Property name is null"), new ArgumentNullException("propertyName"));
-
-            if (newValue == null)
-                throw new FluentBuilderException(AppendErrorMessage("Value is null"), new ArgumentNullException("newValue"));
         }
 
         private void ValidateProperty()
         {
             if (_propertyInfo == null)
-                throw new FluentBuilderException(AppendErrorMessage("Property not found"));
+                throw new FluentBuilderException(string.Format("Property \"{0}\" not found - Object \"{1}\"", MemberName, DestinationObject));
 
             if (!_propertyInfo.CanWrite)
-                throw new FluentBuilderException(AppendErrorMessage("Property must have a setter"));
+                throw new FluentBuilderException(string.Format("Property \"{0}\" must have a setter - Object \"{1}\"", MemberName, DestinationObject));
 
-            if (!_propertyInfo.PropertyType.IsAssignableFrom(_newValue.GetType()))
-                throw new FluentBuilderException(AppendErrorMessage("Value must be of the same type of the property"));
+            if (!_propertyInfo.PropertyType.IsAssignableFrom(MemberNewValue.GetType()))
+            {
+                var messageBuilder = new StringBuilder();
+                messageBuilder.AppendFormat("Value must be of the same type of the property \"{0}\" - Object \"{1}\"\n", MemberName, DestinationObject);
+                messageBuilder.AppendFormat("Informed type: {0}\n", MemberNewValue.GetType());
+                messageBuilder.AppendFormat("Property type: {0}", _propertyInfo.PropertyType);
+                throw new FluentBuilderException(messageBuilder.ToString());
+            }
         }
 
         public void Execute()
         {
-            _propertyInfo.SetValue(_object, _newValue, null);
+            _propertyInfo.SetValue(DestinationObject, MemberNewValue, null);
         }
     }
 }

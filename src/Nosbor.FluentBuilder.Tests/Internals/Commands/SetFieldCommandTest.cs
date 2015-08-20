@@ -51,11 +51,11 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
             Assert.AreEqual(newValue, _object.abstractField);
         }
 
-        [TestCase("field", null, Description = "When value is null")]
-        [TestCase("field", "invalidType", Description = "When field type is different from value type")]
-        [TestCase("NonExistentField", "dummyValue", Description = "When field was not found")]
         [TestCase(null, 10, Description = "When field name is null")]
-        public void Should_not_create_invalid_command_when(string fieldName, object newValue)
+        [TestCase("field", null, Description = "When value is null")]
+        [TestCase("NonExistentField", "dummyValue", Description = "When field was not found")]
+        [TestCase("field", "invalidType", Description = "When field type is different from value type")]
+        public void Should_not_create_invalid_set_field_command_when(string fieldName, object newValue)
         {
             TestDelegate testAction = () => new SetFieldCommand(_object, fieldName, newValue);
 
@@ -63,7 +63,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
         }
 
         [Test]
-        public void Should_not_create_invalid_command_when_destination_object_is_null()
+        public void Should_not_create_invalid_set_field_command_when_destination_object_is_null()
         {
             SampleTypeWithFields @object = null;
 

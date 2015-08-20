@@ -1,12 +1,12 @@
 ﻿using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
+using Nosbor.FluentBuilder.Internals.Support;
+using System;
 using System.Linq;
 using System.Reflection;
-using System;
-using Nosbor.FluentBuilder.Internals.Support;
 
 namespace Nosbor.FluentBuilder.Internals.Commands
 {
-    internal class SetDefaultValuesCommand : BaseCommand, ICommand
+    internal class SetDefaultValuesCommand : ICommand
     {
         private readonly object _object;
         private readonly IDefaultValueGeneratorFactory _defaultValueGeneratorFactory;
@@ -44,7 +44,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             var defaultValue = defaultValueGenerator.GetDefaultValueFor(fieldInfo.FieldType);
             if (defaultValue == null) return;
 
-            var command = new SetMemberCommand(_object, fieldInfo.Name, defaultValue);
+            var command = new SetFieldCommand(_object, fieldInfo.Name, defaultValue);
             command.Execute();
         }
     }

@@ -1,51 +1,38 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
 using Nosbor.FluentBuilder.Internals.Queries;
-using System;
 using System.Reflection;
+using System.Text;
 
 namespace Nosbor.FluentBuilder.Internals.Commands
 {
     internal class SetFieldCommand : BaseCommand, ICommand
     {
-        private readonly object _object;
-        private readonly object _newValue;
-        private readonly string _fieldName;
         private readonly FieldInfo _fieldInfo;
 
-        internal SetFieldCommand(object @object, string fieldName, object newValue)
+        internal SetFieldCommand(object destinationObject, string fieldName, object newValue) : base(destinationObject, fieldName, newValue)
         {
-            ValidateArguments(@object, fieldName, newValue);
-            _object = @object;
-            _newValue = newValue;
-            _fieldName = fieldName;
-            _fieldInfo = GetMemberQuery.GetFieldInfoFor(@object.GetType(), fieldName);
+            _fieldInfo = GetMemberQuery.GetFieldInfoFor(destinationObject.GetType(), fieldName);
             ValidateField();
-        }
-
-        private void ValidateArguments(object @object, string fieldName, object newValue)
-        {
-            if (@object == null)
-                throw new FluentBuilderException(AppendErrorMessage("Destination object is null"), new ArgumentNullException("object"));
-
-            if (string.IsNullOrWhiteSpace(fieldName))
-                throw new FluentBuilderException(AppendErrorMessage("Field name is null"), new ArgumentNullException("fieldName"));
-
-            if (newValue == null)
-                throw new FluentBuilderException(AppendErrorMessage("Value is null"), new ArgumentNullException("newValue"));
         }
 
         private void ValidateField()
         {
             if (_fieldInfo == null)
-                throw new FluentBuilderException(AppendErrorMessage(string.Format("Field '{0}' not found", _fieldName)));
+                throw new FluentBuilderException(string.Format("Field \"{0}\" not found - Object \"{1}\"", MemberName, DestinationObject));
 
-            if (!_fieldInfo.FieldType.IsAssignableFrom(_newValue.GetType()))
-                throw new FluentBuilderException(AppendErrorMessage("Value must be of the same type of the field"));
+            if (!_fieldInfo.FieldType.IsAssignableFrom(MemberNewValue.GetType()))
+            {
+                var messageBuilder = new StringBuilder();
+                messageBuilder.AppendFormat("Value must be of the same type of the field \"{0}\" - Object \"{1}\"\n", MemberName, DestinationObject);
+                messageBuilder.AppendFormat("Informed type: {0}\n", MemberNewValue.GetType());
+                messageBuilder.AppendFormat("Field type: {0}", _fieldInfo.FieldType);
+                throw new FluentBuilderException(messageBuilder.ToString());
+            }
         }
 
         public void Execute()
         {
-            _fieldInfo.SetValue(_object, _newValue);
+            _fieldInfo.SetValue(DestinationObject, MemberNewValue);
         }
     }
 }
