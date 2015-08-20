@@ -9,8 +9,7 @@
     <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>$version$ : Improved exception messages
-    </releaseNotes>
+    <releaseNotes>$version$ : Improved exception messages</releaseNotes>
     <copyright>Copyright Robson Castilho 2015</copyright>
     <tags>builder unittest testing</tags>
   </metadata>

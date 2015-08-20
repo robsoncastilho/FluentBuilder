@@ -9,14 +9,11 @@
 		<projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
-		<releaseNotes>$version$ : 
-      - Initializando para valores não nulos todos os fields que sejam strings, classes concretas ou IEnumerable
-      - Método ComValor() renomeado para ComValorParaOCampo()
-    </releaseNotes>
+		<releaseNotes>$version$ : Melhoradas as mensagens das exceções disparadas</releaseNotes>
 		<copyright>Copyright Robson Castilho 2015</copyright>
 		<tags>builder unittest testing</tags>
 		<dependencies>
-			<dependency id="Nosbor.FluentBuilder" version="0.8.2" />
+			<dependency id="Nosbor.FluentBuilder" version="0.8.3" />
 		</dependencies>
 	</metadata>
 </package>
