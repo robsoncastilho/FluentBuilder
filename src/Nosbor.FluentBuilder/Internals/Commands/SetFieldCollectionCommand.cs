@@ -24,6 +24,13 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             ValidateField();
         }
 
+        private readonly ICommand _command;
+
+        internal SetFieldCollectionCommand(ICommand command)
+        {
+            _command = command;
+        }
+
         private void ValidateArguments(object @object, string collectionName)
         {
             if (@object == null)
@@ -53,12 +60,19 @@ namespace Nosbor.FluentBuilder.Internals.Commands
 
         public void Execute()
         {
-            var genericListInstance = _genericTypeCreator.CreateInstanceFor(_fieldInfo.FieldType.GenericTypeArguments);
+            try
+            {
+                var genericListInstance = _genericTypeCreator.CreateInstanceFor(typeof(List<>), _fieldInfo.FieldType.GenericTypeArguments);
 
-            var command = new SetFieldCommand(_object, _collectionName, genericListInstance);
-            command.Execute();
+                var command = new SetFieldCommand(_object, _collectionName, genericListInstance);
+                command.Execute();
 
-            AddElementsTo(genericListInstance.GetType());
+                AddElementsTo(genericListInstance.GetType());
+            }
+            catch (Exception ex)
+            {
+                throw new FluentBuilderException(string.Format("Failed setting collection \"{0}\" - Object \"{1}\"", _collectionName, _object), ex);
+            }
         }
 
         private void AddElementsTo(Type genericListType)

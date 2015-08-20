@@ -114,7 +114,7 @@ namespace Nosbor.FluentBuilder.Lib
 
         private SetFieldCollectionCommand GetCommandFor(string fieldName)
         {
-            if (_commands.ContainsKey(fieldName))
+            if (_commands.ContainsKey(fieldName)) 
                 return (SetFieldCollectionCommand)_commands[fieldName];
 
             var setFieldCollectionCommand = new SetFieldCollectionCommand(_newObject, fieldName);

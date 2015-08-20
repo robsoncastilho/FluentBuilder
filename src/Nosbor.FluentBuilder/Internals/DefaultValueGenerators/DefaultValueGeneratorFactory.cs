@@ -14,7 +14,7 @@ namespace Nosbor.FluentBuilder.Internals.DefaultValueGenerators
                 return new DefaultValueForIEnumerable(new GenericTypeCreator());
 
             if (type.IsConcreteClass())
-                return new DefaultValueForConcreteClass();
+                return new DefaultValueForConcreteClass(new GenericTypeCreator());
 
             return null; //TODO: null?
         }

@@ -1,5 +1,6 @@
 ﻿using Nosbor.FluentBuilder.Internals.Support;
 using System;
+using System.Collections.Generic;
 
 namespace Nosbor.FluentBuilder.Internals.DefaultValueGenerators
 {
@@ -14,7 +15,7 @@ namespace Nosbor.FluentBuilder.Internals.DefaultValueGenerators
 
         public object GetDefaultValueFor(Type type)
         {
-            return _genericTypeCreator.CreateInstanceFor(type.GenericTypeArguments);
+            return _genericTypeCreator.CreateInstanceFor(typeof(List<>), type.GenericTypeArguments);
         }
     }
 }

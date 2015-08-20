@@ -1,4 +1,5 @@
-﻿using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
+﻿using Nosbor.FluentBuilder.Exceptions;
+using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
 using Nosbor.FluentBuilder.Internals.Support;
 using System;
 using System.Linq;
@@ -39,13 +40,20 @@ namespace Nosbor.FluentBuilder.Internals.Commands
 
         private void InitializeField(FieldInfo fieldInfo)
         {
-            var defaultValueGenerator = _defaultValueGeneratorFactory.CreateFor(fieldInfo.FieldType);
+            try
+            {
+                var defaultValueGenerator = _defaultValueGeneratorFactory.CreateFor(fieldInfo.FieldType);
 
-            var defaultValue = defaultValueGenerator.GetDefaultValueFor(fieldInfo.FieldType);
-            if (defaultValue == null) return;
+                var defaultValue = defaultValueGenerator.GetDefaultValueFor(fieldInfo.FieldType);
+                if (defaultValue == null) return;
 
-            var command = new SetFieldCommand(_object, fieldInfo.Name, defaultValue);
-            command.Execute();
+                var command = new SetFieldCommand(_object, fieldInfo.Name, defaultValue);
+                command.Execute();
+            }
+            catch (Exception ex)
+            {
+                throw new FluentBuilderException(string.Format("Failed setting default value for field \"{0}\" - Object \"{1}\"", fieldInfo.Name, _object), ex);
+            }
         }
     }
 }
