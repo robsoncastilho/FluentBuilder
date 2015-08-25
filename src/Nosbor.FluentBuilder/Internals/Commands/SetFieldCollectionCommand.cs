@@ -71,7 +71,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             }
             catch (Exception ex)
             {
-                throw new FluentBuilderException(string.Format("Failed setting collection \"{0}\" - Object \"{1}\"", _collectionName, _object), ex);
+                throw new FluentBuilderException(string.Format("Failed setting collection \"{0}\" - Object \"{1}\"", _collectionName, _object.GetType()), ex);
             }
         }
 

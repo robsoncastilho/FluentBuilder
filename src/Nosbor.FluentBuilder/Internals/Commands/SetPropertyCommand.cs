@@ -17,15 +17,15 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         private void ValidateProperty()
         {
             if (_propertyInfo == null)
-                throw new FluentBuilderException(string.Format("Property \"{0}\" not found - Object \"{1}\"", MemberName, DestinationObject));
+                throw new FluentBuilderException(string.Format("Property \"{0}\" not found - Object \"{1}\"", MemberName, DestinationObject.GetType()));
 
             if (!_propertyInfo.CanWrite)
-                throw new FluentBuilderException(string.Format("Property \"{0}\" must have a setter - Object \"{1}\"", MemberName, DestinationObject));
+                throw new FluentBuilderException(string.Format("Property \"{0}\" must have a setter - Object \"{1}\"", MemberName, DestinationObject.GetType()));
 
             if (!_propertyInfo.PropertyType.IsAssignableFrom(MemberNewValue.GetType()))
             {
                 var messageBuilder = new StringBuilder();
-                messageBuilder.AppendFormat("Value must be of the same type of the property \"{0}\" - Object \"{1}\"\n", MemberName, DestinationObject);
+                messageBuilder.AppendFormat("Value must be of the same type of the property \"{0}\" - Object \"{1}\"\n", MemberName, DestinationObject.GetType());
                 messageBuilder.AppendFormat("Informed type: {0}\n", MemberNewValue.GetType());
                 messageBuilder.AppendFormat("Property type: {0}", _propertyInfo.PropertyType);
                 throw new FluentBuilderException(messageBuilder.ToString());

@@ -44,7 +44,6 @@
     <Compile Include="Internals\Commands\BaseCommand.cs" />
     <Compile Include="Internals\Commands\ICommand.cs" />
     <Compile Include="Internals\DefaultValueGenerators\DefaultValueForIEnumerable.cs" />
-    <Compile Include="Internals\DefaultValueGenerators\DefaultValueGeneratorFactory.cs" />
     <Compile Include="Internals\DefaultValueGenerators\DefaultValueForString.cs" />
     <Compile Include="Internals\DefaultValueGenerators\IDefaultValueGenerator.cs" />
     <Compile Include="Internals\Commands\SetDefaultValuesCommand.cs" />
@@ -55,7 +54,6 @@
     <Compile Include="Internals\DefaultValueGenerators\DefaultValueForConcreteClass.cs" />
     <Compile Include="Internals\Support\TypeExtensions.cs" />
     <Compile Include="Internals\Support\GenericTypeCreator.cs" />
-    <Compile Include="Internals\DefaultValueGenerators\IDefaultValueGeneratorFactory.cs" />
     <Compile Include="Lib\FluentBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internals\Queries\GetMemberQuery.cs" />

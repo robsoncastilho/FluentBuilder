@@ -1,5 +1,4 @@
 using Nosbor.FluentBuilder.Internals.Commands;
-using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
 using Nosbor.FluentBuilder.Internals.Queries;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder()
         {
             _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
-            _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject, new DefaultValueGeneratorFactory());
+            _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject);
         }
 
         /// <summary>
@@ -114,7 +113,7 @@ namespace Nosbor.FluentBuilder.Lib
 
         private SetFieldCollectionCommand GetCommandFor(string fieldName)
         {
-            if (_commands.ContainsKey(fieldName)) 
+            if (_commands.ContainsKey(fieldName))
                 return (SetFieldCollectionCommand)_commands[fieldName];
 
             var setFieldCollectionCommand = new SetFieldCollectionCommand(_newObject, fieldName);

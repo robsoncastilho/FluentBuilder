@@ -1,5 +1,4 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
-using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
 using Nosbor.FluentBuilder.Internals.Support;
 using System;
 using System.Linq;
@@ -10,13 +9,11 @@ namespace Nosbor.FluentBuilder.Internals.Commands
     internal class SetDefaultValuesCommand : ICommand
     {
         private readonly object _object;
-        private readonly IDefaultValueGeneratorFactory _defaultValueGeneratorFactory;
         private readonly BindingFlags _allowedBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
-        public SetDefaultValuesCommand(object @object, IDefaultValueGeneratorFactory defaultValueGeneratorFactory)
+        public SetDefaultValuesCommand(object @object)
         {
             _object = @object;
-            _defaultValueGeneratorFactory = defaultValueGeneratorFactory;
         }
 
         public void Execute()
@@ -26,23 +23,17 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             var fieldsToInitialize = objectType.GetMembers(_allowedBindingFlags)
                 .Where(memberInfo => memberInfo.MemberType == MemberTypes.Field)
                 .Select(memberInfo => memberInfo as FieldInfo)
-                .Where(fieldInfo => IsAllowedToInitialize(fieldInfo.FieldType, objectType))
+                .Where(fieldInfo => fieldInfo.FieldType.IsAllowedToInitialize(objectType))
                 .ToList();
 
             fieldsToInitialize.ForEach(fieldInfo => InitializeField(fieldInfo));
-        }
-
-        private bool IsAllowedToInitialize(Type fieldType, Type objectType)
-        {
-            return fieldType != objectType &&
-                   (fieldType.IsString() || fieldType.IsConcreteClass() || fieldType.InheritsFrom<System.Collections.IEnumerable>());
         }
 
         private void InitializeField(FieldInfo fieldInfo)
         {
             try
             {
-                var defaultValueGenerator = _defaultValueGeneratorFactory.CreateFor(fieldInfo.FieldType);
+                var defaultValueGenerator = fieldInfo.FieldType.GetDefaultValueGenerator();
 
                 var defaultValue = defaultValueGenerator.GetDefaultValueFor(fieldInfo.FieldType);
                 if (defaultValue == null) return;
@@ -52,7 +43,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             }
             catch (Exception ex)
             {
-                throw new FluentBuilderException(string.Format("Failed setting default value for field \"{0}\" - Object \"{1}\"", fieldInfo.Name, _object), ex);
+                throw new FluentBuilderException(string.Format("Failed setting default value for field \"{0}\" - Object \"{1}\"", fieldInfo.Name, _object.GetType()), ex);
             }
         }
     }

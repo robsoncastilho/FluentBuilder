@@ -23,12 +23,12 @@ namespace Nosbor.FluentBuilder.Internals.Commands
                 throw new FluentBuilderException("Destination object is null", new ArgumentNullException("destinationObject"));
 
             if (string.IsNullOrWhiteSpace(memberName))
-                throw new FluentBuilderException(string.Format("Member name required - Object \"{0}\"", destinationObject),
+                throw new FluentBuilderException(string.Format("Member name required - Object \"{0}\"", destinationObject.GetType()),
                     new ArgumentNullException("memberName"));
 
             if (memberNewValue == null)
                 throw new FluentBuilderException(string.Format("New value required - Object \"{0}\" - Member \"{1}\"",
-                    destinationObject, memberName), new ArgumentNullException("memberNewValue"));
+                    destinationObject.GetType(), memberName), new ArgumentNullException("memberNewValue"));
         }
     }
 }
