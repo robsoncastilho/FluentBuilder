@@ -54,10 +54,10 @@ namespace Nosbor.FluentBuilder.Br
             return this;
         }
 
-        public FluentBuilder<T> Com<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expressao, params TElement[] novosElementos)
+        public FluentBuilder<T> ComColecao<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expressao, params TElement[] novosElementos)
             where TCollectionProperty : IEnumerable<TElement>
         {
-            _builder.With(expressao, novosElementos);
+            _builder.WithCollection(expressao, novosElementos);
             return this;
         }
 

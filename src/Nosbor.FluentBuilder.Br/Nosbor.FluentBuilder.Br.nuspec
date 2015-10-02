@@ -9,11 +9,14 @@
 		<projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
-		<releaseNotes>$version$ : Melhoradas as mensagens das exceções disparadas</releaseNotes>
+		<releaseNotes>$version$ : 
+      - Método novo ComColecao() permite adicionar múltiplos elementos a uma coleção de uma só vez
+      - Método novo ComValoresPadrao() permite habilitar a atribuição automática de valores-default (antes era feito automaticamente)
+    </releaseNotes>
 		<copyright>Copyright Robson Castilho 2015</copyright>
 		<tags>builder unittest testing</tags>
 		<dependencies>
-			<dependency id="Nosbor.FluentBuilder" version="0.9.0" />
+			<dependency id="Nosbor.FluentBuilder" version="0.9.1" />
 		</dependencies>
 	</metadata>
 </package>
