@@ -24,13 +24,6 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             ValidateField();
         }
 
-        private readonly ICommand _command;
-
-        internal SetFieldCollectionCommand(ICommand command)
-        {
-            _command = command;
-        }
-
         private void ValidateArguments(object @object, string collectionName)
         {
             if (@object == null)

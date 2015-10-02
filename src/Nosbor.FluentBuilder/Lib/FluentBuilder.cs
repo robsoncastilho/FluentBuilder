@@ -18,7 +18,6 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder()
         {
             _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
-            _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject);
         }
 
         /// <summary>
@@ -63,13 +62,37 @@ namespace Nosbor.FluentBuilder.Lib
         }
 
         /// <summary>
+        /// Enables setting default values for strings, concrete classes and IEnumerables
+        /// </summary>
+        public FluentBuilder<T> EnableDefaultValues()
+        {
+            _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject);
+            return this;
+        }
+
+        /// <summary>
         /// Configures the builder to set a property with the informed value.
-        /// <para>(Property must not be read-only)</para>
         /// </summary>
         public FluentBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> expression, TProperty newValue)
         {
             var propertyName = GetMemberQuery.GetMemberNameFor(expression);
             _commands[propertyName] = new SetPropertyCommand(_newObject, propertyName, newValue);
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the builder to set a collection passing all elements at once
+        /// </summary>
+        public FluentBuilder<T> With<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, params TElement[] newElements)
+            where TCollectionProperty : IEnumerable<TElement>
+        {
+            var fieldName = GetMemberQuery.GetMemberNameFor(expression);
+
+            var cmd = new SetFieldCollectionCommand(_newObject, fieldName);
+            foreach (var element in newElements)
+                cmd.Add(element);
+
+            _commands[fieldName] = cmd;
             return this;
         }
 
@@ -85,8 +108,6 @@ namespace Nosbor.FluentBuilder.Lib
 
         /// <summary>
         /// Configures the builder to set a private field with the dependency informed.
-        /// <para>(This method makes possible to set a concrete dependency for integrated tests or a test double for unit tests)</para>
-        /// <para>(If dependency interface is 'ICustomerRepository' then field name must be 'customerRepository' or '_customerRepository' - case is ignored)</para>
         /// </summary>
         public FluentBuilder<T> WithDependency<TServiceInterface, TServiceImplementation>(TServiceImplementation serviceImplementation)
             where TServiceImplementation : TServiceInterface
@@ -97,9 +118,7 @@ namespace Nosbor.FluentBuilder.Lib
         }
 
         /// <summary>
-        /// Configures the builder to add an element to a collection.
-        /// <para>(Property must have a corresponding private field)</para>
-        /// <para>(If property name is 'Addresses' then field name must be 'addresses' or '_addresses')</para>
+        /// Configures the builder to add an element to a collection one by one.
         /// </summary>
         public FluentBuilder<T> AddingTo<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, TElement newElement)
             where TCollectionProperty : IEnumerable<TElement>

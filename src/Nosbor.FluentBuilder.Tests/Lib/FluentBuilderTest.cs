@@ -41,7 +41,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         }
 
         [Test]
-        public void Should_build_object_setting_an_element_from_a_collection()
+        public void Should_build_object_setting_collection_element_by_element()
         {
             var anObject = new AnotherComplexType("Robson");
             var otherObject = new AnotherComplexType("Nosbor");
@@ -57,7 +57,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         }
 
         [Test]
-        public void Should_build_object_setting_elements_for_different_collections()
+        public void Should_build_object_setting_different_collections_element_by_element()
         {
             var anObject = new AnotherComplexType("Robson");
             var integerElement = 1000;
@@ -76,6 +76,21 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         }
 
         [Test]
+        public void Should_build_object_setting_collection_all_elements_at_once()
+        {
+            var anObject = new AnotherComplexType("Robson");
+            var otherObject = new AnotherComplexType("Nosbor");
+
+            var createdObject = FluentBuilder<ComplexType>
+                .New()
+                .With(newObject => newObject.CollectionWithFieldFollowingNameConvention, anObject, otherObject)
+                .Build();
+
+            var expected = new List<AnotherComplexType> { anObject, otherObject };
+            CollectionAssert.AreEqual(expected, createdObject.CollectionWithFieldFollowingNameConvention);
+        }
+
+        [Test]
         public void Should_build_object_using_implicit_conversion_when_not_calling_build_method()
         {
             const string newValue = "Robson";
@@ -88,7 +103,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         [Test]
         public void Should_build_object_setting_default_values()
         {
-            var createdObject = FluentBuilder<ComplexType>.New().Build();
+            var createdObject = FluentBuilder<ComplexType>.New().EnableDefaultValues().Build();
 
             Assert.IsNotNull(createdObject.PropertyOnlyForTestingPurpose);
             Assert.IsNotNull(createdObject.PublicField);
