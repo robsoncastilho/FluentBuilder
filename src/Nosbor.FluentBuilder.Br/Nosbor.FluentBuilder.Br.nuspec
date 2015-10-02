@@ -13,7 +13,7 @@
 		<copyright>Copyright Robson Castilho 2015</copyright>
 		<tags>builder unittest testing</tags>
 		<dependencies>
-			<dependency id="Nosbor.FluentBuilder" version="0.8.3" />
+			<dependency id="Nosbor.FluentBuilder" version="0.9.0" />
 		</dependencies>
 	</metadata>
 </package>

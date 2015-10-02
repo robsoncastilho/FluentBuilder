@@ -1,7 +1,7 @@
-﻿using en = Nosbor.FluentBuilder.Lib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using en = Nosbor.FluentBuilder.Lib;
 
 namespace Nosbor.FluentBuilder.Br
 {
@@ -42,9 +42,22 @@ namespace Nosbor.FluentBuilder.Br
             return _builder.AsList();
         }
 
+        public FluentBuilder<T> ComValoresPadrao()
+        {
+            _builder.EnableDefaultValues();
+            return this;
+        }
+
         public FluentBuilder<T> Com<TPropriedade>(Expression<Func<T, TPropriedade>> expressao, TPropriedade novoValor)
         {
             _builder.With(expressao, novoValor);
+            return this;
+        }
+
+        public FluentBuilder<T> Com<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expressao, params TElement[] novosElementos)
+            where TCollectionProperty : IEnumerable<TElement>
+        {
+            _builder.With(expressao, novosElementos);
             return this;
         }
 
