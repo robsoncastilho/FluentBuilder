@@ -83,7 +83,7 @@ namespace Nosbor.FluentBuilder.Lib
         /// <summary>
         /// Configures the builder to set a collection passing all elements at once
         /// </summary>
-        public FluentBuilder<T> With<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, params TElement[] newElements)
+        public FluentBuilder<T> WithCollection<TCollectionProperty, TElement>(Expression<Func<T, TCollectionProperty>> expression, params TElement[] newElements)
             where TCollectionProperty : IEnumerable<TElement>
         {
             var fieldName = GetMemberQuery.GetMemberNameFor(expression);

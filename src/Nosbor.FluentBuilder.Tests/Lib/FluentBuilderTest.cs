@@ -83,7 +83,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
 
             var createdObject = FluentBuilder<ComplexType>
                 .New()
-                .With(newObject => newObject.CollectionWithFieldFollowingNameConvention, anObject, otherObject)
+                .WithCollection(newObject => newObject.CollectionWithFieldFollowingNameConvention, anObject, otherObject)
                 .Build();
 
             var expected = new List<AnotherComplexType> { anObject, otherObject };

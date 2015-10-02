@@ -9,10 +9,7 @@
     <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>$version$ : 
-      - new With() method overload allows setting elements for a collection all at once
-      - not setting default values automatically. Now, you must call EnableDefaultValues()
-    </releaseNotes>
+    <releaseNotes>$version$ : changed With() for collections to WithCollection()</releaseNotes>
     <copyright>Copyright Robson Castilho 2015</copyright>
     <tags>builder unittest testing</tags>
   </metadata>
