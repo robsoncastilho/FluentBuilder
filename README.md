@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/vmkcqc500wbj3krr?svg=true)](https://ci.appveyor.com/project/robsoncastilho/fluentbuilder)
+[![NuGet](https://img.shields.io/nuget/v/Nuget.Core.svg)](https://www.nuget.org/packages/Nosbor.FluentBuilder/)
 # FluentBuilder
 
 Library for dynamic creation of objects, implemented with a focus on writing more readable and less fragile unit tests.
