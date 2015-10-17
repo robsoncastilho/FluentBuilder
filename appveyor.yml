@@ -3,7 +3,8 @@ skip_tags: true
 configuration: Release
 platform: Any CPU
 environment:
-  COVERALLS_REPO_TOKEN: JPrgnm1mY5IPLLIPt6aUhRNjSyqUWehZO
+  COVERALLS_REPO_TOKEN:
+    secure: 5lcnboADk86wHJTlkrnpCBu/buqGsidnhwKSrwQ2krNFcQTuMqx7wDWTI6dqmXaY
 build:
   project: .\src\FluentBuilder.sln
   publish_nuget: true
