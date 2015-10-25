@@ -42,12 +42,6 @@ namespace Nosbor.FluentBuilder.Br
             return _builder.AsList();
         }
 
-        public FluentBuilder<T> ComValoresPadrao()
-        {
-            _builder.EnableDefaultValues();
-            return this;
-        }
-
         public FluentBuilder<T> Com<TPropriedade>(Expression<Func<T, TPropriedade>> expressao, TPropriedade novoValor)
         {
             _builder.With(expressao, novoValor);
