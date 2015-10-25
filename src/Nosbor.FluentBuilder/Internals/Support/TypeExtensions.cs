@@ -13,15 +13,12 @@ namespace Nosbor.FluentBuilder.Internals.Support
             if (InheritsFrom<System.Collections.IEnumerable>(type))
                 return new DefaultValueForIEnumerable(new GenericTypeCreator());
 
-            if (IsConcreteClass(type))
-                return new DefaultValueForConcreteClass(new GenericTypeCreator());
-
             return null; //TODO: null?
         }
 
         internal static bool IsAllowedToInitialize(this Type type, Type destinationObjectType)
         {
-            return type != destinationObjectType && (IsString(type) || IsConcreteClass(type) || InheritsFrom<System.Collections.IEnumerable>(type));
+            return type != destinationObjectType && (IsString(type) || InheritsFrom<System.Collections.IEnumerable>(type));
         }
 
         private static bool IsString(Type type)
@@ -32,11 +29,6 @@ namespace Nosbor.FluentBuilder.Internals.Support
         private static bool InheritsFrom<T>(Type type)
         {
             return typeof(T).IsAssignableFrom(type);
-        }
-
-        private static bool IsConcreteClass(Type type)
-        {
-            return type.IsClass && !type.IsAbstract;
         }
     }
 }

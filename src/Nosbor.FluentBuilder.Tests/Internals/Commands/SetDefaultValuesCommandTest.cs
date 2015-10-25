@@ -22,8 +22,6 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
 
             command.Execute();
 
-            Assert.IsNotNull(_object.sampleType);
-            Assert.IsNotNull(_object.WritableProperty);
             Assert.IsNotNull(_object.PropertyOnlyForTestingPurpose);
             Assert.IsNotNull(_object.CollectionOnlyForTestingPurpose);
         }
@@ -33,7 +31,6 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
             private string field;
             public AnotherSampleType sampleType;
             private IList<AnotherSampleType> sampleTypes;
-            public AnotherSampleType WritableProperty { get; private set; }
 
             public string PropertyOnlyForTestingPurpose { get { return field; } }
             public IEnumerable<AnotherSampleType> CollectionOnlyForTestingPurpose { get { return sampleTypes; } }

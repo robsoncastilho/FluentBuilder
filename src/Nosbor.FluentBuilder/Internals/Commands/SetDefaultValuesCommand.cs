@@ -9,7 +9,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
     internal class SetDefaultValuesCommand : ICommand
     {
         private readonly object _object;
-        private readonly BindingFlags _allowedBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+        private const BindingFlags AllowedBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
         public SetDefaultValuesCommand(object @object)
         {
@@ -20,13 +20,13 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         {
             var objectType = _object.GetType();
 
-            var fieldsToInitialize = objectType.GetMembers(_allowedBindingFlags)
+            var fieldsToInitialize = objectType.GetMembers(AllowedBindingFlags)
                 .Where(memberInfo => memberInfo.MemberType == MemberTypes.Field)
                 .Select(memberInfo => memberInfo as FieldInfo)
                 .Where(fieldInfo => fieldInfo.FieldType.IsAllowedToInitialize(objectType))
                 .ToList();
 
-            fieldsToInitialize.ForEach(fieldInfo => InitializeField(fieldInfo));
+            fieldsToInitialize.ForEach(InitializeField);
         }
 
         private void InitializeField(FieldInfo fieldInfo)

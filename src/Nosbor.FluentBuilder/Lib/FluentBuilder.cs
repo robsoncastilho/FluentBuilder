@@ -18,6 +18,7 @@ namespace Nosbor.FluentBuilder.Lib
         public FluentBuilder()
         {
             _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
+            _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject);
         }
 
         /// <summary>
@@ -59,15 +60,6 @@ namespace Nosbor.FluentBuilder.Lib
         public static IEnumerable<T> Many(int howMany)
         {
             return Enumerable.Repeat(New().Build(), howMany);
-        }
-
-        /// <summary>
-        /// Enables setting default values for strings, concrete classes and IEnumerables
-        /// </summary>
-        public FluentBuilder<T> EnableDefaultValues()
-        {
-            _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject);
-            return this;
         }
 
         /// <summary>
