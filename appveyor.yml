@@ -1,6 +1,8 @@
 version: 1.0.{build}
 skip_tags: true
 configuration: Release
+before_build:
+  - nuget restore ".\src\FluentBuilder.sln"
 platform: Any CPU
 environment:
   COVERALLS_REPO_TOKEN:
