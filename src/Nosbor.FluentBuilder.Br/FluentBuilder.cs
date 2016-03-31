@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using en = Nosbor.FluentBuilder.Lib;
@@ -72,6 +73,13 @@ namespace Nosbor.FluentBuilder.Br
             where TColecao : IEnumerable<TElemento>
         {
             _builder.AddingTo(expressao, novoElemento);
+            return this;
+        }
+
+        public FluentBuilder<T> ComColecaoVazia<TColecao>(Expression<Func<T, TColecao>> expressao)
+            where TColecao : IEnumerable
+        {
+            _builder.WithEmptyCollection(expressao);
             return this;
         }
     }

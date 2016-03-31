@@ -1,6 +1,7 @@
 using Nosbor.FluentBuilder.Internals.Commands;
 using Nosbor.FluentBuilder.Internals.Queries;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -119,6 +120,17 @@ namespace Nosbor.FluentBuilder.Lib
 
             var setFieldCollectionCommand = GetCommandFor(fieldName);
             setFieldCollectionCommand.Add(newElement);
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the builder to add an element to a collection one by one.
+        /// </summary>
+        public FluentBuilder<T> WithEmptyCollection<TCollectionProperty>(Expression<Func<T, TCollectionProperty>> expression)
+            where TCollectionProperty : IEnumerable
+        {
+            var fieldName = GetMemberQuery.GetMemberNameFor(expression);
+            GetCommandFor(fieldName);
             return this;
         }
 
