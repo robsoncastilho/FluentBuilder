@@ -30,13 +30,15 @@ namespace Nosbor.FluentBuilder.Internals.Queries
 
         internal static FieldInfo GetFieldInfoFor(Type objectType, string memberName)
         {
-            FieldInfo fieldInfo = null;
+            if (objectType.Name == "Object") return null;
+
             foreach (var fieldNameConvention in GetDefaultConventionsFor(memberName))
             {
-                fieldInfo = objectType.GetField(fieldNameConvention, DefaultFieldBindingFlags);
+                var fieldInfo = objectType.GetField(fieldNameConvention, DefaultFieldBindingFlags);
                 if (fieldInfo != null) return fieldInfo;
             }
-            return fieldInfo;
+
+            return GetFieldInfoFor(objectType.BaseType, memberName);
         }
 
         private static IEnumerable<string> GetDefaultConventionsFor(string fieldName)
