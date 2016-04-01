@@ -122,18 +122,7 @@ namespace Nosbor.FluentBuilder.Lib
             setFieldCollectionCommand.Add(newElement);
             return this;
         }
-
-        /// <summary>
-        /// Configures the builder to add an element to a collection one by one.
-        /// </summary>
-        public FluentBuilder<T> WithEmptyCollection<TCollectionProperty>(Expression<Func<T, TCollectionProperty>> expression)
-            where TCollectionProperty : IEnumerable
-        {
-            var fieldName = GetMemberQuery.GetMemberNameFor(expression);
-            GetCommandFor(fieldName);
-            return this;
-        }
-
+        
         private SetFieldCollectionCommand GetCommandFor(string fieldName)
         {
             if (_commands.ContainsKey(fieldName))

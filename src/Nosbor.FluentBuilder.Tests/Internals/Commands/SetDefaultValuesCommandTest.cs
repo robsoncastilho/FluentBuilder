@@ -24,12 +24,23 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Commands
 
             Assert.IsNotNull(_object.PropertyOnlyForTestingPurpose);
             Assert.IsNotNull(_object.CollectionOnlyForTestingPurpose);
+
+            Assert.IsNotNull(_object.BasePropertyOnlyForTestingPurpose);
+            Assert.IsNotNull(_object.BaseCollectionOnlyForTestingPurpose);
         }
 
-        private class SampleTypeWithFieldAndProperties
+        private class BaseSampleType
+        {
+            private string baseField;
+
+            private IList<AnotherSampleType> _baseCollectionField = new List<AnotherSampleType>();
+            public IEnumerable<AnotherSampleType> BaseCollectionOnlyForTestingPurpose { get { return _baseCollectionField; } }
+            public string BasePropertyOnlyForTestingPurpose { get { return baseField; } }
+        }
+
+        private class SampleTypeWithFieldAndProperties : BaseSampleType
         {
             private string field;
-            public AnotherSampleType sampleType;
             private IList<AnotherSampleType> sampleTypes;
 
             public string PropertyOnlyForTestingPurpose { get { return field; } }

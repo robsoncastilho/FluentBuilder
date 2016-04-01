@@ -75,12 +75,5 @@ namespace Nosbor.FluentBuilder.Br
             _builder.AddingTo(expressao, novoElemento);
             return this;
         }
-
-        public FluentBuilder<T> ComColecaoVazia<TColecao>(Expression<Func<T, TColecao>> expressao)
-            where TColecao : IEnumerable
-        {
-            _builder.WithEmptyCollection(expressao);
-            return this;
-        }
     }
 }

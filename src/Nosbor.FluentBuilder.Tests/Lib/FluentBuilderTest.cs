@@ -56,17 +56,6 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         }
 
         [Test]
-        public void Should_build_object_setting_empty_collection()
-        {
-            var createdObject = FluentBuilder<ComplexType>
-                .New()
-                .WithEmptyCollection(newObject => newObject.CollectionWithFieldFollowingNameConvention)
-                .Build();
-
-            CollectionAssert.IsEmpty(createdObject.CollectionWithFieldFollowingNameConvention);
-        }
-
-        [Test]
         public void Should_build_object_setting_different_collections_element_by_element()
         {
             var anObject = new AnotherComplexType("Robson");
