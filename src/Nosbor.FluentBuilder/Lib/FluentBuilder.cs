@@ -1,6 +1,7 @@
 using Nosbor.FluentBuilder.Internals.Commands;
 using Nosbor.FluentBuilder.Internals.Queries;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -121,7 +122,7 @@ namespace Nosbor.FluentBuilder.Lib
             setFieldCollectionCommand.Add(newElement);
             return this;
         }
-
+        
         private SetFieldCollectionCommand GetCommandFor(string fieldName)
         {
             if (_commands.ContainsKey(fieldName))

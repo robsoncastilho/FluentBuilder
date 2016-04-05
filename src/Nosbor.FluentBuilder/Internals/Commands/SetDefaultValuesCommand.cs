@@ -1,6 +1,7 @@
 ﻿using Nosbor.FluentBuilder.Exceptions;
 using Nosbor.FluentBuilder.Internals.Support;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -9,6 +10,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
     internal class SetDefaultValuesCommand : ICommand
     {
         private readonly object _object;
+        private List<FieldInfo> _fieldsToInitialize = new List<FieldInfo>();
         private const BindingFlags AllowedBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
         public SetDefaultValuesCommand(object @object)
@@ -20,13 +22,21 @@ namespace Nosbor.FluentBuilder.Internals.Commands
         {
             var objectType = _object.GetType();
 
-            var fieldsToInitialize = objectType.GetMembers(AllowedBindingFlags)
+            AddFieldsToInitialize(objectType);
+
+            _fieldsToInitialize.ForEach(InitializeField);
+        }
+
+        private void AddFieldsToInitialize(Type objectType)
+        {
+            if (objectType.Name == "Object") return;
+
+            _fieldsToInitialize.AddRange(objectType.GetMembers(AllowedBindingFlags)
                 .Where(memberInfo => memberInfo.MemberType == MemberTypes.Field)
                 .Select(memberInfo => memberInfo as FieldInfo)
-                .Where(fieldInfo => fieldInfo.FieldType.IsAllowedToInitialize(objectType))
-                .ToList();
-
-            fieldsToInitialize.ForEach(InitializeField);
+                .Where(fieldInfo => fieldInfo.FieldType.IsAllowedToInitialize(objectType)));
+            
+            AddFieldsToInitialize(objectType.BaseType);
         }
 
         private void InitializeField(FieldInfo fieldInfo)

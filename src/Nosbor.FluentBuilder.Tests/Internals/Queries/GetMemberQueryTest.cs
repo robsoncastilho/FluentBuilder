@@ -8,6 +8,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Queries
     {
         [TestCase("ReadOnlyPropertyWithUnderLyingField", Result = "readOnlyPropertyWithUnderLyingField")]
         [TestCase("ReadOnlyPropertyWithUnderLyingFieldWithUnderscore", Result = "_readOnlyPropertyWithUnderLyingFieldWithUnderscore")]
+        [TestCase("BaseReadOnlyPropertyWithUnderLyingField", Result = "baseReadOnlyPropertyWithUnderLyingField")]
         [TestCase("NonExistentMember", Result = "")]
         public string Should_get_underlying_field_name_for_member(string memberName)
         {
@@ -23,7 +24,13 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Queries
         }
     }
 
-    internal class SampleTypeWithFieldAndProperties
+    internal class SampleBaseTypeWithFieldAndProperties
+    {
+        private int baseReadOnlyPropertyWithUnderLyingField;
+        public int BaseReadOnlyPropertyWithUnderLyingField { get { return baseReadOnlyPropertyWithUnderLyingField; } }
+    }
+
+    internal class SampleTypeWithFieldAndProperties : SampleBaseTypeWithFieldAndProperties
     {
         private int readOnlyPropertyWithUnderLyingField;
         public int ReadOnlyPropertyWithUnderLyingField { get { return readOnlyPropertyWithUnderLyingField; } }
