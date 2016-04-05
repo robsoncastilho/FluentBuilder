@@ -9,11 +9,8 @@
     <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>  
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>$version$ : BREAKING CHANGES!
-        - EnableDefaultValues() removed
-        - Only 'string' and 'IEnumerable' types are initialized to non-null values
-    </releaseNotes>
-    <copyright>Copyright Robson Castilho 2015</copyright>
+    <releaseNotes>Version 1.0 released!</releaseNotes>
+    <copyright>Copyright Robson Castilho 2015/2016</copyright>
     <tags>builder unittest testing</tags>
   </metadata>
 </package>
