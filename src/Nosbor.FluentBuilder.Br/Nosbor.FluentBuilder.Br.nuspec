@@ -9,15 +9,11 @@
     <projectUrl>https://github.com/robsoncastilho/FluentBuilder</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>
-      $version$ : BREAKING CHANGES!
-      - Método ComValoresPadrao() removido
-      - Voltando a inicializar automaticamente tipos 'string' e 'IEnumerable'
-    </releaseNotes>
-    <copyright>Copyright Robson Castilho 2015</copyright>
+    <releaseNotes>Versão 1.0 liberada!</releaseNotes>
+    <copyright>Copyright Robson Castilho 2015/2016</copyright>
     <tags>builder unittest testing</tags>
     <dependencies>
-      <dependency id="Nosbor.FluentBuilder" version="0.9.2" />
+      <dependency id="Nosbor.FluentBuilder" version="1.0.0" />
     </dependencies>
   </metadata>
 </package>
