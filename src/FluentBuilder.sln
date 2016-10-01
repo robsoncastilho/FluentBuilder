@@ -1,22 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder.Tests", "Nosbor.FluentBuilder.Tests\Nosbor.FluentBuilder.Tests.csproj", "{FC1706D0-BFAC-43BD-AA51-B5591B1D6909}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nosbor.FluentBuilder", "Nosbor.FluentBuilder\Nosbor.FluentBuilder.xproj", "{8003D9F4-F02A-4AF1-9702-D4F18B5FE993}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder", "Nosbor.FluentBuilder\Nosbor.FluentBuilder.csproj", "{71A31637-E074-4137-885F-C944642A9265}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.xproj", "{67B15D86-4865-4D7C-98F3-C8973AEFDE9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder.Mock.Moq", "Nosbor.FluentBuilder.Mock.Moq\Nosbor.FluentBuilder.Mock.Moq.csproj", "{D5CB3196-1AA6-4819-BA40-5485BF9554CF}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nosbor.FluentBuilder.Br", "Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.xproj", "{B394F9D3-18F6-4E94-A2AB-5C532245FB01}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{606347FF-A832-4510-A37B-87458E777183}"
-	ProjectSection(SolutionItems) = preProject
-		Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.nuspec = Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.nuspec
-		Nosbor.FluentBuilder.Mock.Moq\Nosbor.FluentBuilder.Mock.Moq.nuspec = Nosbor.FluentBuilder.Mock.Moq\Nosbor.FluentBuilder.Mock.Moq.nuspec
-		Nosbor.FluentBuilder\Nosbor.FluentBuilder.nuspec = Nosbor.FluentBuilder\Nosbor.FluentBuilder.nuspec
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosbor.FluentBuilder.Br", "Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.csproj", "{9CFC90C5-6388-4C74-9646-CCD618E70BB5}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nosbor.FluentBuilder.Tests", "Nosbor.FluentBuilder.Tests\Nosbor.FluentBuilder.Tests.xproj", "{66A16DB1-DC11-4333-A446-4E7AA669BAC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,22 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FC1706D0-BFAC-43BD-AA51-B5591B1D6909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC1706D0-BFAC-43BD-AA51-B5591B1D6909}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC1706D0-BFAC-43BD-AA51-B5591B1D6909}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC1706D0-BFAC-43BD-AA51-B5591B1D6909}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71A31637-E074-4137-885F-C944642A9265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71A31637-E074-4137-885F-C944642A9265}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71A31637-E074-4137-885F-C944642A9265}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71A31637-E074-4137-885F-C944642A9265}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5CB3196-1AA6-4819-BA40-5485BF9554CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5CB3196-1AA6-4819-BA40-5485BF9554CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5CB3196-1AA6-4819-BA40-5485BF9554CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5CB3196-1AA6-4819-BA40-5485BF9554CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CFC90C5-6388-4C74-9646-CCD618E70BB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CFC90C5-6388-4C74-9646-CCD618E70BB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CFC90C5-6388-4C74-9646-CCD618E70BB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CFC90C5-6388-4C74-9646-CCD618E70BB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8003D9F4-F02A-4AF1-9702-D4F18B5FE993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8003D9F4-F02A-4AF1-9702-D4F18B5FE993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8003D9F4-F02A-4AF1-9702-D4F18B5FE993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8003D9F4-F02A-4AF1-9702-D4F18B5FE993}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67B15D86-4865-4D7C-98F3-C8973AEFDE9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67B15D86-4865-4D7C-98F3-C8973AEFDE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67B15D86-4865-4D7C-98F3-C8973AEFDE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67B15D86-4865-4D7C-98F3-C8973AEFDE9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B394F9D3-18F6-4E94-A2AB-5C532245FB01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B394F9D3-18F6-4E94-A2AB-5C532245FB01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B394F9D3-18F6-4E94-A2AB-5C532245FB01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B394F9D3-18F6-4E94-A2AB-5C532245FB01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66A16DB1-DC11-4333-A446-4E7AA669BAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66A16DB1-DC11-4333-A446-4E7AA669BAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66A16DB1-DC11-4333-A446-4E7AA669BAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66A16DB1-DC11-4333-A446-4E7AA669BAC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

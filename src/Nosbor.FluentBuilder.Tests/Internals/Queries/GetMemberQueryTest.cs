@@ -6,13 +6,13 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Queries
     [TestFixture]
     public class GetMemberQueryTest
     {
-        [TestCase("ReadOnlyPropertyWithUnderLyingField", Result = "readOnlyPropertyWithUnderLyingField")]
-        [TestCase("ReadOnlyPropertyWithUnderLyingFieldWithUnderscore", Result = "_readOnlyPropertyWithUnderLyingFieldWithUnderscore")]
-        [TestCase("BaseReadOnlyPropertyWithUnderLyingField", Result = "baseReadOnlyPropertyWithUnderLyingField")]
-        [TestCase("NonExistentMember", Result = "")]
-        public string Should_get_underlying_field_name_for_member(string memberName)
+        [TestCase("ReadOnlyPropertyWithUnderLyingField", "readOnlyPropertyWithUnderLyingField")]
+        [TestCase("ReadOnlyPropertyWithUnderLyingFieldWithUnderscore", "_readOnlyPropertyWithUnderLyingFieldWithUnderscore")]
+        [TestCase("BaseReadOnlyPropertyWithUnderLyingField", "baseReadOnlyPropertyWithUnderLyingField")]
+        [TestCase("NonExistentMember", "")]
+        public void Should_get_underlying_field_name_for_member(string memberName, string result)
         {
-            return GetMemberQuery.GetFieldNameFor(new SampleTypeWithFieldAndProperties(), memberName);
+            var value = GetMemberQuery.GetFieldNameFor(new SampleTypeWithFieldAndProperties(), memberName);
         }
 
         [Test]

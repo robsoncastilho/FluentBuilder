@@ -36,7 +36,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
                 .Select(memberInfo => memberInfo as FieldInfo)
                 .Where(fieldInfo => fieldInfo.FieldType.IsAllowedToInitialize(objectType)));
             
-            AddFieldsToInitialize(objectType.BaseType);
+            AddFieldsToInitialize(objectType.BaseType());
         }
 
         private void InitializeField(FieldInfo fieldInfo)
