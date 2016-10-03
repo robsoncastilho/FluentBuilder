@@ -1,7 +1,7 @@
-﻿using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
+using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
 using System;
 using System.Reflection;
-#if NET45
+#if NET451
     using System.Runtime.Serialization;
 #endif
 
@@ -38,7 +38,7 @@ namespace Nosbor.FluentBuilder.Internals.Support
         public static Type BaseType(this Type type)
         {
 
-#if NET45
+#if NET451
             return type.BaseType;
 #else
             return type.GetTypeInfo().BaseType;
@@ -66,7 +66,7 @@ namespace Nosbor.FluentBuilder.Internals.Support
 
         public static T CreateInstance<T>(this Type type)
         {
-#if NET45
+#if NET451
             return (T)FormatterServices.GetUninitializedObject(typeof(T));
 #else
             return (T)GetUninitializedObjectWithFormatterServices(typeof(T));

@@ -13,6 +13,7 @@ namespace Nosbor.FluentBuilder.Tests.Internals.Queries
         public void Should_get_underlying_field_name_for_member(string memberName, string result)
         {
             var value = GetMemberQuery.GetFieldNameFor(new SampleTypeWithFieldAndProperties(), memberName);
+            Assert.AreEqual(result, value);
         }
 
         [Test]
