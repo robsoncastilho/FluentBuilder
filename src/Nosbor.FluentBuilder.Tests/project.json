@@ -5,7 +5,8 @@
       "target": "project"
     },
     "NUnit": "3.4.0",
-    "Moq": "4.6.38-alpha"
+    "Moq": "4.6.38-alpha",
+    "OpenCover": "4.6.519"
   },
   "frameworks": {
     "netcoreapp1.0": {

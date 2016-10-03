@@ -19,5 +19,14 @@
     "portable-net45+wp80+win8+wpa81+dnxcore50",
     "portable-net451+win8"
   ],
-  "runtimes": { "win": {} }
+  "runtimes": {
+    "win10-x64": {},
+    "win10-x32": {},
+    "win81-x64": {},
+    "win81-x32": {},
+    "win8-x64": {},
+    "win8-x32": {},
+    "win7-x64": {},
+    "win7-x32": {}
+  }
 }
