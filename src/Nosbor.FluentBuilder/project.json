@@ -1,28 +1,39 @@
 {
-  "version": "1.0.0-*",
+    "name": "Nosbor.FluentBuilder",
+    "version": "1.0.0-*",
+    "description": "Create objects for testing purpose in a fluent and easy way.",
+    "copyright": "Copyright © RCS 2015/2016",
+    "title": "FluentBuilder",
+    "authors": [ "@nosborcastilho", "@wladioh" ],
+    "dependencies": {
 
-  "dependencies": {
-
-  },
-  "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50",
-      "dependencies": {
-        "System.Reflection.TypeExtensions": "4.1.0",
-        "System.Runtime.Serialization.Primitives": "4.1.1",
-        "NETStandard.Library": "1.6.0"
-      }
     },
-    "net451": {
+    "packOptions": {
+        "tags": [ "builder", "unittest", "testing" ],
+        "owners": [ "robsoncastilho" ],
+        "releaseNotes": ".Net Core support",
+        "projectUrl": "https://github.com/robsoncastilho/FluentBuilder",
+        "requireLicenseAcceptance": false
+    },
+    "frameworks": {
+        "netstandard1.6": {
+            "imports": "dnxcore50",
+            "dependencies": {
+                "System.Reflection.TypeExtensions": "4.1.0",
+                "System.Runtime.Serialization.Primitives": "4.1.1",
+                "NETStandard.Library": "1.6.0"
+            }
+        },
+        "net451": {
+        }
+    },
+    "imports": [
+        "portable-net45+wp80+win8+wpa81+dnxcore50",
+        "portable-net451+win8"
+    ],
+    "runtimes": {
+        "win10-x64": {},
+        "win81-x64": {},
+        "win8-x64": {}
     }
-  },
-  "imports": [
-    "portable-net45+wp80+win8+wpa81+dnxcore50",
-    "portable-net451+win8"
-  ],
-  "runtimes": {
-    "win10-x64": {},
-    "win81-x64": {},
-    "win8-x64": {}
-  }
 }
