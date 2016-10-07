@@ -1,12 +1,11 @@
 using Nosbor.FluentBuilder.Internals.Commands;
 using Nosbor.FluentBuilder.Internals.Queries;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using Nosbor.FluentBuilder.Internals.Support;
 
 namespace Nosbor.FluentBuilder.Lib
 {
@@ -14,11 +13,11 @@ namespace Nosbor.FluentBuilder.Lib
     {
         private readonly T _newObject;
         private readonly Dictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
-        internal Dictionary<string, ICommand> Commands { get { return _commands; } }
+        internal Dictionary<string, ICommand> Commands => _commands;
 
         public FluentBuilder()
         {
-            _newObject = (T)FormatterServices.GetUninitializedObject(typeof(T));
+            _newObject = typeof(T).CreateInstance<T>();
             _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject);
         }
 

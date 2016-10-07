@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using Nosbor.FluentBuilder.Internals.Support;
 
 namespace Nosbor.FluentBuilder.Internals.Queries
 {
@@ -38,7 +39,7 @@ namespace Nosbor.FluentBuilder.Internals.Queries
                 if (fieldInfo != null) return fieldInfo;
             }
 
-            return GetFieldInfoFor(objectType.BaseType, memberName);
+            return GetFieldInfoFor(objectType.BaseType(), memberName);
         }
 
         private static IEnumerable<string> GetDefaultConventionsFor(string fieldName)

@@ -6,6 +6,13 @@
 *.user
 *.sln.docstates
 
+# Visual Studio 2015 cache/options directory
+.vs/
+
+# DNX
+project.lock.json
+artifacts/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -187,3 +194,4 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+artifacts

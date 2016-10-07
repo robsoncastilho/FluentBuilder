@@ -2,6 +2,7 @@
 using Nosbor.FluentBuilder.Internals.Queries;
 using System.Reflection;
 using System.Text;
+using Nosbor.FluentBuilder.Internals.Support;
 
 namespace Nosbor.FluentBuilder.Internals.Commands
 {
@@ -20,7 +21,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
             if (_fieldInfo == null)
                 throw new FluentBuilderException(string.Format("Field \"{0}\" not found - Object \"{1}\"", MemberName, DestinationObject.GetType()));
 
-            if (!_fieldInfo.FieldType.IsAssignableFrom(MemberNewValue.GetType()))
+            if (!_fieldInfo.FieldType.IsInstanceOfTypeBase(MemberNewValue))
             {
                 var messageBuilder = new StringBuilder();
                 messageBuilder.AppendFormat("Value must be of the same type of the field \"{0}\" - Object \"{1}\"\n", MemberName, DestinationObject.GetType());
