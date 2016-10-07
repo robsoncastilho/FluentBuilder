@@ -25,4 +25,6 @@ test_script:
 - dotnet test "src\Nosbor.FluentBuilder.Tests" -f netcoreapp1.0
 after_test:
 - cmd: OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"dotnet.exe" -targetargs:"test src\Nosbor.FluentBuilder.Tests" -output:coverage.xml
-- cmd: %APPVEYOR_BUILD_FOLDER%\src\packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml --full-sources
+- ps: >-
+    $coveralls = (Resolve-Path "src/packages/coveralls.io.*/tools/coveralls.net.exe").ToString()
+    & $coveralls --opencover coverage.xml --full-sources
