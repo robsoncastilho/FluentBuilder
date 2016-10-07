@@ -6,7 +6,7 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: 5lcnboADk86wHJTlkrnpCBu/buqGsidnhwKSrwQ2krNFcQTuMqx7wDWTI6dqmXaY
 before_build:
-- appveyor-retry dotnet restore -v detailed
+- appveyor-retry dotnet restore -v Minimal
 build_script:
 - dotnet build "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-dependencies --version-suffix "ci-%APPVEYOR_BUILD_NUMBER%"
 - dotnet build "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-dependencies --version-suffix "ci-%APPVEYOR_BUILD_NUMBER%"
@@ -25,3 +25,7 @@ test_script:
 - dotnet test "src\Nosbor.FluentBuilder.Tests" -f netcoreapp1.0
 after_test:
 - cmd: OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"dotnet.exe" -targetargs:"test src\Nosbor.FluentBuilder.Tests" -output:coverage.xml
+- ps: >-
+    $coveralls = (Resolve-Path "%PACKAGEHOME%\coveralls.io.*\tools\coveralls.net.exe").ToString()
+    
+    & $coveralls --opencover coverage.xml --full-sources
