@@ -13,6 +13,7 @@ Install-Package Nosbor.FluentBuilder
 ### Compatibility
 
 .Net Framework 4.5 or higher.
+
 .Net Core 1.0
 
 ### Features
