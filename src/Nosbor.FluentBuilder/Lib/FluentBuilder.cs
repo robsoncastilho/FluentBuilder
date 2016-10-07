@@ -13,7 +13,7 @@ namespace Nosbor.FluentBuilder.Lib
     {
         private readonly T _newObject;
         private readonly Dictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
-        internal Dictionary<string, ICommand> Commands { get { return _commands; } }
+        internal Dictionary<string, ICommand> Commands => _commands;
 
         public FluentBuilder()
         {
