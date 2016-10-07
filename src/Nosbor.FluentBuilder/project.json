@@ -2,7 +2,7 @@
     "name": "Nosbor.FluentBuilder",
     "version": "1.0.0-*",
     "description": "Create objects for testing purpose in a fluent and easy way.",
-    "copyright": "Copyright © RCS 2015/2016",
+    "copyright": "Copyright @ RCS 2015/2016",
     "title": "FluentBuilder",
     "authors": [ "@nosborcastilho", "@wladioh" ],
     "dependencies": {
