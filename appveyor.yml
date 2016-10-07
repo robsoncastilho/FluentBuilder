@@ -8,10 +8,10 @@ environment:
 before_build:
 - appveyor-retry dotnet restore -v Minimal
 build_script:
-- dotnet build "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-dependencies --version-suffix "ci-%APPVEYOR_BUILD_NUMBER%"
+- dotnet build "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-dependencies
 after_build:
-- dotnet pack "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-build --version-suffix "ci-%APPVEYOR_BUILD_NUMBER%" -o artifacts
-- dotnet publish "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-build --version-suffix "ci-%APPVEYOR_BUILD_NUMBER%" -o artifacts\Nosbor.FluentBuilder
+- dotnet pack "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-build -o artifacts
+- dotnet publish "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-build -o artifacts\Nosbor.FluentBuilder
 artifacts:
 - path: artifacts\**\*.nupkg
 deploy:
