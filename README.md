@@ -13,6 +13,7 @@ Install-Package Nosbor.FluentBuilder
 ### Compatibility
 
 .Net Framework 4.5 or higher.
+.Net Core 1.0
 
 ### Features
 
@@ -131,7 +132,4 @@ Address address = FluentBuilder<Address>.New().With(a => a.Street, "1st Street")
 ```
 
 ####3. Extensions
-
-#####3.1. Mock.Moq
-
-#####3.2. Brazilian Version
+(coming soon)
