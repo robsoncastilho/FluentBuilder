@@ -14,29 +14,48 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         public void Should_build_object_setting_writable_properties()
         {
             const string newValue = "Robson";
-            var newElements = new List<string> { "20th Street", "1st Avenue" };
+            var newListValues = new List<string> { "20th Street", "1st Avenue" };
+            var newArrayValues = new[] { 1, 2 };
 
-            var createdObject = FluentBuilder<ComplexType>
+            var createdObject = FluentBuilder<SampleClass>
                 .New()
                 .With(newObject => newObject.PropertyWithSetter, newValue)
-                .With(newObject => newObject.CollectionWithSetter, newElements)
+                .With(newObject => newObject.CollectionWithSetter, newListValues)
+                .With(newObject => newObject.ArrayWithSetter, newArrayValues)
                 .Build();
 
             Assert.AreEqual(newValue, createdObject.PropertyWithSetter);
-            Assert.AreEqual(newElements, createdObject.CollectionWithSetter);
+            Assert.AreEqual(newListValues, createdObject.CollectionWithSetter);
+            Assert.AreEqual(newArrayValues, createdObject.ArrayWithSetter);
         }
 
         [Test]
-        public void Should_build_object_setting_field_just_passing_the_value()
+        public void Should_build_object_setting_field_using_naming_convention()
         {
-            var newValueForACorrespondingField = new OneMoreComplexType();
+            var newValueForComplexType = new OneMoreComplexType();
+            const string newValueForString = "Robson";
 
-            var createdObject = FluentBuilder<ComplexType>
+            var createdObject = FluentBuilder<SampleClass>
                 .New()
-                .WithFieldValue(newValueForACorrespondingField)
+                .WithFieldValue(newValueForComplexType)
+                .WithFieldValue(newValueForString)
                 .Build();
 
-            Assert.AreEqual(newValueForACorrespondingField, createdObject.oneMoreComplexType);
+            Assert.AreEqual(newValueForComplexType, createdObject.OneMoreComplexType);
+            Assert.AreEqual(newValueForString, createdObject.String);
+        }
+
+        [Test, Ignore("Issue #32")]
+        public void Should_build_object_setting_get_only_property()
+        {
+            const string newValue = "Robson";
+
+            var createdObject = FluentBuilder<SampleClass>
+                .New()
+                .With(newObject => newObject.GetOnlyProperty, newValue)
+                .Build();
+
+            Assert.AreEqual(newValue, createdObject.GetOnlyProperty);
         }
 
         [Test]
@@ -45,7 +64,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
             var anObject = new AnotherComplexType("Robson");
             var otherObject = new AnotherComplexType("Nosbor");
 
-            var createdObject = FluentBuilder<ComplexType>
+            var createdObject = FluentBuilder<SampleClass>
                 .New()
                 .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, anObject)
                 .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, otherObject)
@@ -61,7 +80,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
             var anObject = new AnotherComplexType("Robson");
             var integerElement = 1000;
 
-            var createdObject = FluentBuilder<ComplexType>
+            var createdObject = FluentBuilder<SampleClass>
                 .New()
                 .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, anObject)
                 .AddingTo(newObject => newObject.AnotherCollection, integerElement)
@@ -80,7 +99,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
             var anObject = new AnotherComplexType("Robson");
             var otherObject = new AnotherComplexType("Nosbor");
 
-            var createdObject = FluentBuilder<ComplexType>
+            var createdObject = FluentBuilder<SampleClass>
                 .New()
                 .WithCollection(newObject => newObject.CollectionWithFieldFollowingNameConvention, anObject, otherObject)
                 .Build();
@@ -94,7 +113,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         {
             const string newValue = "Robson";
 
-            ComplexType createdObject = FluentBuilder<ComplexType>.New().With(newObject => newObject.PropertyWithSetter, newValue);
+            SampleClass createdObject = FluentBuilder<SampleClass>.New().With(newObject => newObject.PropertyWithSetter, newValue);
 
             Assert.AreEqual(newValue, createdObject.PropertyWithSetter);
         }
@@ -102,18 +121,18 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         [Test]
         public void Should_build_object_setting_default_values()
         {
-            var createdObject = FluentBuilder<ComplexType>.New().Build();
+            var createdObject = FluentBuilder<SampleClass>.New().Build();
 
             Assert.IsNotNull(createdObject.PublicField);
             Assert.IsNotNull(createdObject.CollectionWithFieldFollowingNameConvention);
             Assert.IsNotNull(createdObject.PropertyWithSetter);
-            Assert.IsNotNull(createdObject.ReadOnlyPropertyWithBackingField);
+            Assert.IsNotNull(createdObject.ReadOnlyProperty);
         }
 
         [Test]
         public void Should_build_object_setting_no_default_value_for_member_of_same_type()
         {
-            var createdObject = FluentBuilder<ComplexType>.New().Build();
+            var createdObject = FluentBuilder<SampleClass>.New().Build();
 
             Assert.IsNull(createdObject.SameTypeEntityIsNotInitialized);
         }
@@ -121,7 +140,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         [Test]
         public void Should_build_object_setting_no_default_value_for_abstract_member()
         {
-            var createdObject = FluentBuilder<ComplexType>.New().Build();
+            var createdObject = FluentBuilder<SampleClass>.New().Build();
 
             Assert.IsNull(createdObject.AbstractComplexType);
         }
@@ -129,7 +148,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         [Test]
         public void Should_build_object_within_a_list()
         {
-            var collectionWithOneComplexType = FluentBuilder<ComplexType>
+            var collectionWithOneComplexType = FluentBuilder<SampleClass>
                 .New()
                 .With(newObject => newObject.PropertyWithSetter, "Some value")
                 .AsList();
@@ -139,11 +158,11 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         }
 
         [Test]
-        public void Should_build_many_objects()
+        public void Should_build_a_collection_of_objects()
         {
             const int amountOfObjects = 3;
 
-            var collection = FluentBuilder<ComplexType>.Many(amountOfObjects);
+            var collection = FluentBuilder<SampleClass>.Many(amountOfObjects);
 
             Assert.AreEqual(amountOfObjects, collection.Count());
         }
@@ -169,7 +188,7 @@ namespace Nosbor.FluentBuilder.Tests.Lib
             stopWatch.Start();
             for (var i = 1; i <= numberOfObjects; i++)
             {
-                FluentBuilder<ComplexType>
+                FluentBuilder<SampleClass>
                     .New()
                     .With(newObject => newObject.PropertyWithSetter, "Name")
                     .AddingTo(newObject => newObject.CollectionWithFieldFollowingNameConvention, new AnotherComplexType(i.ToString()))

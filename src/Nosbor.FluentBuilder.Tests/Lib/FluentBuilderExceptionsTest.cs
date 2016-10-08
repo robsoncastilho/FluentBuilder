@@ -11,29 +11,29 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         [Test]
         public void With_throws_exception_when_property_is_read_only()
         {
-            const string dummy = "";
-
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
-                .With(newObject => newObject.ReadOnlyPropertyWithBackingField, dummy));
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleClass>.New()
+                .With(newObject => newObject.ReadOnlyProperty, "dummy"));
         }
 
         [Test]
         public void With_throws_exception_when_property_is_not_informed()
         {
-            var dummy = (ComplexType)null;
-
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
-                .With(justAnObjectWithNoPropInformed => justAnObjectWithNoPropInformed, dummy));
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleClass>.New()
+                .With(justAnObjectWithNoPropInformed => justAnObjectWithNoPropInformed, null));
         }
 
         [Test]
-        public void With_throws_exception_when_trying_to_set_property_of_child_object()
+        public void With_throws_exception_when_property_belongs_to_a_child_object()
         {
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleClass>.New()
                 .With(newObject => newObject.AnotherComplexType.Name, "dummy"));
+        }
+
+        [Test]
+        public void With_throws_exception_when_public_field_informed_instead_a_property()
+        {
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleClass>.New()
+               .With(newObject => newObject.PublicField, "dummy"));
         }
 
         [Test]
@@ -41,19 +41,15 @@ namespace Nosbor.FluentBuilder.Tests.Lib
         {
             var newValue = new StandAloneComplexType();
 
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleClass>.New()
                 .WithFieldValue(newValue));
         }
 
         [Test]
         public void AddingTo_throws_exception_when_underlying_field_for_collection_is_not_found()
         {
-            const int dummy = 0;
-
-            Assert.Throws<FluentBuilderException>(() => FluentBuilder<ComplexType>
-                .New()
-                .AddingTo(newObject => newObject.CollectionWithFieldNotFollowingNameConvention, dummy));
+            Assert.Throws<FluentBuilderException>(() => FluentBuilder<SampleClass>.New()
+                .AddingTo(newObject => newObject.CollectionWithFieldNotFollowingNameConvention, newElement: 5));
         }
     }
 }

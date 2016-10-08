@@ -10,7 +10,7 @@ namespace Nosbor.FluentBuilder.Internals.Commands
     internal class SetDefaultValuesCommand : ICommand
     {
         private readonly object _object;
-        private List<FieldInfo> _fieldsToInitialize = new List<FieldInfo>();
+        private readonly List<FieldInfo> _fieldsToInitialize = new List<FieldInfo>();
         private const BindingFlags AllowedBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
         public SetDefaultValuesCommand(object @object)
