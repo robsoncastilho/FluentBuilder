@@ -7,16 +7,15 @@ environment:
     secure: 5lcnboADk86wHJTlkrnpCBu/buqGsidnhwKSrwQ2krNFcQTuMqx7wDWTI6dqmXaY
 before_build:
 - appveyor-retry dotnet restore src\FluentBuilder.sln -v Minimal
+build:
+  verbosity: minimal
 after_build:
-- dotnet pack src\Nosbor.FluentBuilder\Nosbor.FluentBuilder.csproj --no-build -o artifacts
-- dotnet pack src\Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.csproj --no-build -o artifacts
-artifacts:
-- path: artifacts\**\*.nupkg
+- dotnet pack src\Nosbor.FluentBuilder\Nosbor.FluentBuilder.csproj --no-build
+- dotnet pack src\Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.csproj --no-build
 deploy:
 - provider: NuGet
   api_key:
     secure: 3xvCgvAI98AEDmf9MqhUpBT8LHHuSt6u9/umq7jIzLQowPwnJLUOZH39ohM9sS4b
-  artifact: artifacts\**\*.nupkg
 test_script:
 - dotnet test "src\Nosbor.FluentBuilder.Tests" -f netcoreapp1.0
 after_test:
