@@ -6,7 +6,7 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: 5lcnboADk86wHJTlkrnpCBu/buqGsidnhwKSrwQ2krNFcQTuMqx7wDWTI6dqmXaY
 before_build:
-- appveyor-retry dotnet restore -v Minimal
+- cmd: appveyor-retry dotnet restore src\FluentBuilder.sln -v Minimal
 build_script:
 - cmd: dotnet build "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-dependencies
 - cmd: dotnet build "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-dependencies
