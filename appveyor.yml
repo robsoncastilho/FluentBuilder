@@ -1,5 +1,6 @@
 version: 1.1.{build}
 skip_tags: true
+image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
 environment:
@@ -7,14 +8,9 @@ environment:
     secure: 5lcnboADk86wHJTlkrnpCBu/buqGsidnhwKSrwQ2krNFcQTuMqx7wDWTI6dqmXaY
 before_build:
 - appveyor-retry dotnet restore src\FluentBuilder.sln -v Minimal
-build_script:
-- dotnet build "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-dependencies
-- dotnet build "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-dependencies
-after_build:
-- dotnet pack "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-build -o artifacts
-- dotnet pack "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-build -o artifacts
-artifacts:
-- path: artifacts\**\*.nupkg
+build:
+  publish_nuget: true
+  verbosity: minimal
 deploy:
 - provider: NuGet
   api_key:
