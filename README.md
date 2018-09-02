@@ -18,13 +18,13 @@ Install-Package Nosbor.FluentBuilder
 
 ### Features
 
-####1. Public API
+#### 1. Public API
 
-#####1.1. New
+##### 1.1. New
 
 Creates a new FluentBuilder instance and starts the fluent construction of the destination object (see next sections).
 
-#####1.2. With
+##### 1.2. With
 
 Allows setting values for writable properties (ie. properties must have 'set' with any kind of modifier):
 
@@ -36,7 +36,7 @@ var newAddress = FluentBuilder<Address>
                 .Build();
 ```
 
-#####1.3. WithValue
+##### 1.3. WithValue
 
 Allows setting a value (reference type) just passing its instance. FluentBuilder will find the corresponding member to receive the instance based on naming convention:
 
@@ -49,7 +49,7 @@ var newCustomer = FluentBuilder<Customer>
 
 For code above succeed, Customer class must have a property or field named 'Address' or 'address' and being of the same type of Address (or a base class of Address).
 
-#####1.4. WithDependency
+##### 1.4. WithDependency
 
 Allows setting values for a injected dependency stored in a private field.
 This option allows creating a builder for a service that has dependencies and passing a test double object to the SUT.
@@ -83,7 +83,7 @@ dependencyMock.Verify(dependency => dependency.Do(), Times.Once);
 ......
 ```
 
-#####1.5. AddingTo
+##### 1.5. AddingTo
 
 Allows setting elements in a collection, one by one:
 
@@ -107,11 +107,11 @@ var customer = FluentBuilder<Customer>
 
 The collection must be a read-only collection with a backing private field. If the collection is a writable property then you can set the whole collection using "With()".
 
-#####1.6. Build
+##### 1.6. Build
 
 Constructs and returns the expected object.
 
-#####1.7. AsList
+##### 1.7. AsList
 
 Like Build() method, with the difference that AsList() builds and returns the object within a list:
 
@@ -124,7 +124,7 @@ IEnumerable<Address> addresses = FluentBuilder<Address>
 
 It's helpful when just one object is necessary for the test but the method/construtor of the SUT requires a collection of objects of that type.
 
-####2. Implicit conversion
+#### 2. Implicit conversion
 
 Allows calling Build() to be avoided since you use the returned type explicitly instead of 'var':
 
@@ -132,5 +132,5 @@ Allows calling Build() to be avoided since you use the returned type explicitly 
 Address address = FluentBuilder<Address>.New().With(a => a.Street, "1st Street");
 ```
 
-####3. Extensions
+#### 3. Extensions
 (coming soon)
