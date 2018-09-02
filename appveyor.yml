@@ -9,8 +9,8 @@ environment:
 before_build:
 - appveyor-retry dotnet restore src\FluentBuilder.sln -v Minimal
 after_build:
-- dotnet pack "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-build -o artifacts
-- dotnet pack "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-build -o artifacts
+- dotnet pack src\Nosbor.FluentBuilder\Nosbor.FluentBuilder.csproj -c %CONFIGURATION% --no-build -o artifacts
+- dotnet pack src\Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.csproj -c %CONFIGURATION% --no-build -o artifacts
 artifacts:
 - path: artifacts\**\*.nupkg
 deploy:
