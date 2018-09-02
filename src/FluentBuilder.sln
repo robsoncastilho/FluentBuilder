@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nosbor.FluentBuilder", "Nosbor.FluentBuilder\Nosbor.FluentBuilder.xproj", "{8003D9F4-F02A-4AF1-9702-D4F18B5FE993}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nosbor.FluentBuilder", "Nosbor.FluentBuilder\Nosbor.FluentBuilder.csproj", "{8003D9F4-F02A-4AF1-9702-D4F18B5FE993}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nosbor.FluentBuilder.Br", "Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.xproj", "{B394F9D3-18F6-4E94-A2AB-5C532245FB01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nosbor.FluentBuilder.Br", "Nosbor.FluentBuilder.Br\Nosbor.FluentBuilder.Br.csproj", "{B394F9D3-18F6-4E94-A2AB-5C532245FB01}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nosbor.FluentBuilder.Tests", "Nosbor.FluentBuilder.Tests\Nosbor.FluentBuilder.Tests.xproj", "{66A16DB1-DC11-4333-A446-4E7AA669BAC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nosbor.FluentBuilder.Tests", "Nosbor.FluentBuilder.Tests\Nosbor.FluentBuilder.Tests.csproj", "{66A16DB1-DC11-4333-A446-4E7AA669BAC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5C3838A-473E-441E-9AD3-A35C799206EB}
 	EndGlobalSection
 EndGlobal
