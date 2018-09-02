@@ -6,15 +6,13 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: 5lcnboADk86wHJTlkrnpCBu/buqGsidnhwKSrwQ2krNFcQTuMqx7wDWTI6dqmXaY
 before_build:
-- cmd: appveyor-retry dotnet restore src\FluentBuilder.sln -v Minimal
+- appveyor-retry dotnet restore src\FluentBuilder.sln -v Minimal
 build_script:
-- cmd: dotnet build "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-dependencies
-- cmd: dotnet build "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-dependencies
+- dotnet build "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-dependencies
+- dotnet build "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-dependencies
 after_build:
 - dotnet pack "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-build -o artifacts
-- dotnet publish "src\Nosbor.FluentBuilder" -c %CONFIGURATION% --no-build -o artifacts\Nosbor.FluentBuilder
 - dotnet pack "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-build -o artifacts
-- dotnet publish "src\Nosbor.FluentBuilder.Br" -c %CONFIGURATION% --no-build -o artifacts\Nosbor.FluentBuilder.Br
 artifacts:
 - path: artifacts\**\*.nupkg
 deploy:
@@ -24,4 +22,4 @@ deploy:
 test_script:
 - dotnet test "src\Nosbor.FluentBuilder.Tests" -f netcoreapp1.0
 after_test:
-- cmd: OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"dotnet.exe" -targetargs:"test src\Nosbor.FluentBuilder.Tests" -output:coverage.xml
+- OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"dotnet.exe" -targetargs:"test src\Nosbor.FluentBuilder.Tests" -output:coverage.xml
