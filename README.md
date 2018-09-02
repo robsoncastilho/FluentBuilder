@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/vmkcqc500wbj3krr?svg=true)](https://ci.appveyor.com/project/robsoncastilho/fluentbuilder)
+[![Build status](https://ci.appveyor.com/api/projects/status/mtrlfipo9nprindl?svg=true)](https://ci.appveyor.com/project/robsoncastilho/fluentbuilder-dnujh)
 [![Coverage Status](https://coveralls.io/repos/robsoncastilho/FluentBuilder/badge.svg?branch=master&service=github)](https://coveralls.io/github/robsoncastilho/FluentBuilder?branch=master)
 [![NuGet Badge](https://buildstats.info/nuget/Nosbor.FluentBuilder)](https://www.nuget.org/packages/Nosbor.FluentBuilder/)
 # FluentBuilder
