@@ -132,6 +132,3 @@ Allows calling Build() to be avoided since you use the returned type explicitly 
 ```csharp
 Address address = FluentBuilder<Address>.New().With(a => a.Street, "1st Street");
 ```
-
-#### 3. Extensions
-(coming soon)
