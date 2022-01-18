@@ -8,7 +8,7 @@
         {
             _dependency = dependency;
         }
-
+        protected SampleServiceWithDependency() { }
         public IDependency PropertyOnlyForTestingPurpose { get { return _dependency; } }
     }
 

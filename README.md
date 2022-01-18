@@ -13,9 +13,7 @@ Install-Package Nosbor.FluentBuilder
 
 ### Compatibility
 
-.Net Framework 4.5 or higher.
-
-.Net Core 1.0
+.Net Framework 6
 
 ### Features
 
@@ -24,6 +22,19 @@ Install-Package Nosbor.FluentBuilder
 ##### 1.1. New
 
 Creates a new FluentBuilder instance and starts the fluent construction of the destination object (see next sections).
+Type should have parameterless constructor like in Entity Framework.
+
+```csharp
+ class SampleClass
+ {
+      // note this constructor
+      // that can be private, protected or public
+      private SampleClass() { } 
+
+      public SampleClass(string privateField) {
+      }
+ }
+```
 
 ##### 1.2. With
 

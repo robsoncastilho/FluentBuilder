@@ -195,3 +195,9 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 artifacts
+out/
+/src/coveragereport
+/coveragereport
+/src/Nosbor.FluentBuilder.Tests/cobertura.xml
+/src/Nosbor.FluentBuilder.Tests/coverage.xml
+/src/Nosbor.FluentBuilder.Tests/result.lcov

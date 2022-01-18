@@ -39,6 +39,8 @@ namespace Nosbor.FluentBuilder.Tests.Lib.SampleClasses
         {
             // initialize members... 
         }
+
+        private SampleClass() { }
     }
 
     internal class OneMoreComplexType
