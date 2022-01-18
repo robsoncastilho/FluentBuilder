@@ -1,0 +1,29 @@
+name: .NET 5 + Pack + Push no NuGet
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  pack-push:
+    env:
+      CAMINHO_PROJETO:  ./src/Nosbor.FluentBuilder/Nosbor.FluentBuilder.csproj
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Geração do package
+      run: dotnet pack ${{ env.CAMINHO_PROJETO }} -c Release -o out
+
+    - name: Push no NuGet
+      run: |
+        cd out
+        dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SERVER }} --skip-duplicate

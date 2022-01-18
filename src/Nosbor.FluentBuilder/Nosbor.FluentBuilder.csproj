@@ -6,15 +6,13 @@
     <AssemblyTitle>FluentBuilder</AssemblyTitle>
     <VersionPrefix>1.1.0</VersionPrefix>
     <Authors>@nosborcastilho;@wladioh</Authors>
-    <TargetFrameworks>netstandard1.6;net45;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <AssemblyName>Nosbor.FluentBuilder</AssemblyName>
     <PackageId>Nosbor.FluentBuilder</PackageId>
     <PackageTags>builder;unittest;testing</PackageTags>
     <PackageReleaseNotes>.Net Core support</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/robsoncastilho/FluentBuilder</PackageProjectUrl>
     <RuntimeIdentifiers>win10-x64;win81-x64;win8-x64</RuntimeIdentifiers>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -23,15 +21,4 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
   </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.1.0" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.1.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
 </Project>

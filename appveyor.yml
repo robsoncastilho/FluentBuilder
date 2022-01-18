@@ -17,6 +17,6 @@ deploy:
   api_key:
     secure: 3xvCgvAI98AEDmf9MqhUpBT8LHHuSt6u9/umq7jIzLQowPwnJLUOZH39ohM9sS4b
 test_script:
-- dotnet test "src\Nosbor.FluentBuilder.Tests" -f netcoreapp1.0
+- dotnet test "src\Nosbor.FluentBuilder.Tests"
 after_test:
 - OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"dotnet.exe" -targetargs:"test src\Nosbor.FluentBuilder.Tests" -output:coverage.xml

@@ -17,7 +17,7 @@ namespace Nosbor.FluentBuilder.Lib
 
         public FluentBuilder()
         {
-            _newObject = typeof(T).CreateInstance<T>();
+            _newObject = (T)Activator.CreateInstance(typeof(T), true);
             _commands["defaultValues"] = new SetDefaultValuesCommand(_newObject);
         }
 
