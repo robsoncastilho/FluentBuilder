@@ -1,7 +1,7 @@
 using Nosbor.FluentBuilder.Internals.DefaultValueGenerators;
 using System;
 using System.Reflection;
-#if NET451
+#if (NET451 || NETCOREAPP3_0)
     using System.Runtime.Serialization;
 #endif
 
@@ -47,7 +47,8 @@ namespace Nosbor.FluentBuilder.Internals.Support
 
         internal static T CreateInstance<T>(this Type type)
         {
-#if NET451
+
+#if (NET451 || NETCOREAPP3_0)
             return (T)FormatterServices.GetUninitializedObject(typeof(T));
 #else
             return (T)GetUninitializedObjectWithFormatterServices(typeof(T));

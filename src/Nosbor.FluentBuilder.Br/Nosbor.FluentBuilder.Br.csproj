@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Cria��o de objetos com foco em testes - vers�o em portugu�s do FluentBuilder.</Description>
@@ -6,7 +6,7 @@
     <AssemblyTitle>FluentBuilder.Br</AssemblyTitle>
     <VersionPrefix>1.1.0</VersionPrefix>
     <Authors>@nosborcastilho;@wladioh</Authors>
-    <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net45;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>Nosbor.FluentBuilder.Br</AssemblyName>
     <PackageId>Nosbor.FluentBuilder.Br</PackageId>
     <PackageTags>builder;unittest;testing</PackageTags>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Create objects for testing purpose in a fluent and easy way.</Description>
@@ -6,7 +6,7 @@
     <AssemblyTitle>FluentBuilder</AssemblyTitle>
     <VersionPrefix>1.1.0</VersionPrefix>
     <Authors>@nosborcastilho;@wladioh</Authors>
-    <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net45;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>Nosbor.FluentBuilder</AssemblyName>
     <PackageId>Nosbor.FluentBuilder</PackageId>
     <PackageTags>builder;unittest;testing</PackageTags>
@@ -24,7 +24,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+  <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.1.0" />
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.1.1" />
   </ItemGroup>
