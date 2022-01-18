@@ -4,7 +4,7 @@
     <Description>Cria��o de objetos com foco em testes - vers�o em portugu�s do FluentBuilder.</Description>
     <Copyright>Copyright � RCS 2015/2016</Copyright>
     <AssemblyTitle>FluentBuilder.Br</AssemblyTitle>
-    <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>@nosborcastilho;@wladioh</Authors>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <AssemblyName>Nosbor.FluentBuilder.Br</AssemblyName>

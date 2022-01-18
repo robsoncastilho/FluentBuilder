@@ -4,7 +4,7 @@
     <Description>Create objects for testing purpose in a fluent and easy way.</Description>
     <Copyright>Copyright � RCS 2015/2016</Copyright>
     <AssemblyTitle>FluentBuilder</AssemblyTitle>
-    <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>@nosborcastilho;@wladioh</Authors>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <AssemblyName>Nosbor.FluentBuilder</AssemblyName>
