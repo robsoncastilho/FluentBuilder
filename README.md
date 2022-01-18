@@ -27,7 +27,9 @@ Type should have parameterless constructor like in Entity Framework.
 ```csharp
  class SampleClass
  {
-      private SampleClass() { } //note this constructor, that can be private, protected or public
+      // note this constructor
+      // that can be private, protected or public
+      private SampleClass() { } 
 
       public SampleClass(string privateField) {
       }
